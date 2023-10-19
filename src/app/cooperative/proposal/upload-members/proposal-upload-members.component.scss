@@ -1,0 +1,28 @@
+.modal-upload-member {
+    input[type="file"] { display: none; }
+
+    ol.list {
+        > li {
+            list-style-type: none;
+            counter-increment: item;
+            padding: 10px;
+    
+            &:before {
+                content: counter(item);
+                background-color: #f9dd94;
+                border-radius: 3px;
+                color: #7eb4e2;
+                font-size: 80%;
+                font-weight: bold;
+                margin-right: 5px;
+                padding: 3px 8px;
+            }
+    
+            &.two select { margin-left: 28px; }
+
+            img { width: 100%; }
+          }
+    }
+
+    ul.list-bullets { list-style-type: disc; }
+}

@@ -1,0 +1,35 @@
+<div class="sme-gridview">
+    <section class="table" *ngIf="visibleList && visibleList.length > 0">
+        <header>
+            <div class="col" *ngFor="let item of config.props">{{item.header}}</div>
+            <div class="col action">
+                <div class="button-area" *ngIf="config.showButtonArea">
+                    <button class="btn btn-primary btn-sm" (click)="goToAdd()">{{config.addButtonLabel}}</button>
+                </div>
+            </div>
+        </header>
+        <perfect-scrollbar [ngClass]="{ 'with-pagination': showPagination }">
+            <div class="table-row" *ngFor="let item of visibleList; let index = index">
+                <div class="col" *ngFor="let itemProp of config.props">{{getItemPropValue(item, itemProp)}}</div>
+                <div class="col action">
+                    <a href="javascript:void(0)" (click)="goToEdit(item.id)" title="Editar" class="text-black" *ngIf="config.showButtonEdit">
+                        <fa-icon [icon]="faIcons.pencil"></fa-icon>
+                    </a>
+                    <a href="javascript:void(0)" (click)="remove(index, item.id)" title="Desabilitar" class="text-danger" [attr.disabled]="!item.is_active ? 'disabled': null">
+                        <fa-icon [icon]="faIcons.times"></fa-icon>
+                    </a>
+                </div>
+            </div>
+        </perfect-scrollbar>
+        <div class="footer">
+            <app-pagination [currentPage]="currentPage" [pageSize]="config.pageSize" [totalItems]="filteredList.length" (changePage)="changePage($event)"></app-pagination>
+            <!-- <div class="button-area" *ngIf="config.showButtonArea"><div><button class="btn btn-primary btn-sm" (click)="goToAdd()">{{config.addButtonLabel}}</button></div></div> -->
+        </div>
+    </section>
+    <div class="vazio" *ngIf="!filteredList || filteredList.length <= 0">
+        <span>{{config.emptyMessage}}</span>
+        <div class="button-area" *ngIf="config.showButtonArea">
+            <div><button class="btn btn-primary btn-sm" (click)="goToAdd()">{{config.addButtonLabel}}</button></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+.header {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 30px 10px;
+
+    h1 { font-size: 1.4rem; font-weight: bold; max-width: 100%; }
+    h3 {
+        font-size: 1.1rem;
+
+        div {
+            font-size: 14px;
+            position: absolute;
+            
+            &.show-history { align-items: flex-start; display: flex; flex-direction: column; left: 30px; line-height: 30px; }
+            &.voltar { right: 30px; }
+        }
+    }
+}

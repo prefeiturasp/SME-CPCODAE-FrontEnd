@@ -1,0 +1,37 @@
+<div class="content-wrapper registration p-0">
+  <div class="col-12 d-flex align-items-center justify-content-center bg-white">
+    <div class="nav-get-started">
+      <img src="assets/imagens/logo-preto-vertical.png" class="img-fluid">
+    </div>
+    <div class="auto-form-wrapper" *ngIf="cooperative">
+      <h3 class="mr-auto">Adicione seus documentos!</h3>
+
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs" role="tablist">
+        <li [ngbNavItem]="1" class="nav-item">
+          <a ngbNavLink>Adicionar</a>
+          <ng-template ngbNavContent>
+            <perfect-scrollbar>
+              <app-cooperative-registration-completion-step2-add [cooperative]="cooperative"
+                [documentTypes]="documentTypes" (onShow)="selectDocument($event)">
+              </app-cooperative-registration-completion-step2-add>
+            </perfect-scrollbar>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="nav-item">
+          <a ngbNavLink>Visualizar{{documentName}}</a>
+          <ng-template ngbNavContent>
+            <app-cooperative-registration-completion-step2-view [pdfSrc]="pdfSrc">
+            </app-cooperative-registration-completion-step2-view>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
+
+      <div class="form-group text-center">
+        <button type="button" class="btn btn-default" (click)="goBack()">Anterior</button>
+        &nbsp;
+        <button type="button" class="btn btn-success" (click)="completeRegistration()">Finalizar</button>
+      </div>
+    </div>
+  </div>
+</div>

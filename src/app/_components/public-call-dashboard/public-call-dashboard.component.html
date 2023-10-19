@@ -1,0 +1,49 @@
+<div class="dashboard list-page-container">
+    <header class="d-flex justify-content-space-between align-items-center">
+        <h2>Chamadas Públicas</h2>
+        <div class="d-flex justify-content-space-between filter">
+            <div class="d-flex justify-content-space-between align-items-center col">
+                <div class="col">
+                    <fa-icon [icon]="faIcons.filter"></fa-icon>
+                    <span>Exibindo:</span>
+                </div>
+                <div class="col">
+                    <select class="form-control input-sm" [(ngModel)]="filterStatus">
+                        <option [ngValue]="-1">Todas</option>
+                        <option *ngIf="availableStatus.includes(0)" [ngValue]="PublicCallStatusEnum.aberta.id">{{PublicCallStatusEnum.aberta.text}}</option>
+                        <option *ngIf="availableStatus.includes(1)" [ngValue]="PublicCallStatusEnum.emAndamento.id">{{PublicCallStatusEnum.emAndamento.text}}</option>
+                        <option *ngIf="availableStatus.includes(2)" [ngValue]="PublicCallStatusEnum.aprovada.id">{{PublicCallStatusEnum.aprovada.text}}</option>
+                        <option *ngIf="availableStatus.includes(2)" [ngValue]="PublicCallStatusEnum.homologada.id">{{PublicCallStatusEnum.homologada.text}}</option>
+                        <option *ngIf="availableStatus.includes(3)" [ngValue]="PublicCallStatusEnum.contratada.id">{{PublicCallStatusEnum.contratada.text}}</option>
+                        <option *ngIf="availableStatus.includes(4)" [ngValue]="PublicCallStatusEnum.cronogramaExecutado.id">{{PublicCallStatusEnum.cronogramaExecutado.text}}</option>
+                        <option *ngIf="availableStatus.includes(5)" [ngValue]="PublicCallStatusEnum.suspensa.id">{{PublicCallStatusEnum.suspensa.text}}</option>
+                        <option *ngIf="availableStatus.includes(6)" [ngValue]="PublicCallStatusEnum.cancelada.id">{{PublicCallStatusEnum.cancelada.text}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-space-between col">
+                <div class="col">
+                    <mat-form-field>
+                        <mat-date-range-input class="cursor-pointer" [rangePicker]="picker" (click)="picker.open()">
+                            <input matStartDate matInput placeholder="De" disabled [(ngModel)]="filterStartDate" />
+                            <input matEndDate matInput placeholder="Até" disabled [(ngModel)]="filterEndDate" />
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="new" *ngIf="showNewPublicCall">
+            <button class="btn btn-primary btn-sm" (click)="goToAdd()">Nova Chamada Pública</button>
+        </div>
+    </header>
+    <div class="cards-body">
+        <div class="vazio" *ngIf="!filteredCalls || filteredCalls.length <= 0">
+            <span>Nenhuma chamada foi encontrada</span>
+        </div>
+        <div *ngFor="let publicCall of filteredCalls">
+            <app-public-call-dashboard-card [filteredCalls]="filteredCalls" [publicCall]="publicCall" (onClick)="clickOnCard($event)"></app-public-call-dashboard-card>
+        </div>
+    </div>
+</div>

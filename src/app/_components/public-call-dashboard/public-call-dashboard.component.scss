@@ -1,0 +1,31 @@
+@import '../../../assets/styles/list-registration-page';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.dashboard {
+    header {
+        margin-bottom: 10px;
+
+        > h2 { width: 300px; }
+
+        > div {
+            &.filter { width: 50%; }
+            &.new { width: 150px; }
+        }
+    }
+
+    .cards-body {
+        display: flex;
+        flex-wrap: wrap;
+        height: calc(100vh - 232px);
+        overflow: auto;
+
+        > *:not(.vazio) { flex-basis: 50%; max-width: 50%; }
+
+        .vazio { flex-basis: 100%; max-width: 100%; }
+    }
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix { margin-top: 5px; padding: 0.4em 0 0 0; }
+::ng-deep .mat-input-element { cursor: pointer; font-size: 0.9rem!important; }
+::ng-deep .mat-date-range-input-end-wrapper > input,
+::ng-deep .mat-date-range-input-separator { margin-bottom: 3px; }

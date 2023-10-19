@@ -1,0 +1,170 @@
+@import './mixins/transitions';
+
+@mixin experimental($property, $value, 
+    $moz: false,
+    $webkit: false,
+    $o: false,
+    $ms: false,
+    $khtml: false,
+    $official : true) {
+        @if $webkit { -webkit-#{$property} : $value; }
+        @if $khtml { -khtml-#{$property} : $value; }
+        @if $moz { -moz-#{$property} : $value; }
+        @if $ms { -ms-#{$property} : $value; }
+        @if $o { -o-#{$property} : $value; }
+        @if $official { #{$property} : $value; }
+    }
+
+///////// COLORS ////////
+
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+
+$theme-colors: (
+  primary: #0766c6,
+  secondary: #dfe8fb,
+  success: #00b297,
+  info: #4729b7,
+  warning: #ff8c00,
+  danger: #dd3544,
+  light: #f3f5f6,
+  dark: #1d2939
+);
+
+///////// COLORS ////////
+
+$body-bg: var(--default-white) !default;
+$component-active-color: var(--default-white) !default;
+$component-active-bg: theme-color("primary") !default;
+
+$default-font-size: .875rem;
+$type-1: 'Dosis', sans-serif;
+$text-muted: #a8abad;
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers);
+
+$border-width: 1px !default;
+$border-color: $gray-300 !default;
+$border-radius: .25rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-sm: .2rem !default;
+
+///////// BUTTONS ////////
+
+$button-fixed-width: 120px;
+$btn-padding-y: 0.56rem;
+$btn-padding-x: 1.375rem;
+$btn-line-height: 1;
+
+$btn-padding-y-xs: .5rem;
+$btn-padding-x-xs: .75rem;
+
+$btn-padding-y-sm: 0.50rem;
+$btn-padding-x-sm: 0.81rem;
+
+$btn-padding-y-lg: 0.94rem;
+$btn-padding-x-lg: 1.94rem;
+
+$btn-font-size: .875rem;
+$btn-font-size-xs: .625rem;
+$btn-font-size-sm: .875rem;
+$btn-font-size-lg: .875rem;
+
+$btn-border-radius: .1875rem;
+$btn-border-radius-xs: .1875rem;
+$btn-border-radius-sm: .1875rem;
+$btn-border-radius-lg: .1875rem;
+
+$social-btn-padding: 13px;
+$social-btn-icon-size: 1rem;
+
+///////// BUTTONS ////////
+
+$font-size-base: 1rem !default;
+$font-size-lg: ($font-size-base * 1.25) !default;
+$font-size-sm: ($font-size-base * .875) !default;
+$line-height-base: 1.5 !default;
+
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px) !default;
+
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min != 0, $min, null);
+}
+
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+    $next: breakpoint-next($name, $breakpoints);
+    @return if($next, breakpoint-min($next, $breakpoints) - .02px, null);
+}
+
+@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+    $n: index($breakpoint-names, $name);
+    @return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+
+@mixin border-radius($size) { border-radius: $size; }
+@mixin display-flex { display: flex!important; }
+@mixin flex-direction($column) { flex-direction: $column; }
+
+@mixin border-corner-radius($vert, $horz, $radius: $default-border-radius) {
+    @include experimental("border-radius-#{$vert}#{$horz}", $radius, -moz, not(-webkit), not(-o), not(-ms), not(-khtml), not(official) );
+    @include experimental("border-#{$vert}-#{$horz}-radius", $radius, not(-moz), -webkit, not(-o), not(-ms), -khtml, official );
+}
+
+@mixin border-top-left-radius($radius: $default-border-radius) {
+    @include border-corner-radius(top, left, $radius);
+}
+@mixin border-top-right-radius($radius: $default-border-radius) {
+    @include border-corner-radius(top, right, $radius);
+}
+@mixin border-bottom-left-radius($radius: $default-border-radius) {
+    @include border-corner-radius(bottom, left, $radius);
+}
+@mixin border-bottom-right-radius($radius: $default-border-radius) {
+    @include border-corner-radius(bottom, right, $radius);
+}
+@mixin border-top-radius($radius: $default-border-radius) {
+    @include border-top-left-radius($radius);
+    @include border-top-right-radius($radius);
+}
+
+@mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
+    $max: breakpoint-max($name, $breakpoints);
+    @if $max {
+        @media (max-width: $max) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+@mixin hover-focus {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+@mixin plain-hover-focus {
+    &,
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+@mixin hover-focus-active {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}

@@ -1,0 +1,341 @@
+<div class="public-call registration-page-container">
+    <header>
+        <h2>Chamada Pública</h2>
+    </header>
+    <form [formGroup]="publicCallForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <section class="fieldset">
+                    <h1>Dados Chamada Pública</h1>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Nome</label>
+                                <input type="text" id="name" name="name" formControlName="name" class="form-control" maxlength="200"
+                                    [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                                    placeholder="Digite o nome da chamada pública" />
+                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['name'].errors['required']">O nome da chamada pública é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ngx-spinner name="spinnerAddress" size="medium" color="#fff" type="ball-beat"
+                                [fullScreen]="false"></ngx-spinner>
+                            <div class="form-group">
+                                <label class="dois-pontos title">Cidade Referência</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <select class="form-control" formControlName="state_acronym"
+                                            [ngClass]="{ 'is-invalid': submitted && f['city_id'].errors }">
+                                            <option [ngValue]="''" [disabled]="true">UF</option>
+                                            <option *ngFor="let state of statesList" [value]="state.acronym"
+                                                [selected]="state.acronym == f['state_acronym'].value">
+                                                {{state.acronym}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <select class="form-control" formControlName="city_id"
+                                        [ngClass]="{ 'is-invalid': submitted && f['city_id'].errors }">
+                                        <option [ngValue]="0" [disabled]="true">{{f['state_acronym'].value == ''
+                                            ? 'Selecione o Estado' : 'Selecione a Cidade'}}</option>
+                                        <option *ngFor="let city of citiesList" [value]="city.id">
+                                            {{city.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div *ngIf="submitted && f['city_id'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['city_id'].errors['required'] || f['city_id'].errors['min']">Selecione uma cidade</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Número</label>
+                                <input type="text" id="number" name="number" formControlName="number" class="form-control" maxlength="200"
+                                    [ngClass]="{ 'is-invalid': submitted && f['number'].errors }"
+                                    placeholder="Digite o número da chamada pública" />
+                                <div *ngIf="submitted && f['number'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['number'].errors['required']">O número da chamada pública é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Processo</label>
+                                <input type="text" id="process" name="process" formControlName="process" class="form-control" maxlength="200"
+                                    [ngClass]="{ 'is-invalid': submitted && f['process'].errors }"
+                                    placeholder="Digite o processo da chamada pública" />
+                                <div *ngIf="submitted && f['process'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['process'].errors['required']">O número do processo da chamada pública é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Data Início Inscrições</label>
+                                <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="form-control" formControlName="registration_start_date" maxlength="10"
+                                    [ngClass]="{ 'is-invalid': submitted && f['registration_start_date'].errors }">
+                                <div *ngIf="submitted && f['registration_start_date'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['registration_start_date'].errors['required']">A data de início das inscrições é obrigatória</div>
+                                    <!-- <div *ngIf="f['registration_start_date'].errors['startDateLowerThanToday']">A data de início das inscrições deve ser maior ou igual a hoje</div> -->
+                                    <div *ngIf="f['registration_start_date'].errors['startDateGreaterThanExpirationDate']">A data de início das inscrições deve ser menor do que a data de término</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Data Término Inscrições</label>
+                                <div class="input-group">
+                                    <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="form-control" formControlName="registration_end_date" maxlength="10"
+                                        [ngClass]="{ 'is-invalid': submitted && f['registration_end_date'].errors }">
+                                </div>
+                                <div *ngIf="submitted && f['registration_end_date'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['registration_end_date'].errors['required']">A data de término das inscrições é obrigatória</div>
+                                    <div *ngIf="f['registration_end_date'].errors['startDateGreaterThanExpirationDate']">A data de término das inscrições deve ser menor do que a data da sessão pública</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Url Edital</label>
+                                <input type="text" id="notice_url" name="notice_url" formControlName="notice_url" class="form-control" maxlength="200"
+                                    [ngClass]="{ 'is-invalid': submitted && f['notice_url'].errors }"
+                                    placeholder="Digite a url do edital" />
+                                <div *ngIf="submitted && f['notice_url'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['notice_url'].errors['required']">A url do edital da chamada pública é obrigatória</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Url Sessão Pública</label>
+                                <input type="text" id="public_session_url" name="public_session_url" formControlName="public_session_url" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f['public_session_url'].errors }" maxlength="200"
+                                    placeholder="Digite a url da sessão pública" />
+                                <div *ngIf="submitted && f['public_session_url'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['public_session_url'].errors['required']">A url da sessão pública da chamada é obrigatória</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Data Sessão Pública</label>
+                                <input type="datetime-local" class="form-control" formControlName="public_session_date" maxlength="16"
+                                    [ngClass]="{ 'is-invalid': submitted && f['public_session_date'].errors }">
+                                <div *ngIf="submitted && f['public_session_date'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['public_session_date'].errors['required']">A data da sessão pública é obrigatória</div>
+                                    <div *ngIf="f['public_session_date'].errors['dateLowerThanToday']">A data da sessão pública deve ser maior do que hoje</div>
+                                    <div *ngIf="f['public_session_date'].errors['startDateGreaterThanExpirationDate']">A data da sessão pública deve ser maior do que a data de término das inscrições</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Local Sessão Pública</label>
+                                <input type="text" id="public_session_place" name="public_session_place" formControlName="public_session_place" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f['public_session_place'].errors }" maxlength="200"
+                                    placeholder="Digite o local da sessão pública" />
+                                <div *ngIf="submitted && f['public_session_place'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['public_session_place'].errors['required']">O local da sessão pública da chamada é obrigatória</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Estimativa Entrega</label>
+                                <div>
+                                    <input type="text" class="form-control" id="delivery_information" name="delivery_information" formControlName="delivery_information"
+                                        [ngClass]="{ 'is-invalid': submitted && f['delivery_information'].errors }" maxlength="200"
+                                        placeholder="Digite a estimativa de entrega da chamada" />
+                                </div>
+                                <div *ngIf="submitted && f['delivery_information'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['delivery_information'].errors['required']">A informação de estimativa de entrega é obrigatória</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Objeto</label>
+                                <div>
+                                    <!-- <angular-editor id="notice_object" formControlName="notice_object" [placeholder]="'Digite o objeto da chamada'"
+                                        [ngClass]="{ 'is-invalid': submitted && f['notice_object'].errors }" [config]="editorConfig">
+                                    </angular-editor> -->
+                                    <textarea  class="form-control" formControlName="notice_object" placeholder="Digite o objeto da chamada" rows="5"
+                                    [ngClass]="{ 'is-invalid': submitted && f['notice_object'].errors }"></textarea>
+                                </div>
+                                <div *ngIf="submitted && f['notice_object'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['notice_object'].errors['required']">O objeto da chamada pública é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="fieldset" formArrayName="foods">
+                              <h1>Dados Produto</h1>
+
+                              <div class="row" *ngFor="let food of foodControls.controls; let i = index" [formGroupName]="i">
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label class="dois-pontos title">Produto</label>
+                                    <div class="input-group input-group-sm">
+                                      <select class="form-control input-sm" formControlName="food_id"
+                                            [ngClass]="{ 'is-invalid': submitted && food.get('food_id')?.invalid }"
+                                            (change)="changeFood(i, food.get('food_id')?.value)">
+                                        <option [value]="''" disabled></option>
+                                        <option *ngFor="let food of foodsList" [value]="food.id">
+                                          {{food.name}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <div *ngIf="submitted && food.get('food_id')?.invalid" class="invalid-feedback">
+                                      O produto da chamada pública é obrigatório
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div class="form-group">
+                                    <label class="dois-pontos title">Preço {{food.value['measure_unit'] ? "por " + food.value['measure_unit'] : ""}}</label>
+                                    <div class="input-group input-group-sm">
+                                      <span class="input-group-text">R$</span>
+                                      <input type="text" class="form-control" formControlName="price" currencyMask
+                                        [ngClass]="{ 'is-invalid': submitted && food.get('price')?.errors }"
+                                        [options]="{ allowNegative: false, prefix: '' }" maxlength="9" />
+                                    </div>
+                                    <div *ngIf="submitted && food.get('price')?.invalid" class="invalid-feedback">
+                                      <!-- <div *ngIf="submitted && food.get('price')?.errors?.['required'] !== null">O preço do produto é obrigatório</div> -->
+                                      <div *ngIf="submitted && food.get('price')?.errors?.['min'] !== null">O preço do produto deve ser maior do que zero</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div class="form-group">
+                                    <label class="dois-pontos title">Quantidade</label>
+                                    <div class="input-group input-group-sm">
+                                      <input type="text" class="form-control" formControlName="quantity" currencyMask
+                                        [ngClass]="{ 'is-invalid': submitted && food.get('quantity')?.errors }"
+                                        [options]="{ allowNegative: false, prefix: '', precision:0 }" maxlength="9" />
+                                      <span class="input-group-text">{{food.value['measure_unit'] ? food.value['measure_unit'] : "-"}}</span>
+                                    </div>
+                                    <div *ngIf="submitted && food.get('quantity')?.invalid" class="invalid-feedback">
+                                      <!-- <div *ngIf="submitted && food.get('quantity')?.errors?.['required'] !== null">A quantidade do produto é obrigatório</div> -->
+                                      <div *ngIf="submitted && food.get('quantity')?.errors?.['min'] !== null">A quantidade do produto deve ser maior do que zero</div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-1">
+                                  <div class="form-group small-line">
+                                    <div class="col-md-4">
+                                      <div class="form-check circle">
+                                        <label class="form-check-label">
+                                          <input type="checkbox" class="form-check-input" [name]="i + '.is_organic'" formControlName="is_organic" (change)="changeIsOrganic(i)">
+                                          É orgânico?
+                                          <i class="input-helper"></i>
+                                        </label>
+                                      </div>
+                                      <div class="form-check circle">
+                                        <label class="form-check-label">
+                                          <input type="checkbox" class="form-check-input" [name]="i + '.accepts_organic'" formControlName="accepts_organic">
+                                          Aceita orgânico?
+                                          <i class="input-helper"></i>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2 mt-4">
+                                    <button class="btn btn-default btn-sm min-120" *ngIf="food.value['food_id']" (click)="openModal(content)">Associar Documentos</button>
+                                    <ng-template #content let-modal>
+                                        <app-public-call-food-document-modal [modal]="modal" [foodId]="food.value['food_id']" [foodName]="food.value['food_name']"
+                                            [documentsList]="selectedDocuments">
+                                        </app-public-call-food-document-modal>
+                                    </ng-template>
+                                </div>
+                                <div class="col-md-2 mt-4">
+                                  <div class="form-group text-center">
+                                    <button class="btn btn-primary btn-sm action-button" (click)="addProduct()" *ngIf="i === 0" [disabled]="!allFoodsSelected">
+                                      <fa-icon [icon]="faPlus"></fa-icon> Adicionar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm action-button" (click)="removeProduct(i)" *ngIf="i !== 0">
+                                      <fa-icon [icon]="faTrash"></fa-icon> Excluir
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </section>
+
+
+                            <section class="fieldset" *ngIf="documentsList && documentsList.length > 0">
+                                <h1>Documentos Obrigatórios</h1>
+
+                                <div class="row">
+                                    <section class="table">
+                                        <header>
+                                            <div class="col text-left">Documento</div>
+                                            <div class="col" *ngFor="let food of foodControls.controls">{{food.value['food_name']}}</div>
+                                        </header>
+                                        <perfect-scrollbar class="auto-height">
+                                            <div class="table-row" *ngFor="let document of selectedDocuments">
+                                                <div class="col text-left">{{document.document_type_name}}</div>
+                                                <div class="col" *ngFor="let food of document.foods">
+                                                    {{food.is_associated ? 'Sim' : 'Não'}}
+                                                </div>
+                                            </div>
+                                        </perfect-scrollbar>
+                                    </section>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Anotações (Restrito a SME)</label>
+                                <div>
+                                    <angular-editor id="extra_information" formControlName="extra_information" [placeholder]="'Faça as anotações sobre a chamada (somente a SME irá visualizar)'"
+                                        [config]="editorConfig">
+                                    </angular-editor>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" [ngClass]="{ 'd-hidden': isAdd }">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="form-check circle">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" class="form-check-input" name="isActive" formControlName="isActive">
+                                            Ativa?
+                                            <i class="input-helper"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-default btn-sm min-120" (click)="goBack(false)">Voltar</button>
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

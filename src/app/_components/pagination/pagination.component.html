@@ -1,0 +1,25 @@
+<nav *ngIf="showPagination" class="d-flex justify-content-center px-0">
+    <ul class="pagination mb-0">
+        <li class="page-item" [attr.disabled]="currentPage === 1 ? 'disabled' : null">
+            <a class="page-link" href="javascript:void(0)" (click)="downCurrentPage()"><i class="icon-arrow-left"></i></a>
+        </li>
+        <li class="page-item" [ngClass]="{ 'active': 1 === currentPage }">
+            <a class="page-link" href="javascript:void(0)" (click)="goToPage(1)">1</a>
+        </li>
+        <li class="page-item" *ngIf="showFirst3Dots" disabled>
+            <a class="page-link" href="javascript:void(0)">...</a>
+        </li>
+        <li *ngFor="let page of pageItems" class="page-item" [ngClass]="{ 'active': page === currentPage }">
+            <a class="page-link" href="javascript:void(0)" (click)="goToPage(page)">{{page}}</a>
+        </li>
+        <li class="page-item" *ngIf="showLast3Dots" disabled>
+            <a class="page-link" href="javascript:void(0)">...</a>
+        </li>
+        <li class="page-item" [ngClass]="{ 'active': totalPages === currentPage }">
+            <a class="page-link" href="javascript:void(0)" (click)="goToPage(totalPages)">{{totalPages}}</a>
+        </li>
+        <li class="page-item" [attr.disabled]="currentPage === totalPages ? 'disabled' : null">
+            <a class="page-link" href="javascript:void(0)" (click)="upCurrentPage()"><i class="icon-arrow-right"></i></a>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,79 @@
+.modal-delivery-confirmation {
+    .modal-header {
+        align-items: flex-start;
+        
+        .modal-title {
+            display: flex;
+            flex-direction: column;
+
+            small { font-size: 1rem; }
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+
+        .list { width: 80%; }
+        .already-delivered { font-size: 14px; }
+
+        perfect-scrollbar { max-height: calc(100vh - 310px); padding: 0 20px; }
+
+        .deliveries {
+            margin-top: 10px;
+
+            li {
+                align-items: center;
+                border: solid 1px #ccc;
+                border-radius: 4px;
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                padding: 6px;
+
+                &.next-delivery-info { border: none; margin-bottom: 0; }
+                
+                &.next-delivery-data {
+                    b { min-width: 20px; }
+                    input { max-width: 100px; }
+                    > input { margin-right: 5px; max-width: 120px; }
+                    .input-group { margin-right: 5px; }
+                }
+
+                > b { font-size: 1.3rem; }
+                > label {
+                    background-color: #eee;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 6px;
+
+                    &:first-of-type { min-width: 110px; }
+                    &:last-of-type { min-width: 70px; }
+
+                    fa-icon {
+                        color: var(--default-green-dark-color);
+                        margin: 0;
+
+                        &.not-delivered { color: #ccc; }
+                    }
+                }
+
+                > button {
+                    background-color: var(--default-green-dark-color);
+                    color: #fff;
+                    width: 60px;
+
+                    &.delivered {
+                        background-color: #ccc;
+                        cursor: default;
+                    }
+
+                    &.remove {
+                        background-color: var(--default-red-color);
+                    }
+                }
+            }
+        }
+    }
+}

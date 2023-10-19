@@ -1,0 +1,38 @@
+<div class="modal-comments">
+    <div class="modal-header">
+        <h4 class="modal-title d-flex flex-direction-column">
+            Histórico de Mensagens
+            <small *ngIf="cooperative">{{cooperative.name}} - {{food?.food_name}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <perfect-scrollbar>
+            <div class="accordion accordion-flush">
+                <div class="accordion-item" *ngFor="let changeRequest of changeRequests; let index = index">
+                    <h2 class="accordion-header">
+                        <button id="changeRequestLabel_{{index}}" class="accordion-button collapsed" data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#changeRequest_' + index" aria-expanded="false" container="body"
+                            [attr.aria-controls]="'changeRequest_' + index" ngbTooltip="{{changeRequest.title}}" placement="top" tooltipClass="sme-tooltip">
+                            <span class="material-symbols-outlined" [ngClass]="{ 'answer': changeRequest.is_response }">outgoing_mail</span>
+                            <b>{{ changeRequest.creation_date | date: 'dd/MM/yyyy HH:mm'}}</b>
+                            &nbsp;-&nbsp;
+                            <span class="truncate">{{ changeRequest.title }}</span>
+                        </button>
+                    </h2>
+                    <div id="changeRequest_{{index}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'changeRequestLabel_' + index">
+                        <div class="accordion-body">
+                            {{ changeRequest.message }}
+                        </div>
+                    </div>
+                </div>
+                <div class="vazio text-center" *ngIf="!changeRequests || changeRequests.length <= 0">
+                    <span>Nenhum histórico de conversas foi encontrado</span>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

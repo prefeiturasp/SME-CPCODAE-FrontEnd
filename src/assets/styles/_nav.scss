@@ -1,0 +1,153 @@
+@import './variables';
+
+$nav-link-padding-y: .5rem !default;
+$nav-link-padding-x: 1rem !default;
+$nav-link-disabled-color: $gray-600 !default;
+$nav-tabs-border-color: $gray-300 !default;
+$nav-tabs-border-width: $border-width !default;
+$nav-tabs-border-radius: $border-radius !default;
+$nav-tabs-link-hover-border-color: $gray-200 $gray-200 $nav-tabs-border-color !default;
+$nav-tabs-link-active-color: $gray-700 !default;
+$nav-tabs-link-active-bg: $body-bg !default;
+$nav-tabs-link-active-border-color: $gray-300 $gray-300 $nav-tabs-link-active-bg !default;
+
+$nav-pills-border-radius: $border-radius !default;
+$nav-pills-link-active-color: $component-active-color !default;
+$nav-pills-link-active-bg: $component-active-bg !default;
+
+$nav-divider-color: $gray-200 !default;
+$nav-divider-margin-y: calc($spacer / 2) !default;
+
+$navbar-padding-y: calc($spacer / 2) !default;
+$navbar-padding-x: $spacer !default;
+
+$navbar-nav-link-padding-x: .5rem !default;
+$navbar-brand-font-size: $font-size-lg !default;
+
+$nav-link-height: calc($font-size-base * $line-height-base + $nav-link-padding-y * 2) !default;
+$navbar-brand-height: $navbar-brand-font-size * $line-height-base !default;
+$navbar-brand-padding-y: calc(($nav-link-height - $navbar-brand-height) / 2) !default;
+$navbar-toggler-padding-y: .25rem !default;
+$navbar-toggler-padding-x: .75rem !default;
+$navbar-toggler-font-size: $font-size-lg !default;
+$navbar-toggler-border-radius: $btn-border-radius !default;
+$navbar-dark-color: rgba(var(--default-white), .5) !default;
+$navbar-dark-hover-color: rgba(var(--default-white), .75) !default;
+$navbar-dark-active-color: var(--default-white) !default;
+$navbar-dark-disabled-color: rgba(var(--default-white), .25) !default;
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  
+  .nav-link {
+    display: block;
+    padding: $nav-link-padding-y $nav-link-padding-x;
+  
+    @include hover-focus {
+      text-decoration: none;
+    }
+  
+    // Disabled state lightens text
+    &.disabled {
+      color: $nav-link-disabled-color;
+    }
+  }
+  
+  //
+  // Tabs
+  //
+  
+  .nav-tabs {
+    border-bottom: $nav-tabs-border-width solid $nav-tabs-border-color;
+  
+    .nav-item {
+      margin-bottom: -$nav-tabs-border-width;
+    }
+  
+    .nav-link {
+      border: $nav-tabs-border-width solid transparent;
+      @include border-top-radius($nav-tabs-border-radius);
+  
+      @include hover-focus {
+        border-color: $nav-tabs-link-hover-border-color;
+      }
+  
+      &.disabled {
+        color: $nav-link-disabled-color;
+        background-color: transparent;
+        border-color: transparent;
+      }
+    }
+  
+    .nav-link.active,
+    .nav-item.show .nav-link {
+      color: $nav-tabs-link-active-color;
+      background-color: $nav-tabs-link-active-bg;
+      border-color: $nav-tabs-link-active-border-color;
+      font-weight: bold;
+    }
+  
+    .dropdown-menu {
+      // Make dropdown border overlap tab border
+      margin-top: -$nav-tabs-border-width;
+      // Remove the top rounded corners here since there is a hard edge above the menu
+      @include border-top-radius(0);
+    }
+  }
+  
+  
+  //
+  // Pills
+  //
+  
+  .nav-pills {
+    .nav-link {
+      @include border-radius($nav-pills-border-radius);
+    }
+  
+    .nav-link.active,
+    .show > .nav-link {
+      color: $nav-pills-link-active-color;
+      background-color: $nav-pills-link-active-bg;
+    }
+  }
+  
+  
+  //
+  // Justified variants
+  //
+  
+  .nav-fill {
+    .nav-item {
+      flex: 1 1 auto;
+      text-align: center;
+    }
+  }
+  
+  .nav-justified {
+    .nav-item {
+      flex-basis: 0;
+      flex-grow: 1;
+      text-align: center;
+    }
+  }
+  
+  
+  // Tabbable tabs
+  //
+  // Hide tabbable panes to start, show them when `.active`
+  
+  .tab-content {
+    > .tab-pane {
+      display: none;
+    }
+    > .active {
+      display: block;
+    }
+  }
+  

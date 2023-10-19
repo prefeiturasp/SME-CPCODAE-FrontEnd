@@ -1,0 +1,53 @@
+<div class="profile registration-page-container">
+    <header>
+        <h2>Dados do Usuário</h2>
+    </header>
+    <form [formGroup]="profileForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Nome</label>
+                            <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                                placeholder="Digite o seu nome" />
+                            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                <div *ngIf="f['name'].errors['required']">O nome é obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="dois-pontos">E-mail</label>
+                        <input type="email" id="email" name="email" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" formControlName="email"
+                            placeholder="Digite o seu e-mail" />
+                        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                          <div *ngIf="f['email'].errors['email']">Formato de e-mail inválido</div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="dois-pontos">Confirmação de E-mail</label>
+                      <input type="email" id="emailConfirmacao" name="emailConfirmacao"
+                              formControlName="confirmEmail" class="form-control"
+                              [ngClass]="{ 'is-invalid': submitted && f['confirmEmail'].errors }" placeholder="Confirme seu email aqui" />
+                      <div *ngIf="submitted && f['confirmEmail'].errors" class="invalid-feedback">
+                        <div *ngIf="f['confirmEmail'].errors['email']">Formato de e-mail inválido</div>
+                        <div *ngIf="f['confirmEmail'].errors['confirmedValidator']">O email e a confirmação devem ser iguais</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

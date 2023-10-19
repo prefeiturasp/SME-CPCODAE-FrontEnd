@@ -1,0 +1,13 @@
+<div class="overlay" (click)="toggleMenu()"></div>
+<nav class="sidebar" *ngIf="show">
+    <div class="toggle-menu" (click)="toggleMenu()">
+        <fa-icon [icon]="isOpened ? faIcons.arrowLeft : faIcons.arrowRight"></fa-icon>
+    </div>
+ 
+    <ul class="list-unstyled menu-elements">
+        <li></li>
+        <li [ngClass]="{ 'active': activeUrl === '/logistica/chamadas-publicas' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/logistica/chamadas-publicas')"><fa-icon [icon]="faIcons.home"></fa-icon> <span>Home</span></a>
+        </li>
+    </ul>
+</nav>

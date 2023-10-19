@@ -1,0 +1,288 @@
+<div class="proposal" *ngIf="publicCall">
+    <ngx-spinner name="spinnerAddress" size="medium" color="#fff" type="ball-beat" [fullScreen]="false"></ngx-spinner>
+    <app-dashboard-detail-header [publicCall]="publicCall" [showTop]="false" [showDisclaimer]="true" [showHistory]="isEditProposal" [backPage]="'/cooperativa/minhas-propostas'"
+        [validationReport]="{ public_call_answer_id: publicCallAnswer?.id, cooperative_name: cooperative?.name, members_validated: publicCallAnswer?.members_validated }"
+        (onShowHistory)="openModal(contentComments)">
+    </app-dashboard-detail-header>
+    <div class="proposal-container">
+        <input type="file" class="upload-documents" (change)="uploadFile($event)" accept="application/pdf" />
+        <app-dashboard-general-info [publicCall]="publicCall" [disableAccordion]="true" [isOpened]="true"></app-dashboard-general-info>
+
+        <div class="d-flex flex-direction-column proposal-body" *ngIf="selectedFood">
+
+          <div class="wizard-container">
+            <div class="wizard-sidebar" *ngIf="!isEditProposal">
+              <ul>
+                <li [ngClass]="{ 'active': currentStep === idx + 1 }" (click)="setCurrentStep(idx + 1)" *ngFor="let food of publicCall.foods; let idx = index">{{publicCall.foods[idx].food_name}}</li>
+                <li [ngClass]="{ 'active': currentStep === publicCall.foods.length + 1, 'disabled': !isCheckoutEnabled }" (click)="setCurrentStepCheckout()">
+                    RESUMO
+                </li>
+              </ul>
+            </div>
+            <div class="wizard-content" [ngClass]="{ 'all': publicCall.foods.length == 1 }">
+              <div *ngIf="currentStep <= publicCall.foods.length">
+                <h3 class="d-flex justify-content-center">
+                  <div class="d-flex truncate product-title">
+                      {{selectedFood.food_name}}{{ selectedFood.is_organic ? ' (Orgânico)' : '' }}
+                      <div class="form-check circle" *ngIf="!publicCall.foods[(currentStep - 1)]?.is_organic && publicCall.foods[(currentStep - 1)]?.accepts_organic">
+                          <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input" name="is_organic" [(ngModel)]="selectedFood.is_organic">
+                              Orgânico?
+                              <i class="input-helper"></i>
+                          </label>
+                      </div>
+                      <!-- <small class="edit-food"><a href="javascript:void(0)" (click)="editFood()">Editar Produto</a></small> -->
+                  </div>
+                  <div class="totais d-flex align-items-center">
+                    <div class="d-flex flex-direction-column">
+                        <span><b>Total Solicitado</b></span>
+                        <small>{{ selectedFood.quantity | number }} {{selectedFood.measure_unit}} x {{ selectedFood.price | currency:'R$' }} ={{ selectedFood.price * selectedFood.quantity | currency:'R$' }}</small>
+                    </div>
+                    <div class="d-flex flex-direction-column">
+                        <span><b>Total Proposto</b></span>
+                        <small>{{ totalProposto | currency:'R$' }}</small>
+                    </div>
+                  </div>
+              </h3>
+
+              <perfect-scrollbar [ngClass]="{ 'centerized': isEditProposal }">
+                <div class="importacao-cooperados d-flex">
+                    <a href="javascript:void(0)" (click)="importCoop(content)" *ngIf="showUploadLink && publicCallAnswer!.members && publicCallAnswer!.members.length > 0">
+                        Re-importe a planilha de cooperados
+                    </a>
+                    <a href="javascript:void(0)" class="ml-20" (click)="restart()" *ngIf="!isEditProposal && showUploadLink && publicCallAnswer!.members && publicCallAnswer!.members.length > 0">
+                        Cancele o envio do produto
+                    </a>
+                </div>
+
+                <div class="row mt-10" *ngIf="publicCallAnswer!.members && publicCallAnswer!.members.length > 0; else emptyMessage">
+                    <div class="offset-1 col-md-4">
+                        <section class="fieldset">
+                            <h1>Resumo da Importação</h1>
+                            <div class="box-resume">
+                                <p>Cooperados importados: <span>{{publicCallAnswer!.members.length}}</span></p>
+                            </div>
+                        </section>
+
+                        <section class="fieldset" *ngIf="documents && documents.length > 0 ">
+                            <h1>Documentos Obrigatórios</h1>
+                            <div class="box-resume">
+                                <div class="table-row d-flex" *ngFor="let item of documents; let index = index">
+                                    <div class="col text-lefta d-flex flex-direction-column">
+                                        <span>{{item.document_type_name}}</span>
+                                        <small *ngIf="!item.file_base_64" class="text-danger">(não incluído - aceita somente PDF)</small>
+                                    </div>
+                                    <div class="col-0-25 action d-flex align-items-center justify-content-end">
+                                        <a *ngIf="!item.file_base_64" href="javascript:void(0)" (click)="addDoc(item.id!)" title="Escolher Arquivo" class="text-black">
+                                            <fa-icon [icon]="faIcons.faUpload"></fa-icon>
+                                        </a>
+
+                                        <a *ngIf="item.file_base_64" href="javascript:void(0)" (click)="removeDoc(index, item.id!)" title="Remover" class="text-danger">
+                                            <fa-icon [icon]="faIcons.faTrash"></fa-icon>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- <div class="offset-1 col-md-4">
+                        <form [formGroup]="proposalForm">
+                            <section class="fieldset">
+                                <h1>Dados Associados</h1>
+                                <div class="row mb-10">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Assentados/as pelo PNRA</label>
+                                            <input type="text" id="pnra_settlement_total" name="pnra_settlement_total"
+                                                formControlName="pnra_settlement_total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['pnra_settlement_total'].errors }" />
+                                            <div *ngIf="submitted && f['pnra_settlement_total'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['pnra_settlement_total'].errors['required']">O nro de assentados/as
+                                                    pelo PNRA é obrigatório</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Comunidade Indígena</label>
+                                            <input type="text" id="indigenous_community_total" name="indigenous_community_total"
+                                                formControlName="indigenous_community_total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['indigenous_community_total'].errors }" />
+                                            <div *ngIf="submitted && f['indigenous_community_total'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="f['indigenous_community_total'].errors['required']">O nro de associados
+                                                    de comunidade indígena é obrigatório</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Comunidade Quilombola</label>
+                                            <input type="text" id="quilombola_community_total" name="quilombola_community_total"
+                                                formControlName="quilombola_community_total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['quilombola_community_total'].errors }" />
+                                            <div *ngIf="submitted && f['quilombola_community_total'].errors"
+                                                class="invalid-feedback">
+                                                <div *ngIf="f['quilombola_community_total'].errors['required']">O nro de associados
+                                                    de comunidade quilombola é obrigatório</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Demais Agricultores Familiares</label>
+                                            <input type="text" id="other_family_agro_total" name="other_family_agro_total"
+                                                formControlName="other_family_agro_total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['other_family_agro_total'].errors }" />
+                                            <div *ngIf="submitted && f['other_family_agro_total'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['other_family_agro_total'].errors['required']">O nro de demais
+                                                    agricultores familiares é obrigatório</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Total de Associados</label>
+                                            <input type="text" id="total" name="total" formControlName="total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['total'].errors }" />
+                                            <div *ngIf="submitted && f['total'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['total'].errors['required']">O nro total é obrigatório</div>
+                                                <div *ngIf="f['total'].errors['invalidSum']">O nro total deve ser a soma dos campos anteriores</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="fieldset">
+                                <h1>Localização</h1>
+                                <div class="row mb-10">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Cidade com mais associados</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <select class="form-control" formControlName="state_acronym"
+                                                        (change)="loadCities(f['state_acronym'].value, 0)"
+                                                        [ngClass]="{ 'is-invalid': submitted && f['city_id'].errors }">
+                                                        <option [ngValue]="''" [disabled]="true">UF</option>
+                                                        <option *ngFor="let state of statesList" [value]="state.acronym"
+                                                            [selected]="state.acronym == f['state_acronym'].value">
+                                                            {{state.acronym}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <select class="form-control" formControlName="city_id"
+                                                    [ngClass]="{ 'is-invalid': submitted && f['city_id'].errors }">
+                                                    <option value="0" [disabled]="true" selected>{{f['state_acronym'].value == ''
+                                                        ? 'Selecione o Estado' : 'Selecione a Cidade'}}</option>
+                                                    <option *ngFor="let city of citiesList" [value]="city.id">
+                                                        {{city.name}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && f['city_id'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['city_id'].errors['required'] || f['city_id'].errors['min']">Selecione
+                                                    uma cidade</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">Total associados cidade</label>
+                                            <input type="text" id="city_members_total" name="city_members_total"
+                                                formControlName="city_members_total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['city_members_total'].errors }" />
+                                            <div *ngIf="submitted && f['city_members_total'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['city_members_total'].errors['required']">O total de associados na cidade é obrigatório</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="fieldset">
+                                <h1>DAP's Física</h1>
+                                <div class="row mb-10">
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <label class="dois-pontos">DAPs Físicas</label>
+                                            <input type="text" id="daps_fisicas_total" name="daps_fisicas_total"
+                                                formControlName="daps_fisicas_total" class="form-control" maxlength="4"
+                                                mask="0000" [ngClass]="{ 'is-invalid': submitted && f['daps_fisicas_total'].errors }" />
+                                            <div *ngIf="submitted && f['daps_fisicas_total'].errors" class="invalid-feedback">
+                                                <div *ngIf="f['daps_fisicas_total'].errors['required']">O nro de associados
+                                                    DAPs físicas é obrigatório</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </form>
+                    </div> -->
+                </div>
+
+                <ng-template #emptyMessage>
+                    <section>
+                        <p class="mt-5">{{config.emptyMessage}}</p>
+
+                        <a href="javascript:void(0)" class="btn btn-default botao-vermelho mt-5" (click)="importCoop(content)" *ngIf="showUploadLink && publicCallAnswer && (!publicCallAnswer.members || publicCallAnswer.members!.length <= 0)">
+                            Importe os dados dos cooperados aqui
+                        </a>
+                    </section>
+                </ng-template>
+              </perfect-scrollbar>
+              </div>
+              <div *ngIf="currentStep >= (publicCall.foods.length + 1)">
+                <app-proposal-checkout #checkout [filteredFoods]="filteredFoods" [statesList]="statesList"></app-proposal-checkout>
+              </div>
+            </div>
+          </div>
+
+            <div class="btn-group proposal-button" [ngClass]="{'center-proposal-button': isEditProposal}">
+                <button class="btn btn-lg btn-success" (click)="sendProposal()" 
+                    *ngIf="currentStep >= (publicCall.foods.length + 1) || isEditProposal">
+                    Finalizar e Enviar para a SME
+                </button>
+                <button class="btn btn-lg btn-success" (click)="setCurrentStep(currentStep - 1)" [disabled]="currentStep <= 1"
+                    *ngIf="currentStep < (publicCall.foods.length + 1) && !isEditProposal">
+                  Anterior
+                </button>
+                <button class="btn btn-lg btn-success" (click)="setCurrentStep(currentStep + 1)" [disabled]="(currentStep >= publicCall.foods.length) && !isCheckoutEnabled"
+                    *ngIf="currentStep < (publicCall.foods.length + 1) && !isEditProposal">
+                  Próximo
+                </button>
+                <button class="btn btn-lg btn-success" (click)="setCurrentStepCheckout()" [disabled]="!isCheckoutEnabled"
+                    *ngIf="currentStep < (publicCall.foods.length + 1) && !isEditProposal">
+                    Ir para Resumo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <app-cooperative-proposal-upload-members [cooperative]="cooperative" [selectedFood]="selectedFood!" [isOrganic]="publicCall!.foods[(currentStep - 1)]!.is_organic"
+        [modal]="modal" [proposal]="publicCallAnswer!" (onSave)="onSaveImport($event, true)" (returnedCooperatedList)="onCooperatedList($event)">
+    </app-cooperative-proposal-upload-members>
+</ng-template>
+
+<ng-template #contentErrors let-modalError>
+    <app-cooperative-proposal-upload-members-error [modal]="modalError" [errors]="errors">
+    </app-cooperative-proposal-upload-members-error>
+</ng-template>
+
+<ng-template #contentComments let-modalComments>
+    <public-call-comments-modal [modal]="modalComments" [cooperative]="cooperative!" [public_call_id]="publicCall!.id" [food]="selectedFood!"
+        [changeRequests]="messages">
+    </public-call-comments-modal>
+</ng-template>
+
+<ng-template #contentChangeRequests let-modalChangeRequests>
+    <app-cooperative-change-request-modal [modal]="modalChangeRequests" [cooperative_name]="cooperative!.name" [public_call_id]="publicCall!.id"
+        (onSendMessage)="sendUpdateProposal($event)">
+    </app-cooperative-change-request-modal>
+</ng-template>

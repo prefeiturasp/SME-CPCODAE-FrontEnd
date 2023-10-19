@@ -1,0 +1,21 @@
+<div class="resumo">
+    <perfect-scrollbar>
+      <section class="fieldset" *ngFor="let food of publicCall.foods">
+        <h1>{{food.food_name}} (<span>{{getSelectedQuantity(food.food_id) | number}} {{food.measure_unit}}</span> / <small>{{food.quantity | number}} {{food.measure_unit}}</small>)</h1>
+        <div class="row" *ngIf="getSelectedCooperativesByFood(food.food_id).length > 0; else selectedCooperativesEmpty">
+          <fieldset *ngFor="let cooperative of getSelectedCooperativesByFood(food.food_id)">
+            <legend>{{cooperative.name}}</legend>
+            <ul>
+              <li>Valor Total: {{cooperative.total_price | currency: 'BRL': 'R$'}}</li>
+              <li>Qtdade Proposta: {{cooperative.total_proposal | number}} {{food.measure_unit}}</li>
+            </ul>
+          </fieldset>
+        </div>
+        <ng-template #selectedCooperativesEmpty>
+            <div class="vazio">
+                <span>Nenhuma cooperativa foi selecionada</span>
+            </div>
+        </ng-template>
+      </section>
+    </perfect-scrollbar>
+</div>

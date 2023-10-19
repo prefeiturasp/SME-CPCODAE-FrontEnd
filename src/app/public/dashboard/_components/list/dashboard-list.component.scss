@@ -1,0 +1,63 @@
+.lista {
+    perfect-scrollbar { height: calc(100vh - 315px); }
+
+    .item {
+        padding: 20px 0px;
+        margin: 0 30px;
+        border-bottom: 1px solid #eaeaea;
+        display: flex;
+
+        .chamada-publica {
+            text-align: left;
+            max-width: 85%;
+            min-width: 85%;
+
+            p {
+                font-size: 1rem;
+                color: #333;
+                line-height: 140%;
+
+                &.tipo { font-size: 1.1rem; }
+            }
+
+            h3 {
+                margin-bottom: 7px;
+                font-weight: bold;
+                font-size: 1.25rem;
+
+                a { color: #333; font-size: 1.3rem; font-weight: 700; }
+                small { font-weight: normal; font-size: 0.75em; }
+            }
+
+            hr { color: #bbb; margin: 5px auto; width: 50%; }
+
+            .icon-share-alt { margin-left: 5px; }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .lista {
+        padding-left: 0;
+
+        .item {
+            margin: 0;
+            flex-direction: column;
+
+            .chamada-publica {
+                border-bottom: 1px solid #eaeaea;
+                margin-bottom: 10px;
+                max-width: none;
+                padding-bottom: 10px;
+
+                .inscricoes-info-mobile-only {
+                    line-height: 2;
+                    height: auto;
+                    width: 100%;
+                }
+            }
+
+            .mais-info .botao { width: 100%; }
+        }
+    }
+}

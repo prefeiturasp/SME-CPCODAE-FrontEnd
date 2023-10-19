@@ -1,0 +1,44 @@
+<div class="category-register registration-page-container">
+    <header>
+        <h2>Categoria de Gêneros Alimentícios</h2>
+    </header>
+    <form [formGroup]="categoryForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Nome</label>
+                            <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                                placeholder="Digite a categoria" />
+                            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                <div *ngIf="f['name'].errors['required']">A categoria é obrigatória</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" [ngClass]="{ 'd-hidden': isAdd }">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="isActive" formControlName="isActive">
+                                        Ativa?
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

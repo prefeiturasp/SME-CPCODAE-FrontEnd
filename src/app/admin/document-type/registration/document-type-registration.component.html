@@ -1,0 +1,71 @@
+<div class="doc-type-register registration-page-container">
+    <header>
+        <h2>Tipo de Documento</h2>
+    </header>
+    <form [formGroup]="documentTypeForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Nome</label>
+                            <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                                placeholder="Digite o tipo do documento" />
+                            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                <div *ngIf="f['name'].errors['required']">O tipo do documento é obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row" formGroupName="applicationGroup" [ngClass]="{ 'is-invalid': submitted && f['applicationGroup'].errors }">
+                            <label class="dois-pontos title">Aplicação</label>
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="applicationProposal"
+                                        formControlName="applicationProposal">
+                                        Proposta
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="applicationCooperativeRegistration"
+                                            formControlName="applicationCooperativeRegistration">
+                                        Cadastro Cooperativa
+                                        <i class="input-helper"></i></label>
+                                </div>
+                            </div>
+                            <div *ngIf="submitted && f['applicationGroup'].errors" class="invalid-feedback">
+                                <div *ngIf="f['applicationGroup'].errors['requireCheckboxesToBeChecked']">Ao menos uma aplicação deve ser selecionada</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" [ngClass]="{ 'd-hidden': isAdd }">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="isActive" formControlName="isActive">
+                                        Ativo?
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

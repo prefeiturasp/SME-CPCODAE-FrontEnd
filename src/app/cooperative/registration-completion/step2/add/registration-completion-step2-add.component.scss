@@ -1,0 +1,7 @@
+.add-area {
+    height: calc(100vh - 322px);
+
+    a.empty > fa-icon { color: transparent; }
+    header  { font-weight: bold; }
+    .upload { display: none; }
+}

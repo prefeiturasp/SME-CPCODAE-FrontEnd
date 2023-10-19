@@ -1,0 +1,22 @@
+.resumo {
+    perfect-scrollbar { height: calc(100vh - 417px); }
+
+    section.fieldset {
+        padding: 10px;
+
+        fieldset {
+            margin-top: 20px;
+            padding-left: 30px;
+            text-align: left;
+        }
+
+        h1 {
+            label { font-size: 1.2rem; font-weight: bold; }
+            span { color: var(--default-green-dark-color); font-size: 1rem; font-weight: 600; }
+        }
+
+        .form-group { 
+            text-align: left;
+        }
+    }
+}

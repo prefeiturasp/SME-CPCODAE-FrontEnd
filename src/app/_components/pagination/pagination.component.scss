@@ -1,0 +1,8 @@
+nav > ul.pagination .page-item {
+  padding: 0.5rem 0;
+
+  &.active .page-link               { background-color: #444; color: #fff; }
+  &[disabled="disabled"] .page-link { color: #dd3544; cursor: not-allowed; pointer-events: none; }
+  
+  .page-link                        { border: none; border-radius: 2px; color: #444; }
+}

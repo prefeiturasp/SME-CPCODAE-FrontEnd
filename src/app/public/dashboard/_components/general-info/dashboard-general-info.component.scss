@@ -1,0 +1,45 @@
+.general-info {
+    align-items: start;
+    background-color: #eee;
+    border-radius: 4px;
+    display: flex;
+    margin: 0px 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+
+    ::ng-deep {
+        .accordion-item {
+            background-color: transparent;
+            border: none;
+            width: 100%;
+
+            .accordion-button {
+                background-color: transparent;
+                color: inherit;
+                padding: 5px;
+                text-align: center;
+
+                &.hidden-acc::after { display: none; }
+            }
+
+            .accordion-body {
+                > div {
+
+                    flex-direction: column;
+
+                    .col    { text-align: left; }
+        
+                    .participate {
+                        margin-top: 20px;
+        
+                        button { width: 100%;}
+                    }
+                }
+        
+                .icon-share-alt { margin-left: 5px; }
+            }
+        }
+    }
+
+    h2 { font-size: 1rem; font-weight: bold; width: 100%; }
+}

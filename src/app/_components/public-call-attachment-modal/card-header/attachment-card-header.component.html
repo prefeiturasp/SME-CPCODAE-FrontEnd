@@ -1,0 +1,9 @@
+<div class="card-attach-history-header-pdf" *ngIf="document" [ngClass]="{ 'cursor-pointer mb-10 mr-15': clickable }">
+    <div class="card-attach-pdf-container d-flex align-items-center pl-10" [ngClass]="{ 'bigger': isHistory && !clickable }">
+        <div class="card-attach-pdf mr-10">PDF</div>
+        <div class="card-attach-file d-flex flex-direction-column">
+            <b class="file-name truncate" title="{{document.document_type_name}}">{{ document.document_type_name }}</b>
+            <span *ngIf="document.file_size">Adobe Acrobat - {{ document.file_size }}</span>
+        </div>
+    </div>
+</div>

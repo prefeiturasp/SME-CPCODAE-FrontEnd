@@ -1,0 +1,72 @@
+.sme-gridview {
+    section.table {
+
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+
+        perfect-scrollbar {
+            border-top: solid 1px #ccc;
+            height: calc(100vh - 278px);
+
+            &.with-pagination { height: calc(100vh - 331px); }
+        }
+
+        header {
+            display: flex;
+            font-weight: bold;
+
+            .col.action {
+                max-width: 150px !important;
+
+                >div.button-area { margin-top: -5px; margin-bottom: 10px; padding: 0; }
+            }
+        }
+
+        .table-row {
+            display: flex;
+            line-height: 40px;
+
+            &:nth-child(even) { background-color: #eee; }
+
+            .col {
+                &.action {
+                    max-width: 150px !important;
+
+                    >a[disabled="disabled"] { color: transparent !important; cursor: default; pointer-events: none; }
+
+                    >a:hover {
+                        transition: transform 0.5s linear;
+
+                        ::ng-deep { svg { transform: scale(1.5); } }
+                    }
+                }
+            }
+        }
+
+        app-pagination { border-top: none !important; }
+    }
+
+    .footer,
+    .vazio {
+        border-top: none;
+        display: -webkit-flex;
+        display: flex;
+        justify-content: center;
+        position: relative;
+
+        app-pagination, span { align-content: space-around; }
+
+        .button-area {
+            align-items: center;
+            display: flex;
+            height: 70px;
+            order: -1;
+            position: absolute;
+            right: 0;
+            top: 0;
+
+            >div>button { min-width: 120px; }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+.sme-public-call-dashboard-card {
+    border: solid 1px #eee;
+    border-radius: 4px;
+    margin: 20px;
+    padding: 27px 25px;
+
+    justify-content: space-between;
+
+    &:hover {
+        padding-left: 21px;
+
+        &.blue { border-left: solid 5px var(--default-blue-dark-color); }
+        &.green { border-left: solid 5px var(--default-green-dark-color); }
+        &.yellow { border-left: solid 5px var(--default-orange-color); }
+        &.red { border-left: solid 5px var(--default-red-color);  }
+    }
+
+    > div:first-child {
+        justify-content: space-between;
+
+        .ng-fa-icon { font-size: 1.6rem; }
+
+        .status {
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 5px 10px;
+            
+            &.green { background-color: #137B1F20; color: var(--default-green-dark-color); }
+            &.yellow { background-color: #FFE60020; color: var(--default-orange-color); }
+            &.red { background-color: #D4000020; color: var(--default-red-color);  }
+        }
+    }
+
+    > div:nth-child(2) { margin: 20px 0; }
+
+    > div:last-child > div > div { text-align: left; }
+}

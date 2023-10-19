@@ -1,0 +1,39 @@
+<header class="menu col-sm-12 col-md-12">
+    <nav class="navbar horizontal-layout col-lg-12 col-12 p-0">
+        <div class="nav-top flex-grow-1">
+            <div class="container d-flex flex-row justify-content-space-between h-100">
+                <div class="text-center navbar-brand-wrapper d-flex align-items-top">
+                    <a class="navbar-brand brand-logo" routerLink="/">
+                        <img src="assets/imagens/logo.png" alt="logo" class="logo" />
+                    </a>
+                    <a class="navbar-brand brand-logo-mini" routerLink="/">
+                        <img src="assets/imagens/brasao.svg" alt="logo">
+                    </a>
+                </div>
+                <div *ngIf="showSearchFilter" class="navbar-search-wrapper d-flex justify-content-center">
+                    <i class="icon-magnifier"></i>
+                    <input type="text" class="form-control search-filter" placeholder='Pesquisar' [(ngModel)]="searchFilter" />
+                </div>
+                <div class="navbar-menu-wrapper">
+                    <ul class="navbar-nav navbar-nav-right mr-0 navbar-collapse collapse">
+                        <li *ngIf="isLogged" class="nav-item nav-profile">
+                            <span class="nav-profile-text">{{loggedUser?.firstName}}</span>
+                        </li>
+                        <li *ngIf="isLogged" class="nav-item mr-2 ml-2" title="Perfil" [routerLink]="profileRouterLink" [routerLinkActive]="['active']">
+                            <a class="nav-link icon" href="javascript:void(0)"><i class="icon-user"></i></a>
+                        </li>
+                        <li *ngIf="isLogged" class="nav-item mr-2 ml-2" title="Alterar Senha" routerLink="/alterar-senha" [routerLinkActive]="['active']">
+                            <a class="nav-link icon" href="javascript:void(0)"><i class="icon-lock"></i></a>
+                        </li>
+                        <li *ngIf="isLogged" class="nav-item mr-2 ml-2" (click)="logout()" title="Sair">
+                            <a class="nav-link icon" href="javascript:void(0)"><i class="icon-logout"></i></a>
+                        </li>
+                        <li *ngIf="!isLogged" class="nav-item mr-2 ml-2" routerLink="/login">
+                            <span class="nav-menu-text">Entre ou Cadastre-se</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

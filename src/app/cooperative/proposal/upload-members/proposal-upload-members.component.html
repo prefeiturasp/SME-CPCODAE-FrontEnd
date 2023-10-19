@@ -1,0 +1,44 @@
+<div class="modal-upload-member">
+    <div class="modal-header">
+        <h4 class="modal-title">Importe a lista de cooperados</h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+        <input type="file" class="upload" (change)="selectFile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    </div>
+    <div class="modal-body">
+        <ol class="list">
+            <li class="list-item one">
+                Clique <a href="javascript:void(0)" (click)="downloadExample()">aqui</a> para baixar o modelo de planilha
+                <div class="row">
+                    <div class="col-4">
+                        <img src="/assets/upload-docs/member_upload_proposal.png?v=1" alt="Exemplo Preenchimento" />
+                    </div>
+                    <div class="col-8">
+                        <ul class="list-bullets">
+                            <li>Coluna <b>dap_caf</b>: Insira o código DAP ou CAF do cooperado</li>
+                            <li>Coluna <b>cpf</b>: Insira o CPF do cooperado</li>
+                            <li>Coluna <b>quantidade</b>: Insira a quantidade (em números) referente ao fornecimento do produto pelo cooperado</li>
+                            <li>Coluna <b>preco</b>: Insira o valor numérico referente ao preço do produto</li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="list-item two">
+                O Produto Atual é: <b>{{ selectedFood!.food_name }}{{ selectedFood!.is_organic ? ' (Orgânico)' : '' }}</b>
+            </li>
+            <li class="list-item three">
+                Após preenchê-la, clique <a href="javascript:void(0)" class="btn btn-default botao" (click)="addFile()">aqui</a> para enviar a planilha
+                <span *ngIf="selectedFiles && selectedFiles.length > 0"> - Selecionado: <b>{{ selectedFiles[0].name }}</b></span>
+            </li>
+            <li class="list-item four">Clique em <b>Importar</b> abaixo para salvar os dados</li>
+        </ol>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="import()" [attr.disabled]="(!selectedFiles || selectedFiles.length === 0) ? 'disabled' : null">Importar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>
+
+<ng-template #content let-modalError>
+    <app-cooperative-proposal-upload-members-error [modal]="modalError" [errors]="errors">
+    </app-cooperative-proposal-upload-members-error>
+</ng-template>

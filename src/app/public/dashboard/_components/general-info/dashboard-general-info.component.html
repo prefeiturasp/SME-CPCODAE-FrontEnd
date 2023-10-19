@@ -1,0 +1,35 @@
+<ngb-accordion #acc="ngbAccordion" class="general-info" (panelChange)="beforeChange($event)">
+    <ngb-panel id="publicacao-abertura">
+      <ng-template ngbPanelTitle>
+        <h2>Publicação de Abertura</h2>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="d-flex">
+            <div class="d-flex">
+                <div class="col">
+                    <p><span class="chamada-publica mr-5">Chamada Pública nº</span> <b>{{publicCall.number}}</b></p>
+                    <p class="inscricoes-info-mobile-only">
+                        Recebimento de Documentos de <b>{{publicCall.registration_start_date | date:'dd/MM/yyyy'}}</b> até<b class="ml-5">{{publicCall.registration_end_date | date:'dd/MM/yyyy'}}</b>
+                    </p>
+                    <p class="inscricoes-info-mobile-only">
+                        Execução em <b>{{publicCall.public_session_place }}</b> em<b class="ml-5">{{publicCall.public_session_date | date:'dd/MM/yyyy'}}</b>
+                    </p>
+                </div>
+                <div class="col">
+                    <p><span class="chamada-publica mr-5">Processo nº</span> <b>{{publicCall.process}}</b></p>
+                    <p>Orgão: <b>{{publicCall.agency}}</b></p>
+                    <!-- <p>Acesse a sessão pública online 
+                        <a href="javascript:void(0)" (click)="redirectToPublicSession()">aqui <i class="icon-share-alt"></i></a>
+                    </p> -->
+                    <p>Acesse o edital 
+                        <a href="javascript:void(0)" (click)="downloadEdital()">aqui <i class="icon-share-alt"></i></a>
+                    </p>
+                </div>
+            </div>
+            <!-- <div class="participate" *ngIf="showParticipateButton">
+                <button class="btn btn-primary" (click)="signUp()">Participar</button>
+            </div> -->
+        </div>
+      </ng-template>
+    </ngb-panel>
+</ngb-accordion>

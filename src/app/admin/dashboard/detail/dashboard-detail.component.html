@@ -1,0 +1,87 @@
+<div class="choose-proposal list-page-container" *ngIf="publicCall && publicCall.foods && publicCall.foods.length > 0">
+    <app-public-call-detail-header [publicCall]="publicCall" [showButtons]="true" [food_name]="currentFood?.food_name"
+        (onEditEvent)="onEditEvent($event)" (onRemoveEvent)="onRemoveEvent($event)" (onSuspendEvent)="onSuspendEvent($event)"
+        (onChangeStatusEvent)="onChangeStatusEvent($event)"
+        >
+    </app-public-call-detail-header>
+    <div>
+      <div class="wizard-container">
+        <div class="wizard-sidebar" *ngIf="publicCall.foods.length > 1">
+          <ul>
+            <li [ngClass]="{ 'active': currentStep === idx + 1 }" (click)="setCurrentStep(idx + 1)" *ngFor="let food of publicCall.foods; let idx = index">{{publicCall.foods[idx].food_name}}</li>
+            <li [ngClass]="{ 'active': currentStep === publicCall.foods.length + 1 }" (click)="setCurrentStep(publicCall.foods.length + 1)" *ngIf="publicCall.status <= 1">RESUMO</li>
+          </ul>
+        </div>
+        <div class="wizard-content" [ngClass]="{ 'all': publicCall.foods.length == 1 }">
+          <div *ngIf="currentStep <= publicCall.foods.length">
+            <div class="d-flex justify-content-space-between align-items-center" *ngIf="cooperativesByProduct.length > 0 && publicCall && publicCall.foods && publicCall.foods.length > 0 && publicCall.status <= 1">
+              <input type="file" class="upload" (change)="uploadFile($event)" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+              <label>Propostas Recebidas</label>
+              <span><b>{{cooperativesByProduct.length}}</b> proposta{{cooperativesByProduct.length > 1 ? 's' : ''}}</span>
+            </div>
+            <app-dashboard-detail-table *ngIf="publicCall && publicCall.foods && publicCall.foods.length > 0 && publicCall.status <= 1"
+                [publicCall]="publicCall" [cooperatives]="cooperativesByProduct"
+                [changeRequests]="changeRequests" [food]="currentFood!" [documents]="documents"></app-dashboard-detail-table>
+            <app-public-call-delivery *ngIf="publicCall && publicCall.foods && publicCall.foods.length > 0 && publicCall.status > 1"
+                [publicCall]="publicCall" [cooperatives]="cooperativesSelectedByProduct" [food]="currentFood!" [isLogistic]="false" [changeRequests]="changeRequests"
+                [documents]="documents" (onGoBack)="goBack($event)">
+            </app-public-call-delivery>
+            <div class="vazio" *ngIf="(publicCall.status <= 1 && (!cooperativesByProduct || cooperativesByProduct.length <= 0)) || (publicCall.status > 1 && (!cooperativesSelectedByProduct || cooperativesSelectedByProduct.length <= 0))">
+                <span>Nenhuma cooperativa foi encontrada</span>
+            </div>
+          </div>
+          <div *ngIf="currentStep === (publicCall.foods.length + 1)">
+            <app-dashboard-checkout [publicCall]="publicCall" [cooperatives]="cooperatives"></app-dashboard-checkout>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer button-area">
+        <button class="btn btn-default btn-sm min-120" (click)="goBack(true)">Ir para listagem</button>
+
+        <div class="selected" *ngIf="currentStep <= publicCall.foods.length">
+            <span>{{(publicCall.status == PublicCallStatusEnum.cronogramaExecutado.id ? getCronogramaExecutadoSelectedQuantity() : getSelectedQuantity(publicCall.foods[currentStep - 1].food_id)) | number}} {{publicCall.foods[currentStep - 1].measure_unit}}</span>
+            <small> / {{publicCall.foods[currentStep - 1].quantity | number }} {{publicCall.foods[currentStep - 1].measure_unit}}</small>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn btn-lg btn-success" (click)="setCurrentStep(currentStep - 1)" [disabled]="currentStep <= 1"
+              *ngIf="currentStep <= (publicCall.foods.length + 1)">
+            Anterior
+          </button>
+          <button class="btn btn-lg btn-success" (click)="setCurrentStep(currentStep + 1)" [disabled]="(currentStep > (publicCall.status <= 1 ? publicCall.foods.length : publicCall.foods.length - 1))"
+              *ngIf="currentStep <= (publicCall.foods.length + 1)">
+            Próximo
+          </button>
+          <button class="btn btn-lg btn-success" (click)="setCurrentStep(publicCall.foods.length + 1)" *ngIf="currentStep < (publicCall.foods.length + 1) && publicCall.status <= 1">
+              Ir para Resumo
+          </button>
+          <button  class="btn btn-lg btn-success" (click)="buy(content)" *ngIf="currentStep === (publicCall.foods.length + 1)">
+            <small *ngIf="selected.length > 0">( {{selected.length}} ) </small>
+            <span>Habilitar</span>
+            <!-- <span *ngIf="currentStep < (publicCall.foods.length + 1)">Próximo >></span> -->
+          </button>
+          <button class="btn btn-lg btn-success" (click)="homologarPublicCall()" *ngIf="publicCall.status == PublicCallStatusEnum.aprovada.id">
+            Definir como Homologada
+          </button>
+          <button class="btn btn-lg btn-success" (click)="contratarPublicCall()" *ngIf="publicCall.status == PublicCallStatusEnum.homologada.id">
+              Definir como Contratada
+          </button>
+          <button class="btn btn-lg btn-success" (click)="cronogramaExecutadoPublicCall()" *ngIf="publicCall.status == PublicCallStatusEnum.contratada.id">
+              Definir como Cronograma Executado
+          </button>
+        </div>
+
+        
+
+        <ng-template #content let-modal>
+            <!-- <app-confirm-delivery-modal [modal]="modal" [publicCall]="publicCallDelivery" (confirmDeliveryEvent)="buyExecution($event)">
+            </app-confirm-delivery-modal> -->
+        </ng-template>
+    </div>
+</div>
+<div *ngIf="!publicCall || !publicCall.foods || publicCall.foods.length <= 0">
+    <div class="button-area">
+        <button class="btn btn-default btn-sm min-120" (click)="goBack(true)">Sair</button>
+    </div>
+</div>

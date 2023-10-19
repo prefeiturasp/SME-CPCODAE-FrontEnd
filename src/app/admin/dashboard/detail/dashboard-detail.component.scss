@@ -1,0 +1,88 @@
+@import '../../../../assets/styles/list-registration-page';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.choose-proposal {
+    input[type="file"] { display: none; }
+
+    > div > div:first-child {
+        padding: 10px;
+
+        label { font-weight: bold; }
+    }
+
+    .cards-body {
+        display: flex;
+        flex-wrap: wrap;
+        height: calc(100vh - 232px);
+        overflow: auto;
+
+        > * { flex-basis: 50%; max-width: 50%; }
+    }
+
+    .footer.button-area {
+        align-items: center;
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+        left: 50%;
+        margin: 10px auto;
+        position: absolute;
+        transform: translateX(-50%);
+        width: 50%;
+
+        div.btn-group > button  { margin-right: 10px; }
+
+        .selected {
+            > span { color: var(--default-green-dark-color); font-weight: 600; }
+         }
+    }
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix { margin-top: 5px; padding: 0.4em 0 0 0; }
+::ng-deep .mat-input-element { cursor: pointer; font-size: 0.9rem!important; }
+::ng-deep .mat-date-range-input-end-wrapper > input,
+::ng-deep .mat-date-range-input-separator { margin-bottom: 3px; }
+
+.wizard-container {
+  display: flex;
+}
+
+.wizard-sidebar {
+  background: #eee;
+  height: calc(100vh - 279px);
+  padding: 20px;
+  text-align: left;
+  width: 20%;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        padding: 5px 0 0;
+        cursor: pointer;
+
+        &.active { font-weight: bold; }
+    }
+  }
+}
+
+.wizard-content {
+  width: 80%;
+  padding: 20px;
+
+  &.all { width: 100%; }
+}
+
+.wizard-step {
+  display: none;
+}
+
+.wizard-navigation {
+  margin-top: 20px;
+}
+
+.wizard-navigation button {
+  margin-right: 10px;
+}

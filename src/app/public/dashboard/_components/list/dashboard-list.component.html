@@ -1,0 +1,59 @@
+<div class="vazio" *ngIf="publicCalls.length <= 0">
+    Nenhuma chamada foi encontrada
+</div>
+
+<ul class="lista" *ngIf="publicCalls.length > 0">
+    <perfect-scrollbar>
+        <li class="item" *ngFor="let publicCall of publicCalls">
+            <div class="col chamada-publica flex-grow-4">
+                <p class="type">{{publicCall.type}}</p>
+                <h3 class="truncate" title="{{publicCall.name}}">
+                    <a routerLink="{{publicCall.id}}"></a>{{publicCall.name}}
+                    <small> - {{publicCall.status_name}}</small>
+                    <p class="font-weight-normal" *ngIf="publicCall.foods && publicCall.foods.length > 0">
+                        Chamada número: <b>{{publicCall.number}}</b>
+                    </p>   
+                </h3>
+                
+                <p class="inscricoes-info-mobile-only" *ngIf="publicCall.foods && publicCall.foods.length > 0">
+                    Produto<span *ngIf="publicCall.foods.length > 1">s</span>: 
+                    <b *ngIf="publicCall.foods.length <= 1; else more_than_one_food">
+                        {{publicCall.foods[0].food_name}} - {{ publicCall.foods[0].quantity | number }} {{publicCall.foods[0].measure_unit}} - {{ publicCall.foods[0].price | currency:'BRL' }}/{{publicCall.foods[0].measure_unit}}
+                    </b>
+                    <ng-template #more_than_one_food>
+                        <div *ngFor="let food of publicCall.foods">
+                            - <b>{{food.food_name}} - {{ food.quantity | number }} {{food.measure_unit}} - {{ food.price | currency:'BRL' }}/{{food.measure_unit}}</b>
+                        </div>
+                    </ng-template>
+                </p>
+
+                <hr />
+                <p class="inscricoes-info-mobile-only" *ngIf="publicCall.foods && publicCall.foods.length > 0">
+                    Quantidade: <b>{{publicCall.foods[0].quantity | number}} {{publicCall.foods[0].measure_unit}}</b>
+                </p>                
+                <p class="inscricoes-info-mobile-only">Estimativa de Entrega: <b>{{publicCall.delivery_information}}</b></p>
+                <p class="inscricoes-info-mobile-only">Envio de Documentos de <b>{{publicCall.registration_start_date |
+                    date:'dd/MM/yyyy'}}</b> até <b>{{publicCall.registration_end_date | date:'dd/MM/yyyy'}}</b></p>
+                <p class="inscricoes-info-mobile-only" *ngIf="publicCall.is_active">
+                    Sessão Pública Eletrônica em <b>{{publicCall.public_session_date | date:'dd/MM/yyyy HH:mm'}}</b>
+                    <span *ngIf="publicCall.public_session_date_greater_than_today">
+                        - 
+                        Acesse através do
+                        <a href="javascript:void(0)" (click)="redirectToPublicSession(publicCall.id)">link aqui <i class="icon-share-alt"></i></a>
+                    </span>
+                </p>
+
+                <hr />
+                
+                <p class="inscricoes-info-mobile-only">Objeto: <span [innerHTML]="publicCall.notice_object"></span></p>
+            </div>
+            <div class="col mais-info d-flex align-items-center justify-content-center">
+                <!-- <a (click)="navigateToDetail(chamada.id)" class="qtde">
+                    <b>6</b>
+                    <span>Quantidade de Vagas</span>
+                </a> -->
+                <button *ngIf="publicCall.showParticipateButton" class="btn btn-primary" (click)="signUp(publicCall)">Participar</button>
+            </div>
+        </li>
+    </perfect-scrollbar>
+</ul>

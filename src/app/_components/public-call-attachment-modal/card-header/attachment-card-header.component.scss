@@ -1,0 +1,33 @@
+.card-attach-history-header-pdf {
+    .card-attach-pdf-container {
+        background-color: var(--default-gray-cultured);
+        padding: 5px 0;
+        width: 180px;
+
+        &.bigger { 
+            width: 230px;
+
+            .file-name { max-width: 185px!important; }
+        }
+
+        .card-attach-pdf {
+            align-items: center;
+            background-color: #D82929;
+            border: none;
+            border-radius: 4px;
+            color: var(--default-white);
+            display: flex;
+            font-size: 0.7rem;
+            font-weight: bold;
+            height: 25px;
+            justify-content: center;
+            width: 25px;
+        }
+
+        .card-attach-file {
+            font-size: 0.6rem;
+
+            .file-name { max-width: 115px; }
+        }
+    }
+}

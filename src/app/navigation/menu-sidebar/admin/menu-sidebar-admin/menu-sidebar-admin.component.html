@@ -1,0 +1,67 @@
+<div class="overlay" (click)="toggleMenu()"></div>
+<nav class="sidebar" *ngIf="show">
+    <div class="toggle-menu" (click)="toggleMenu()">
+        <fa-icon [icon]="isOpened ? faIcons.arrowLeft : faIcons.arrowRight"></fa-icon>
+    </div>
+ 
+    <ul class="list-unstyled menu-elements">
+        <li></li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/chamadas-publicas' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/chamadas-publicas')" title="Chamadas Públicas"><fa-icon [icon]="faIcons.home"></fa-icon> <span>Home</span></a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/solicitacoes-alteracoes' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/solicitacoes-alteracoes')" title="Solicitações de Alteração">
+                <fa-icon [icon]="faIcons.exchange"></fa-icon> <span>Solicitações de Alteração</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/categoria' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/categoria')" title="Categorias de Gêneros Alimentícios">
+                <fa-icon [icon]="faIcons.utensils"></fa-icon> <span>Categorias</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/alimento' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/alimento')" title="Gêneros Alimentícios">
+                <fa-icon [icon]="faIcons.appleAlt"></fa-icon> <span>Gêneros Alimentícios</span>
+            </a>
+        </li>
+        <!-- <li [ngClass]="{ 'active': activeUrl === '/admin/cooperado' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/cooperado')" title="Cooperados">
+                <fa-icon [icon]="faIcons.users"></fa-icon> <span>Cooperados</span>
+            </a>
+        </li> -->
+        <li [ngClass]="{ 'active': activeUrl === '/admin/cooperativa' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/cooperativa')" title="Cooperativas">
+                <fa-icon [icon]="faIcons.building"></fa-icon> <span>Cooperativas</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/tipo-documento' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/tipo-documento')" title="Tipos de Documento">
+                <fa-icon [icon]="faIcons.fileLines"></fa-icon> <span>Tipos de Documento</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/usuario' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/usuario')" title="Usuários">
+                <fa-icon [icon]="faIcons.user"></fa-icon> <span>Usuários</span>
+            </a>
+        </li>
+        <!-- <li>
+            <a href="#cadastros" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle" role="button" aria-controls="cadastros">
+                Cadastros
+            </a>
+            <ul class="collapse list-unstyled" id="cadastros">
+                <li>
+                    <a class="scroll-link" routerLink="/admin/cadastro/cooperado"><fa-icon [icon]="faIcons.users"></fa-icon> Cooperados</a>
+                </li>
+                <li>
+                    <a class="scroll-link" routerLink="/admin/cadastro/cooperativa"><fa-icon [icon]="faIcons.building"></fa-icon> Cooperativas</a>
+                </li>
+                <li>
+                    <a class="scroll-link" routerLink="/admin/cadastro/tipo-documento"><fa-icon [icon]="faIcons.fileLines"></fa-icon> Tipos de Documento</a>
+                </li>
+                <li>
+                    <a class="scroll-link" routerLink="/admin/cadastro/usuario"><fa-icon [icon]="faIcons.user"></fa-icon> Usuários</a>
+                </li>
+            </ul>
+        </li> -->
+    </ul>
+</nav>
