@@ -29,7 +29,7 @@ pipeline {
           steps {
             script {
               imagename1 = "registry.sme.prefeitura.sp.gov.br/${env.branchname}/cpcodae-frontend"
-              dockerImage1 = docker.build(imagename1, "--build-arg ENVIRON=build-${env.branchname} -f Dockerfile .")
+              dockerImage1 = docker.build(imagename1, "--build-arg ENVIRON=${env.branchname} -f Dockerfile .")
               docker.withRegistry( 'https://registry.sme.prefeitura.sp.gov.br', registryCredential ) {
               dockerImage1.push()
               }

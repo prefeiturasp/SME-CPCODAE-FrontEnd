@@ -1,13 +1,13 @@
 FROM node:latest AS builder
 
 ARG ENVIRON
-WORKDIR /app
 
+WORKDIR /app
 
 COPY . .
 
 RUN npm install
-#RUN cat package-lock.json
+
 RUN npm run build-${ENVIRON}
 
 FROM nginx:alpine AS runner
