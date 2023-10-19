@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build-master": "ng build --c=production",
     "build-development": "ng build --c=development",
-    "build-homolog": "ng build --c=release",
+    "build-homolog": "ng build --c=homolog",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
