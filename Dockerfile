@@ -1,4 +1,4 @@
-FROM node:latest AS builder
+FROM node:20.8.1-bullseye AS builder
 
 ARG ENVIRON
 
