@@ -1,0 +1,41 @@
+<div class="fale-conosco registration-page-container">
+    <header>
+        <h2>Fale Conosco</h2>
+    </header>
+    <form [formGroup]="faleConoscoForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Assunto</label>
+                            <input type="text" id="title" name="title" formControlName="title" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+                                placeholder="Digite o assunto do e-mail" maxlength="50" />
+                            <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
+                                <div *ngIf="f['title'].errors['required']">O assunto do e-mail é obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Mensagem</label>
+                            <textarea id="message" name="message" formControlName="message" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f['message'].errors }" rows="8"
+                                    placeholder="Digite sua mensagem"></textarea>
+                            <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
+                                <div *ngIf="f['message'].errors['required']">A mensagem do e-mail é obrigatória</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Enviar</button>
+        </div>
+    </form>
+</div>

@@ -8,6 +8,7 @@ import { CooperativeComponent } from './cooperative.component';
 import { CooperativeDashboardComponent } from './dashboard/dashboard.component';
 import { CooperativeDocumentsComponent } from './documents/documents.component';
 import { CooperativeEmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { CooperativeFaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { CooperativeGeneralDataComponent } from './general-data/general-data.component';
 import { CooperativeMembersComponent } from './members/members.component';
 import { ProposalComponent } from './proposal/proposal.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
       { path: 'cooperados', canActivate: [CooperativeGuard], component: CooperativeMembersComponent },
       { path: 'dados-gerais', canActivate: [CooperativeGuard], component: CooperativeGeneralDataComponent },
       { path: 'documentos', canActivate: [CooperativeGuard], component: CooperativeDocumentsComponent },
+      { path: 'fale-conosco', canActivate: [CooperativeGuard], component: CooperativeFaleConoscoComponent },
       { path: 'minhas-propostas', canActivate: [CooperativeGuard], component: CooperativeDashboardComponent },
       { path: ':id', canActivate: [CooperativeGuard], component: ProfileComponent }
     ]

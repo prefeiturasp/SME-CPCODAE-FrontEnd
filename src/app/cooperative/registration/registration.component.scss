@@ -27,14 +27,14 @@
 
             ::ng-deep {
                 >div {
-                    display: flex;
-                    justify-content: center;
+                    margin: 0 30px;
+                    width: auto;
                 }
             }
         }
 
         .auto-form-wrapper {
-            width: 700px;
+            //width: 700px;
 
             form {
                 .form-group {

@@ -50,9 +50,7 @@ export class ProposalUploadMembersComponent implements OnInit {
         private modalService: NgbModal
     ) { }
 
-    ngOnInit(): void {
-
-    }
+    ngOnInit(): void { }
 
     async addFile() {
         $(".upload:hidden").val('');
@@ -94,6 +92,7 @@ export class ProposalUploadMembersComponent implements OnInit {
         }
 
         this.notificationService.showSuccess('Cooperados importados com sucesso', 'Sucesso!');
+
         this.onSave.emit(newMembersList);
         this.modal.dismiss();
     }
@@ -230,7 +229,7 @@ export class ProposalUploadMembersComponent implements OnInit {
             const duplicatedLines = duplicatedLineIndexes.filter((d: any) => ctr === d.index);
 
             duplicatedLines.forEach((duplicatedLine: any) => {
-                instanceComponent.errors.push({ linha: duplicatedLine.index + 1, mensagem: `Este cooperado já foi adicionado antes (${duplicatedLine.type})` });
+                instanceComponent.errors.push({ linha: duplicatedLine.index + 1, mensagem: `${duplicatedLine.type} em duplicidade` });
                 return;
             });
 

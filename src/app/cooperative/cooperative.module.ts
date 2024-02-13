@@ -8,6 +8,7 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { ProposalComponentsModule } from '../_modules/proposal-components.module';
 
 import { CooperativeService } from './cooperative.service';
+import { CooperativeFaleConoscoService } from './fale-conosco/fale-conosco.service';
 import { ProposalService } from './proposal/proposal.service';
 
 import { CooperativeGuard } from '../_services/_guards/cooperative.guard';
@@ -18,6 +19,7 @@ import { CooperativeDashboardAcceptModalComponent } from './dashboard/modal/acce
 import { CooperativeDashboardListComponent } from './dashboard/list/dashboard-list.component';
 import { CooperativeDocumentsComponent } from './documents/documents.component';
 import { CooperativeEmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { CooperativeFaleConoscoComponent } from './fale-conosco/fale-conosco.component';
 import { CooperativeGeneralDataComponent } from './general-data/general-data.component';
 import { CooperativeMembersComponent } from './members/members.component';
 import { CooperativeProposalCheckoutComponent } from './proposal/checkout/proposal-checkout.component';
@@ -44,6 +46,7 @@ import { SearchDropdown } from '../_components/search-dropdown/search-dropdown.c
     CooperativeDashboardListComponent,
     CooperativeDocumentsComponent,
     CooperativeEmailConfirmationComponent,
+    CooperativeFaleConoscoComponent,
     CooperativeGeneralDataComponent,
     CooperativeProposalCheckoutComponent,
     CooperativeMembersComponent,
@@ -74,6 +77,7 @@ import { SearchDropdown } from '../_components/search-dropdown/search-dropdown.c
     CooperativeGuard,
     
     CooperativeDashboardService,
+    CooperativeFaleConoscoService,
     CooperativeService,
     ProposalService
   ],

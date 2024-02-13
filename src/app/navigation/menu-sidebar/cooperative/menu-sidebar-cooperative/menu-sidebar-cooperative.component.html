@@ -30,5 +30,10 @@
                 <fa-icon [icon]="faIcons.fileLines"></fa-icon> <span>Documentos</span>
             </a>
         </li>
+        <li [ngClass]="{ 'active': activeUrl === '/cooperativa/fale-conosco' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/cooperativa/fale-conosco')" title="Fale Conosco">
+                <fa-icon [icon]="faIcons.contact"></fa-icon> <span>Fale Conosco</span>
+            </a>
+        </li>
     </ul>
 </nav>

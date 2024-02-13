@@ -5,6 +5,8 @@ export class CooperativeDeliveryInfo {
     public_call_answer_id: string;
     food_id: string;
     name: string;
+    acronym: string;
+    cnpj: string;
     location: string;
     city_members_total: number;
     daps_fisicas_total: number;
@@ -36,6 +38,8 @@ export class CooperativeDeliveryInfo {
         this.public_call_answer_id = '';
         this.food_id = '';
         this.name = '';
+        this.acronym = '';
+        this.cnpj = '';
         this.location = '';
         this.city_members_total = 0;
         this.daps_fisicas_total = 0;

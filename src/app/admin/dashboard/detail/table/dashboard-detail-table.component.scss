@@ -19,6 +19,7 @@ section.dashboard-detail-table {
     header {
         background-color: #FFF;
         display: flex;
+        font-size: 15px;
         font-weight: bold;
         margin-bottom: 0;
         padding: 5px;
@@ -32,6 +33,7 @@ section.dashboard-detail-table {
 
     .table-row {
         display: flex;
+        font-size: 15px;
         line-height: 40px;
 
         &:nth-child(even) { background-color: #eee; }

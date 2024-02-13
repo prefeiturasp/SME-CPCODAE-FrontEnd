@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { faMapMarkerAlt, faPercentage, faSeedling, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faMapMarkerAlt, faPercentage, faSeedling, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AdminPublicCallService } from 'src/app/admin/public-call/public-call.service';
@@ -10,7 +10,7 @@ import { CooperativeDeliveryInfo } from 'src/app/_models/cooperative-delivery-in
 import { CooperativeDocument } from 'src/app/_models/cooperative-document.model';
 import { PublicCall } from 'src/app/_models/public-call.model';
 import { PublicCallFood } from 'src/app/_models/public-call-food.model';
-import { convertJsonToCSV } from 'src/app/_utils/geral';
+import { convertJsonToCSV, copyToClipboard } from 'src/app/_utils/geral';
 
 declare const $: any;
 declare const convertToSlug: any;
@@ -31,7 +31,17 @@ export class AdminDashboardDetailTableComponent {
         public publicCallService: AdminPublicCallService,
         private modalService: NgbModal,
     ) {
-        this.faIcons = { goodLocationAlt: faMapMarkerAlt, inclusiveCooperative: faUsers, organic: faSeedling, percentage: faPercentage };
+        this.faIcons = { copy: faCopy, goodLocationAlt: faMapMarkerAlt, inclusiveCooperative: faUsers, organic: faSeedling, percentage: faPercentage };
+    }
+
+    copyToClipboardCnpj(text: string) {
+      if (!text)
+          return;
+
+        text = text.trim();
+        copyToClipboard(text);
+
+        this.notificationService.showSuccess('Cnpj copiado', 'Sucesso!');
     }
 
     downloadValidationReport(cooperative_id: string) {

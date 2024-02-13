@@ -75,7 +75,7 @@
                         <div class="form-group">
                             <label class="dois-pontos">{{ isDap ? 'DAP' : 'CAF' }}</label>
                             <input type="text" id="dap_caf_code" name="dap_caf_code" formControlName="dap_caf_code" class="form-control text-transform-uppercase" maxlength="25"
-                                [ngClass]="{ 'is-invalid': submitted && f['dap_caf_code'].errors }" placeholder="Digite a DAP" />
+                                [ngClass]="{ 'is-invalid': submitted && f['dap_caf_code'].errors }" placeholder="Digite a DAP" prevent-space />
                             <div *ngIf="submitted && f['dap_caf_code'].errors" class="invalid-feedback">
                                 <div *ngIf="f['dap_caf_code'].errors['required']">A {{ isDap ? 'DAP' : 'CAF' }} é obrigatória</div>
                                 <div *ngIf="f['dap_caf_code'].errors['DapCafAlreadyExistsValidator']">Esta {{ isDap ? 'DAP' : 'CAF' }} já foi registrada</div>

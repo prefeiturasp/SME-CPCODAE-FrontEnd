@@ -125,7 +125,7 @@
                         <div class="form-group">
                             <label class="dois-pontos">{{ isDap ? 'DAP' : 'CAF' }}</label>
                             <input type="text" id="dap_caf_code" name="dap_caf_code" formControlName="dap_caf_code" class="form-control text-transform-uppercase" maxlength="25"
-                                [ngClass]="{ 'is-invalid': submitted && f['dap_caf_code'].errors }" placeholder="Digite a DAP" />
+                                [ngClass]="{ 'is-invalid': submitted && f['dap_caf_code'].errors }" placeholder="Digite a DAP" prevent-space />
                             <div *ngIf="submitted && f['dap_caf_code'].errors" class="invalid-feedback">
                                 <div *ngIf="f['dap_caf_code'].errors['required']">A {{ isDap ? 'DAP' : 'CAF' }} é obrigatória</div>
                                 <div *ngIf="f['dap_caf_code'].errors['DapCafAlreadyExistsValidator']">Esta {{ isDap ? 'DAP' : 'CAF' }} já foi registrada</div>
@@ -170,6 +170,7 @@
                             <label class="dois-pontos">E-mail da Cooperativa</label>
                             <input type="email" id="email" name="email" formControlName="email" class="form-control text-tranform-lowercase" maxlength="200"
                                 [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+                            <small id="email" class="form-text text-muted">e-mail para contato com a organização sobre a documentação</small>
                             <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
                                 <div *ngIf="f['email'].errors['required']">O e-mail é obrigatório</div>
                                 <div *ngIf="f['email'].errors['email']">Formato de e-mail inválido</div>

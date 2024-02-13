@@ -278,7 +278,7 @@ export class ProposalComponent implements OnInit {
 
   importCoop(content: any) {
     this.clearCoop();
-    this.modalService.open(content, { centered: true, size: 'lg' });
+    this.modalService.open(content, { centered: true, size: 'xl' });
   }
 
   loadMessages(loadAnswerData: boolean) {

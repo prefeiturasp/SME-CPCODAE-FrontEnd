@@ -24,65 +24,68 @@
                             <div class="row mb-10">
                                 <div class="col-md-10 mb-10">
                                     <div class="form-group">
-                                        <label class="dois-pontos">Assentados/as pelo PNRA</label>
+                                        <label class="dois-pontos">Percentual de Associados Assentados PNRA (%)</label>
                                         <input type="text" id="pnra_settlement_total" name="pnra_settlement_total"
-                                            formControlName="pnra_settlement_total" class="form-control" maxlength="4"
-                                            mask="0000" [ngClass]="{ 'is-invalid': submitted && f!['pnra_settlement_total'].errors }" />
+                                            formControlName="pnra_settlement_total" class="form-control" maxlength="3"
+                                            mask="000" [ngClass]="{ 'is-invalid': submitted && f!['pnra_settlement_total'].errors }" />
                                         <div *ngIf="submitted && f!['pnra_settlement_total'].errors" class="invalid-feedback">
-                                            <div *ngIf="f!['pnra_settlement_total'].errors['required']">O nro de assentados/as
-                                                pelo PNRA é obrigatório</div>
+                                            <div *ngIf="f!['pnra_settlement_total'].errors['required']">O percentual de associados assentados PNRA é obrigatório</div>
+                                            <div *ngIf="f!['pnra_settlement_total'].errors['max']">O percentual de associados assentados PNRA deve ser menor ou igual a 100%</div>
                                         </div>
                                     </div>
                                 </div>
     
                                 <div class="col-md-10 mb-10">
                                     <div class="form-group">
-                                        <label class="dois-pontos">Comunidade Indígena</label>
+                                        <label class="dois-pontos">Percentual de Associados Indígenas (%)</label>
                                         <input type="text" id="indigenous_community_total" name="indigenous_community_total"
-                                            formControlName="indigenous_community_total" class="form-control" maxlength="4"
-                                            mask="0000" [ngClass]="{ 'is-invalid': submitted && f!['indigenous_community_total'].errors }" />
+                                            formControlName="indigenous_community_total" class="form-control" maxlength="3"
+                                            mask="000" [ngClass]="{ 'is-invalid': submitted && f!['indigenous_community_total'].errors }" />
                                         <div *ngIf="submitted && f!['indigenous_community_total'].errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="f!['indigenous_community_total'].errors['required']">O nro de associados
-                                                de comunidade indígena é obrigatório</div>
+                                            <div *ngIf="f!['indigenous_community_total'].errors['required']">O percentual de associados
+                                                indígenas é obrigatório</div>
+                                            <div *ngIf="f!['indigenous_community_total'].errors['max']">O percentual de associados indígenas deve ser menor ou igual a 100%</div>
                                         </div>
                                     </div>
                                 </div>
     
                                 <div class="col-md-10 mb-10">
                                     <div class="form-group">
-                                        <label class="dois-pontos">Comunidade Quilombola</label>
+                                        <label class="dois-pontos">Percentual de Associados Quilombolas (%)</label>
                                         <input type="text" id="quilombola_community_total" name="quilombola_community_total"
-                                            formControlName="quilombola_community_total" class="form-control" maxlength="4"
-                                            mask="0000" [ngClass]="{ 'is-invalid': submitted && f!['quilombola_community_total'].errors }" />
+                                            formControlName="quilombola_community_total" class="form-control" maxlength="3"
+                                            mask="000" [ngClass]="{ 'is-invalid': submitted && f!['quilombola_community_total'].errors }" />
                                         <div *ngIf="submitted && f!['quilombola_community_total'].errors"
                                             class="invalid-feedback">
-                                            <div *ngIf="f!['quilombola_community_total'].errors['required']">O nro de associados
-                                                de comunidade quilombola é obrigatório</div>
+                                            <div *ngIf="f!['quilombola_community_total'].errors['required']">O percentual de associados
+                                                quilombolas é obrigatório</div>
+                                            <div *ngIf="f!['quilombola_community_total'].errors['max']">O percentual de associados quilombolas deve ser menor ou igual a 100%</div>
                                         </div>
                                     </div>
                                 </div>
     
                                 <div class="col-md-10 mb-10">
                                     <div class="form-group">
-                                        <label class="dois-pontos">Preencha com a soma de todos os cooperados não listados nos campos acima</label>
+                                        <label class="dois-pontos">Percentual de Associados com DAP/CAF reconhecidas pelo MDA (%)</label>
                                         <input type="text" id="other_family_agro_total" name="other_family_agro_total"
-                                            formControlName="other_family_agro_total" class="form-control" maxlength="4"
-                                            mask="0000" [ngClass]="{ 'is-invalid': submitted && f!['other_family_agro_total'].errors }" />
+                                            formControlName="other_family_agro_total" class="form-control" maxlength="3"
+                                            mask="000" [ngClass]="{ 'is-invalid': submitted && f!['other_family_agro_total'].errors }" />
                                         <div *ngIf="submitted && f!['other_family_agro_total'].errors" class="invalid-feedback">
-                                            <div *ngIf="f!['other_family_agro_total'].errors['required']">A soma de todos os cooperados não listados é obrigatória</div>
+                                            <div *ngIf="f!['other_family_agro_total'].errors['required']">O percentual de associados com DAP/CAF reconhecidos pelo MDA é obrigatório</div>
+                                            <div *ngIf="f!['other_family_agro_total'].errors['max']">O percentual de associados com DAP/CAF reconhecidos pelo MDA deve ser menor ou igual a 100%</div>
                                         </div>
                                     </div>
                                 </div>
     
                                 <div class="col-md-10 mb-10">
                                     <div class="form-group">
-                                        <label class="dois-pontos">Total de Associados</label>
+                                        <label class="dois-pontos">Número Total de Associados</label>
                                         <input type="text" id="total" name="total" formControlName="total" class="form-control" maxlength="4"
                                             mask="0000" [ngClass]="{ 'is-invalid': submitted && f!['total'].errors }" />
                                         <div *ngIf="submitted && f!['total'].errors" class="invalid-feedback">
                                             <div *ngIf="f!['total'].errors['required']">O nro total é obrigatório</div>
-                                            <div *ngIf="f!['total'].errors['invalidSum']">O nro total deve ser a soma dos campos anteriores</div>
+                                            <!-- <div *ngIf="f!['total'].errors['invalidSum']">O nro total deve ser a soma dos campos anteriores</div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +128,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-10 mb-10">
+                                <!-- <div class="col-md-10 mb-10">
                                     <div class="form-group">
                                         <label class="dois-pontos">Total associados cidade</label>
                                         <input type="text" id="city_members_total" name="city_members_total"
@@ -136,15 +139,14 @@
                                             <div *ngIf="f!['city_members_total'].errors['invalidTotalCity']">O total na cidade deve ser menor ou igual ao total de associados</div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </section>
-                        <section class="fieldset">
+                        <!-- <section class="fieldset">
                             <h1>DAP's Físicas</h1>
                             <div class="row mb-10">
                                 <div class="col-md-10 mb-10">
                                     <div class="form-group">
-                                        <!-- <label class="dois-pontos">DAPs Físicas</label> -->
                                         <input type="text" id="daps_fisicas_total" name="daps_fisicas_total"
                                             formControlName="daps_fisicas_total" class="form-control" maxlength="4"
                                             mask="0000" [ngClass]="{ 'is-invalid': submitted && f!['daps_fisicas_total'].errors }" />
@@ -155,7 +157,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </section>
+                        </section> -->
                     </form>
                 </div>
             </div>

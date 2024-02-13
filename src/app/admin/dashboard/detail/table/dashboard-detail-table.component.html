@@ -1,7 +1,8 @@
 <section class="dashboard-detail-table table" *ngIf="cooperatives.length > 0">
     <header>
         <div class="col-0-12-5"></div>
-        <div class="col text-left">Cooperativa</div>
+        <div class="col-0-75 text-left">Cooperativa</div>
+        <div class="col-0-5">CNPJ</div>
         <div class="col-0-12-5"></div>
         <div class="col-0-25">Classificação</div>
         <div class="col-0-25">Valor</div>
@@ -18,7 +19,11 @@
                     <label class="form-check-label">{{(ind + 1)}}ª</label>
                 </div>
             </div>
-            <div class="col text-left truncate">{{cooperative.name}}</div>
+            <div class="col-0-75 text-left truncate" title="{{cooperative.name}}">{{cooperative.acronym}}</div>
+            <div class="col-0-5">
+                {{cooperative.cnpj}}
+                <fa-icon class="cursor-pointer ml-5" [icon]="faIcons.copy" (click)="copyToClipboardCnpj(cooperative.cnpj)"></fa-icon>
+            </div>
             <div class="col-0-12-5 action">
                 <a class="d-flex mr-5" href="javascript:void(0)" title="Relatório Validação Cooperados"
                     (click)="downloadValidationReport(cooperative.cooperative_id)">
@@ -47,17 +52,18 @@
                         </div>
                         <div *ngIf="cooperative.classification.inclusive_cooperative">Esta cooperativa está classificada como inclusiva, melhorando sua classificação no ranking.</div>
                         <div>
-                            <b>Assentados Reforma Agrária:</b> {{cooperative.pnra_settlement_total}}
+                            <b>Assentados Reforma Agrária:</b> {{cooperative.pnra_settlement_total | number : '.0-0'}}%
                             <br />
-                            <b>Indígenas:</b> {{cooperative.indigenous_community_total}}
+                            <b>Indígenas:</b> {{cooperative.indigenous_community_total | number : '.0-0'}}%
                             <br />
-                            <b>Quilombolas:</b> {{cooperative.quilombola_community_total}}
+                            <b>Quilombolas:</b> {{cooperative.quilombola_community_total | number : '.0-0'}}%
                             <br />
-                            <b>Outros:</b> {{cooperative.other_family_agro_total}}
-                            <br />
-                            <b>Total:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total}}
+                            <b>Outros:</b> {{cooperative.other_family_agro_total | number : '.0-0'}}%
+                            <!-- <br />
+                            <b>Total:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total}} -->
                             <hr />
-                            <b>Proporção:</b> {{cooperative.classification.inclusive_cooperative_percentage | number : '.0-0'}}%
+                            <!-- <b>Proporção:</b> {{cooperative.classification.inclusive_cooperative_percentage | number : '.0-0'}}% -->
+                            <b>Proporção:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total | number : '.0-0'}}%
                         </div>
                     </div>
                 </ng-template>
@@ -72,7 +78,7 @@
                     </div>
                 </ng-template>
                 <ng-template #popContentDP>
-                    <div class="popover-sme">
+                    <!-- <div class="popover-sme">
                         <div class="header green" *ngIf="cooperative.classification.daps_percentage">
                             <fa-icon [icon]="faIcons.percentage"></fa-icon>
                             <label>Porcentagem de DAPs</label>
@@ -85,7 +91,7 @@
                             <hr />
                             <b>Proporção:</b> {{cooperative.classification.daps_percentage_proportion | number : '.0-0'}}%
                         </div>
-                    </div>
+                    </div> -->
                 </ng-template>
 
                 <fa-icon [ngClass]="{ enable: cooperative.classification.good_location, disable: !cooperative.classification.good_location}"
@@ -94,8 +100,8 @@
                     [icon]="faIcons.inclusiveCooperative" [ngbPopover]="popContentIC" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
                 <fa-icon [ngClass]="{ enable: cooperative.classification.is_organic, disable: !cooperative.classification.is_organic}"
                     [icon]="faIcons.organic" [ngbPopover]="popContentIO" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
-                <fa-icon [ngClass]="{ enable: cooperative.classification.daps_percentage, disable: !cooperative.classification.daps_percentage}"
-                    [icon]="faIcons.percentage" [ngbPopover]="popContentDP" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                <!-- <fa-icon [ngClass]="{ enable: cooperative.classification.daps_percentage, disable: !cooperative.classification.daps_percentage}"
+                    [icon]="faIcons.percentage" [ngbPopover]="popContentDP" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon> -->
             </div>
             <div class="col-0-25">{{cooperative.total_price | currency:'BRL'}}</div>
             <div class="col-0-25">

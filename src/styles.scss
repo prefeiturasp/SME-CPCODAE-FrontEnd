@@ -1,6 +1,7 @@
 $simple-line-font-path: "~simple-line-icons/fonts/";
 @import "~simple-line-icons/scss/simple-line-icons";
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;600&display=swap');
 @import '@angular/cdk/overlay-prebuilt.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
@@ -55,6 +56,8 @@ $simple-line-font-path: "~simple-line-icons/fonts/";
 body, .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, .navbar.horizontal-layout, .badge, .btn, .form-control {
     font-family: $type-1 !important;
 }
+
+label { font-weight: bold; }
 
 .h-100          { height: 100% !important; }
 
@@ -377,4 +380,11 @@ fa-icon {
 @media (max-width: 1200px)
 {
     .container  { max-width: 1140px; }
+}
+
+@media (max-width: 1300px)
+{
+    .main-panel { margin-left: 60px; width: 95%; }
+    .wizard-sidebar { width: 15% !important; }
+    .wizard-content { width: 85% !important; }
 }

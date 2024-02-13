@@ -2,10 +2,11 @@ import { Component, HostListener, Input, OnDestroy } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { City, State } from 'src/app/_models/location.model';
 import { MemberInfo } from 'src/app/_models/public-call-answer.model';
-import { LoaderService } from 'src/app/_services/loader.service';
-import { LocationService } from 'src/app/_services/location.service';
 
 import { AdminPublicCallService } from 'src/app/admin/public-call/public-call.service';
+import { LoaderService } from 'src/app/_services/loader.service';
+import { LocationService } from 'src/app/_services/location.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 declare const focusOnFormError: any;
 declare const isEmpty: any;
@@ -29,6 +30,7 @@ export class CooperativeProposalCheckoutComponent implements OnDestroy {
 
   constructor(
       public publicCallService: AdminPublicCallService,
+      public notificationService: NotificationService,
       private loaderService: LoaderService,
       private locationService: LocationService,
       private formBuilder: UntypedFormBuilder,
@@ -45,14 +47,14 @@ export class CooperativeProposalCheckoutComponent implements OnDestroy {
     this.proposalForm = this.formBuilder.group({
       city_id: [0, [Validators.required, Validators.min(1)]],
       state_acronym: ['SP'],
-      city_members_total: ['', [Validators.required, this.maxTotalCityValidator()]],
-      daps_fisicas_total: ['', [Validators.required, this.maxTotalDapsValidator()]],
-      pnra_settlement_total: ['', [Validators.required]],
-      indigenous_community_total: ['', [Validators.required]],
-      quilombola_community_total: ['', [Validators.required]],
-      other_family_agro_total: ['', [Validators.required]],
-      total: ['', [Validators.required, this.sumValidator()]]
-      // total: ['', [Validators.required]]
+      // city_members_total: ['', [Validators.required, this.maxTotalCityValidator()]],
+      // daps_fisicas_total: ['', [Validators.required, this.maxTotalDapsValidator()]],
+      pnra_settlement_total: ['', [Validators.required, Validators.max(100)]],
+      indigenous_community_total: ['', [Validators.required, Validators.max(100)]],
+      quilombola_community_total: ['', [Validators.required, Validators.max(100)]],
+      other_family_agro_total: ['', [Validators.required, Validators.max(100)]],
+      // total: ['', [Validators.required, this.sumValidator()]]
+      total: ['', [Validators.required]]
     });
 
     const memberInfo: MemberInfo = JSON.parse(localStorage.getItem('memberInfo') ?? '{}');
@@ -121,18 +123,30 @@ export class CooperativeProposalCheckoutComponent implements OnDestroy {
 
       const result = parseInt(fieldPnra) + parseInt(fieldIndigenous) + parseInt(fieldQuilombola) + parseInt(fieldOther);
 
-      return result == parseInt(fieldTotal) ? null : { invalidSum: true };
+      // return result == parseInt(fieldTotal) ? null : { invalidSum: true };
+      return result <= 100 ? null : { invalidSum: true };
     };
   }
 
   validate() : boolean {
     this.submitted = true;
-    this.proposalForm!.get('total')!.updateValueAndValidity();
-    this.proposalForm!.get('city_members_total')!.updateValueAndValidity();
-    this.proposalForm!.get('daps_fisicas_total')!.updateValueAndValidity();
+    // this.proposalForm!.get('total')!.updateValueAndValidity();
+    // this.proposalForm!.get('city_members_total')!.updateValueAndValidity();
+    // this.proposalForm!.get('daps_fisicas_total')!.updateValueAndValidity();
 
     if (this.proposalForm?.invalid) {
       focusOnFormError(this.proposalForm.controls);
+      return false;
+    }
+
+    const fieldPnra = this.proposalForm?.value['pnra_settlement_total'];
+    const fieldIndigenous = this.proposalForm?.value['indigenous_community_total'];
+    const fieldQuilombola = this.proposalForm?.value['quilombola_community_total'];
+    const fieldOther = this.proposalForm?.value['other_family_agro_total'];
+    const total = parseInt(fieldPnra) + parseInt(fieldIndigenous) + parseInt(fieldQuilombola) + parseInt(fieldOther);
+
+    if (total > 100) {
+      this.notificationService.showWarning('A soma dos percentuais deve ser menor ou igual a 100%', 'Erro!');
       return false;
     }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { faArrowLeft, faArrowRight, faBuilding, faFileLines, faHome, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faBuilding, faEnvelopeOpenText, faFileLines, faHome, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from 'src/app/authorization/login/login.service';
 import { UtilsService } from 'src/app/_services/utils.service';
 
@@ -31,7 +31,7 @@ export class MenuSidebarCooperativeComponent implements OnInit {
     private loginService: LoginService,
     private utilsService: UtilsService,
     private router: Router) {
-      this.faIcons = { arrowLeft: faArrowLeft, arrowRight: faArrowRight, building: faBuilding, fileLines: faFileLines, home: faHome, users: faUsers };
+      this.faIcons = { arrowLeft: faArrowLeft, arrowRight: faArrowRight, building: faBuilding, contact: faEnvelopeOpenText, fileLines: faFileLines, home: faHome, users: faUsers };
 
     this.user = this.utilsService.localStorageUtils.getUser();
     this.cooperative = this.utilsService.localStorageUtils.getCooperative();
@@ -88,6 +88,7 @@ export class MenuSidebarCooperativeComponent implements OnInit {
 
   get show(): boolean {
     return !isEmpty(this.user) 
+      && !isEmpty(this.user!.roles)
       && this.user!.roles.includes(this.loginService.cooperativeRoleName)
       && !isEmpty(this.cooperative)
       && this.cooperative?.status === 3;

@@ -1,8 +1,16 @@
 .modal-upload-member {
+    .modal-header {
+        small {
+            font-size: 0.85rem;
+            margin-top: -7px;
+        }
+    }
+
     input[type="file"] { display: none; }
 
     ol.list {
         > li {
+            font-size: 20px;
             list-style-type: none;
             counter-increment: item;
             padding: 10px;
@@ -24,5 +32,5 @@
           }
     }
 
-    ul.list-bullets { list-style-type: disc; }
+    ul.list-bullets { font-size: 18px; list-style-type: disc; }
 }

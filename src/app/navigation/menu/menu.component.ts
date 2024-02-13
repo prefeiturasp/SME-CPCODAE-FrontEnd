@@ -30,7 +30,7 @@ export class MenuComponent {
 
     this.loggedUser = this.localStorageUtils.getUser();
     this.isLogged = !isEmpty(this.loggedUser);
-    this.currentRole = this.loggedUser?.roles[0] ?? '';
+    this.currentRole = this.isLogged && (this.loggedUser?.roles?.length ?? 0) > 0 ? (this.loggedUser?.roles[0] ?? '') : '';
 
     if (this.currentRole === 'cooperativa') {
       const cooperative = this.localStorageUtils.getCooperative();

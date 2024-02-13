@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
           ret.retorno.map((pc: PublicCall) => {
             const closed = (!pc.is_active || pc.status >= 2 || new Date(pc.registration_end_date) < new Date());
 
-            pc.showParticipateButton = (isEmpty(loggedUser) || loggedUser!.roles.includes(this.loginService.cooperativeRoleName)) && !closed;
+            pc.showParticipateButton = (isEmpty(loggedUser) || isEmpty(loggedUser!.roles) || loggedUser!.roles.includes(this.loginService.cooperativeRoleName)) && !closed;
             pc.public_session_date_greater_than_today = new Date(pc.public_session_date) >= new Date();
             pc.status_name = this.getPublicCallStatusName(pc.status);
           });
@@ -72,6 +72,20 @@ export class DashboardComponent implements OnInit {
     }
 
     return '';
+  }
+
+  get publicCallsOpen(): PublicCall[] {
+    if (!this.publicCalls)
+      return [];
+
+    let open = this.publicCalls.filter(c => 
+                          c.is_active
+                          && c.status <= PublicCallStatusEnum.emAndamento.id
+                          && c.registration_end_date
+                          && new Date(c.registration_end_date.toString()) >= new Date()
+                        );
+
+    return (isEmpty(this.searchFilter)) ? open : this.filterPublicCalls(open);
   }
 
   get publicCallsOnGoing(): PublicCall[] {

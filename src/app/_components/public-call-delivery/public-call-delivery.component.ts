@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faMapMarkerAlt, faPercentage, faSeedling, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faMapMarkerAlt, faPercentage, faSeedling, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 import { NotificationService } from 'src/app/_services/notification.service';
 import { AdminPublicCallService } from 'src/app/admin/public-call/public-call.service';
@@ -13,6 +13,7 @@ import { PublicCall } from 'src/app/_models/public-call.model';
 import { PublicCallFood } from 'src/app/_models/public-call-food.model';
 
 import { PublicCallStatusEnum } from 'src/app/_enums/public-call-status-enum';
+import { copyToClipboard } from 'src/app/_utils/geral';
 
 @Component({ selector: 'app-public-call-delivery', templateUrl: './public-call-delivery.component.html', styleUrls: ['./public-call-delivery.component.scss'] })
 export class PublicCallDeliveryComponent implements OnInit {
@@ -53,7 +54,7 @@ export class PublicCallDeliveryComponent implements OnInit {
         private modalService: NgbModal,
         private router: Router
     ) {
-        this.faIcons = { goodLocationAlt: faMapMarkerAlt, inclusiveCooperative: faUsers, organic: faSeedling, percentage: faPercentage };
+        this.faIcons = { copy: faCopy, goodLocationAlt: faMapMarkerAlt, inclusiveCooperative: faUsers, organic: faSeedling, percentage: faPercentage };
     }
 
     ngOnInit(): void {
@@ -88,6 +89,16 @@ export class PublicCallDeliveryComponent implements OnInit {
 
         this.loadDeliveryInformation(this.publicCall!.id);
         this.notificationService.showSuccess('Entrega confirmada com sucesso', 'Sucesso!');
+    }
+
+    copyToClipboardCnpj(text: string) {
+      if (!text)
+          return;
+
+        text = text.trim();
+        copyToClipboard(text);
+
+        this.notificationService.showSuccess('Cnpj copiado', 'Sucesso!');
     }
 
     onChangeStatusEvent($event: any) {

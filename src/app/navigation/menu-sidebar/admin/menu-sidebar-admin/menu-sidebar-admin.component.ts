@@ -25,7 +25,7 @@ export class MenuSidebarAdminComponent {
     private utilsService: UtilsService,
     private router: Router) {
     const user = this.utilsService.localStorageUtils.getUser();
-    this.show = !isEmpty(user) && user!.roles.includes(this.loginService.adminRoleName);
+    this.show = !isEmpty(user) && !isEmpty(user!.roles) && user!.roles.includes(this.loginService.adminRoleName);
 
     this.loginService.userLoginChanged.subscribe((ret: User) => this.updateMenuVisibility(ret));
     this.faIcons = { appleAlt: faAppleAlt, arrowLeft: faArrowLeft, arrowRight: faArrowRight, building: faBuilding, fileLines: faFileLines, home: faHome, user: faUser, users: faUsers, utensils: faUtensils, exchange: faExchange  };

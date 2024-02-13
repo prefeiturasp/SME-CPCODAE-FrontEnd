@@ -1,8 +1,8 @@
 <div class="content-wrapper registration p-0">
     <div class="col-12 d-flex align-items-center justify-content-center bg-white">
-        <div class="nav-get-started">
+        <!-- <div class="nav-get-started">
             <img src="assets/imagens/logo-preto-vertical.png" class="img-fluid">
-        </div>
+        </div> -->
         <perfect-scrollbar>
             <div class="auto-form-wrapper">
                 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" *ngIf="inRegistrationMode">
@@ -88,7 +88,7 @@
                         <div class="form-group">
                             <label class="dois-pontos">{{dapCafName}} Jurídica</label>
                             <input type="text" id="dap_caf_code" name="dap_caf_code" formControlName="dap_caf_code" class="form-control text-transform-upper"
-                                placeholder="Digite a {{dapCafName}} da Cooperativa" />
+                                placeholder="Digite a {{dapCafName}} da Cooperativa" prevent-space />
                             <div *ngIf="submitted && f['dap_caf_code'].errors" class="invalid-feedback">
                                 <div *ngIf="f['dap_caf_code'].errors['required']">A {{dapCafName}} é obrigatória</div>
                                 <div *ngIf="f['dap_caf_code'].errors['dapAlreadyExists']">Esta {{dapCafName}} já foi registrada</div>

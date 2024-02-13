@@ -25,7 +25,7 @@ export class MenuSidebarLogisticComponent {
     private utilsService: UtilsService,
     private router: Router) {
       const user = this.utilsService.localStorageUtils.getUser();
-      this.show = !isEmpty(user) && user!.roles.includes(this.loginService.logisticRoleName);
+      this.show = !isEmpty(user) && !isEmpty(user!.roles) && user!.roles.includes(this.loginService.logisticRoleName);
 
       this.loginService.userLoginChanged.subscribe((ret: User) => this.updateMenuVisibility(ret));
       this.faIcons = { arrowLeft: faArrowLeft, arrowRight: faArrowRight, home: faHome };

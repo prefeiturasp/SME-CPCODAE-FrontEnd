@@ -31,6 +31,7 @@ import { UtilsService } from '../_services/utils.service';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { ProfileComponent } from '../profile/profile.component';
+import { PreventSpaceDirective } from '../_utils/directives/prevent-keys.directive';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = { suppressScrollX: true };
 const DEFAULT_CURRENCY_MASK_CONFIG: CurrencyMaskConfig = { align: "right", allowNegative: true, decimal: ",", precision: 2, prefix: "R$ ", suffix: "", thousands: "." };
@@ -38,7 +39,8 @@ const DEFAULT_MASK_CONFIG: () => Partial<IConfig> = () => { return { validation:
 
 @NgModule({
   declarations: [
-    ProfileComponent
+    ProfileComponent,
+    PreventSpaceDirective
   ],
   imports: [
     CommonModule,
@@ -86,7 +88,9 @@ const DEFAULT_MASK_CONFIG: () => Partial<IConfig> = () => { return { validation:
     NgbModule,
     PdfViewerModule,
     PerfectScrollbarModule,
-    ToastrModule
+    ToastrModule,
+
+    PreventSpaceDirective
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: DEFAULT_CURRENCY_MASK_CONFIG },

@@ -5,7 +5,7 @@
                 <label class="dois-pontos">DAP/CAF do Cooperado</label>
                 <div class="input-group">
                     <input type="text" id="dap" name="dap" class="form-control text-transform-upper"
-                        [(ngModel)]="member.dap_caf_code" />
+                        [(ngModel)]="member.dap_caf_code" prevent-space />
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-primary" (click)="findMember()"
                             [disabled]="!member || !member.dap_caf_code || member.dap_caf_code.length <= 0">
