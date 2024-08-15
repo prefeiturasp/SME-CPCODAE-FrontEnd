@@ -11,8 +11,8 @@ export class AdminCooperativeService {
 
     constructor(private settingsService: SettingsService) { }
 
-    add(user: Cooperative) {
-        const body = { name: user.name,  };
+    add(cooperative: Cooperative) {
+        const body = { name: cooperative.name };
         return this.settingsService.executePost(this.domain, body);
     }
 
@@ -40,13 +40,14 @@ export class AdminCooperativeService {
             id: cooperative.id,
             acronym: cooperative.acronym,
             address: cooperative.address,
-            // bank: cooperative.bank,
+            bank: cooperative.bank,
             cnpj: cooperative.cnpj,
             cnpj_central: cooperative.cnpj_central,
             dap_caf_code: cooperative.dap_caf_code,
             email: cooperative.email,
             name: cooperative.name,
             phone: cooperative.phone,
+            logo: cooperative.logo,
             legal_representative: cooperative.legal_representative,
             daps_fisicas_total: cooperative.daps_fisicas_total,
             indigenous_community_total: cooperative.indigenous_community_total,

@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { BoardOfAssociatesComponent } from "./board-of-associates/board-of-associates.component";
+import { BoardOfAssociatesModalComponent } from "./board-of-associates-modal/board-of-associates-modal.component";
 import { CircleProgressComponent } from "./circle-progress/circle-progress.component";
 import { GridViewComponent } from "./grid-view/grid-view.component";
 import { PaginationComponent } from "./pagination/pagination.component";
@@ -19,16 +21,21 @@ import { PublicCallDeliveryModalComponent } from "./public-call-delivery/modal/p
 import { PublicCallDeliveryTimelineComponent } from "./public-call-delivery-timeline/public-call-delivery-timeline.component";
 import { PublicCallDetailHeaderComponent } from "./public-call-detail-header/public-call-detail-header.component";
 import { PublicCallStatusComponent } from "./public-call-status/public-call-status.component";
+import { SearchDropdown } from '../_components/search-dropdown/search-dropdown.component';
 
 import { MenuService } from "../navigation/menu/menu.service";
 
 import { CoreModule } from "../_modules/core.module";
+import { PdfViewerComponent } from "./pdf-viewer/pdf-viewer.component";
 
 @NgModule({
     declarations: [
+        BoardOfAssociatesComponent,
+        BoardOfAssociatesModalComponent,
         CircleProgressComponent,
         GridViewComponent,
         PaginationComponent,
+        PdfViewerComponent,
         PublicCallAttachmentModalComponent,
         PublicCallAttachmentCardHeaderComponent,
         PublicCallCommentsModalComponent,
@@ -38,7 +45,8 @@ import { CoreModule } from "../_modules/core.module";
         PublicCallDeliveryComponent,
         PublicCallDeliveryModalComponent,
         PublicCallDeliveryTimelineComponent,
-        PublicCallStatusComponent
+        PublicCallStatusComponent,
+        SearchDropdown
     ],
     imports: [
         CommonModule,
@@ -50,9 +58,12 @@ import { CoreModule } from "../_modules/core.module";
         CoreModule
     ],
     exports: [
+        BoardOfAssociatesComponent,
+        BoardOfAssociatesModalComponent,
         CircleProgressComponent,
         GridViewComponent,
         PaginationComponent,
+        PdfViewerComponent,
         PublicCallAttachmentModalComponent,
         PublicCallAttachmentCardHeaderComponent,
         PublicCallCommentsModalComponent,
@@ -62,7 +73,8 @@ import { CoreModule } from "../_modules/core.module";
         PublicCallDeliveryModalComponent,
         PublicCallDeliveryTimelineComponent,
         PublicCallDetailHeaderComponent,
-        PublicCallStatusComponent
+        PublicCallStatusComponent,
+        SearchDropdown
     ],
     providers: [
         MenuService

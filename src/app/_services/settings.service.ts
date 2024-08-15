@@ -17,6 +17,11 @@ export class SettingsService {
         return this.http.get<any>(`${this.getApiUrl()}/${url}`);
     }
 
+    executeGetBlob(url: string)
+    {
+        return this.http.get<any>(`${this.getApiUrl()}/${url}`, { responseType: 'blob' as any });
+    }
+
     executePost(url: string, body: any)
     {
         return this.http.post<any>(`${this.getApiUrl()}/${url}`, body);

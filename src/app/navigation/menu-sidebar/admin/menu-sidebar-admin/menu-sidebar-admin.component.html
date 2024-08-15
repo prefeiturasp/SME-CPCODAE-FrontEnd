@@ -29,6 +29,12 @@
                 <fa-icon [icon]="faIcons.users"></fa-icon> <span>Cooperados</span>
             </a>
         </li> -->
+        
+        <li [ngClass]="{ 'active': activeUrl === '/admin/fale-conosco' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/fale-conosco')" title="Fale Conosco">
+                <fa-icon [icon]="faIcons.contact"></fa-icon> <span>Fale Conosco</span>
+            </a>
+        </li>
         <li [ngClass]="{ 'active': activeUrl === '/admin/cooperativa' }">
             <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/cooperativa')" title="Cooperativas">
                 <fa-icon [icon]="faIcons.building"></fa-icon> <span>Cooperativas</span>
@@ -42,6 +48,11 @@
         <li [ngClass]="{ 'active': activeUrl === '/admin/usuario' }">
             <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/usuario')" title="Usuários">
                 <fa-icon [icon]="faIcons.user"></fa-icon> <span>Usuários</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/admin/configuracoes' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/admin/configuracoes')" title="Configurações">
+                <fa-icon [icon]="faIcons.configuration"></fa-icon> <span>Configurações</span>
             </a>
         </li>
         <!-- <li>

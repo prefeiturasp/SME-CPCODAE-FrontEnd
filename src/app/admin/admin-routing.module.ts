@@ -7,6 +7,9 @@ import { AdminComponent } from './admin.component';
 import { AdminCategoryComponent } from './category/category.component';
 import { AdminCategoryRegistrationComponent } from './category/registration/category-registration.component';
 import { AdminChangeRequestsComponent } from './change-requests/change-requests.component';
+import { AdminConfigurationRegistrationComponent } from './configuration/configuration-registration.component';
+import { AdminContactComponent } from './contact/contact.component';
+import { AdminContactViewComponent } from './contact/view/contact-view.component';
 import { AdminCooperativeComponent } from './cooperative/cooperative.component';
 import { AdminCooperativeRegistrationComponent } from './cooperative/registration/cooperative-registration.component';
 import { AdminCooperativeMemberComponent } from './cooperative-member/cooperative-member.component';
@@ -30,6 +33,9 @@ const routes: Routes = [
       { path: 'alimento/:id', canActivate: [AdminGuard], component: AdminFoodRegistrationComponent },
       { path: 'categoria', canActivate: [AdminGuard], component: AdminCategoryComponent },
       { path: 'categoria/:id', canActivate: [AdminGuard], component: AdminCategoryRegistrationComponent },
+      { path: 'fale-conosco', canActivate: [AdminGuard], component: AdminContactComponent },
+      { path: 'fale-conosco/:id', canActivate: [AdminGuard], component: AdminContactViewComponent },
+      { path: 'configuracoes', canActivate: [AdminGuard], component: AdminConfigurationRegistrationComponent },
       { path: 'solicitacoes-alteracoes', canActivate: [AdminGuard], component: AdminChangeRequestsComponent },
       { path: 'chamadas-publicas', canActivate: [AdminGuard], component: AdminDashboardComponent },
       { path: 'chamadas-publicas/:id', canActivate: [AdminGuard], component: AdminPublicCallComponent },

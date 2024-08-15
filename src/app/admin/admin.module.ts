@@ -11,6 +11,9 @@ import { AdminComponent } from './admin.component';
 import { AdminCategoryComponent } from './category/category.component';
 import { AdminCategoryRegistrationComponent } from './category/registration/category-registration.component';
 import { AdminChangeRequestsComponent } from './change-requests/change-requests.component';
+import { AdminConfigurationRegistrationComponent } from './configuration/configuration-registration.component';
+import { AdminContactComponent } from './contact/contact.component';
+import { AdminContactViewComponent } from './contact/view/contact-view.component';
 import { AdminCooperativeComponent } from './cooperative/cooperative.component';
 import { AdminCooperativeRegistrationComponent } from './cooperative/registration/cooperative-registration.component';
 import { AdminCooperativeMemberComponent } from './cooperative-member/cooperative-member.component';
@@ -31,11 +34,13 @@ import { AdminUserRegistrationComponent } from './user/registration/user-registr
 
 import { AdminGuard } from '../_services/_guards/admin.guard';
 import { AdminCategoryService } from './category/category.service';
+import { AdminContactService } from './contact/contact.service';
 import { AdminCooperativeService } from './cooperative/cooperative.service';
 import { AdminCooperativeMemberService } from './cooperative-member/cooperative-member.service';
 import { AdminDocumentTypeService } from './document-type/document-type.service';
 import { AdminFoodService } from './food/food.service';
 import { AdminPublicCallService } from './public-call/public-call.service';
+import { ConfigurationService } from '../_services/configuration.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +48,9 @@ import { AdminPublicCallService } from './public-call/public-call.service';
     AdminCategoryComponent,
     AdminCategoryRegistrationComponent,
     AdminChangeRequestsComponent,
+    AdminConfigurationRegistrationComponent,
+    AdminContactComponent,
+    AdminContactViewComponent,
     AdminCooperativeComponent,
     AdminCooperativeRegistrationComponent,
     AdminCooperativeMemberComponent,
@@ -73,11 +81,13 @@ import { AdminPublicCallService } from './public-call/public-call.service';
     AdminGuard,
 
     AdminCategoryService,
+    AdminContactService,
     AdminCooperativeService,
     AdminCooperativeMemberService,
     AdminDocumentTypeService,
     AdminFoodService,
-    AdminPublicCallService
+    AdminPublicCallService,
+    ConfigurationService
   ],
   bootstrap: [
   ],

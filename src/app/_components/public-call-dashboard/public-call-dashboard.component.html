@@ -18,6 +18,7 @@
                         <option *ngIf="availableStatus.includes(4)" [ngValue]="PublicCallStatusEnum.cronogramaExecutado.id">{{PublicCallStatusEnum.cronogramaExecutado.text}}</option>
                         <option *ngIf="availableStatus.includes(5)" [ngValue]="PublicCallStatusEnum.suspensa.id">{{PublicCallStatusEnum.suspensa.text}}</option>
                         <option *ngIf="availableStatus.includes(6)" [ngValue]="PublicCallStatusEnum.cancelada.id">{{PublicCallStatusEnum.cancelada.text}}</option>
+                        <option *ngIf="availableStatus.includes(7)" [ngValue]="PublicCallStatusEnum.deserta.id">{{PublicCallStatusEnum.deserta.text}}</option>
                     </select>
                 </div>
             </div>
@@ -33,6 +34,18 @@
                     </mat-form-field>
                 </div>
             </div>
+        </div>
+        <div class="new" *ngIf="showNewPublicCall">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Relatórios
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" (click)="generateReport(AdminReportTypeEnum.Chamadas)">Relatório Chamadas</a>
+                    <a class="dropdown-item" (click)="generateReport(AdminReportTypeEnum.Cooperativas)">Relatório Cooperativas</a>
+                    <a class="dropdown-item" (click)="generateReport(AdminReportTypeEnum.Totalizado)">Relatório Totalizado</a>
+                </ul>
+              </div>
         </div>
         <div class="new" *ngIf="showNewPublicCall">
             <button class="btn btn-primary btn-sm" (click)="goToAdd()">Nova Chamada Pública</button>

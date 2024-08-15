@@ -6,9 +6,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IConfig, NgxMaskModule } from 'ngx-mask'
+
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelect2Module } from 'ng-select2';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -16,6 +18,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -50,6 +53,7 @@ const DEFAULT_MASK_CONFIG: () => Partial<IConfig> = () => { return { validation:
     ReactiveFormsModule,
 
     AngularEditorModule,
+    ImageCropperModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
@@ -62,6 +66,7 @@ const DEFAULT_MASK_CONFIG: () => Partial<IConfig> = () => { return { validation:
     NgxMaskModule.forRoot(DEFAULT_MASK_CONFIG),
     NgxSpinnerModule,
     NgbModule,
+    NgSelect2Module,
     PdfViewerModule,
     PerfectScrollbarModule,
     ToastrModule.forRoot()
@@ -74,6 +79,7 @@ const DEFAULT_MASK_CONFIG: () => Partial<IConfig> = () => { return { validation:
     ReactiveFormsModule,
 
     AngularEditorModule,
+    ImageCropperModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
@@ -86,6 +92,7 @@ const DEFAULT_MASK_CONFIG: () => Partial<IConfig> = () => { return { validation:
     NgxMaskModule,
     NgxSpinnerModule,
     NgbModule,
+    NgSelect2Module,
     PdfViewerModule,
     PerfectScrollbarModule,
     ToastrModule,

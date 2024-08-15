@@ -8,6 +8,7 @@ export class LocalStorageUtils {
     public clearLoggedData() {
         localStorage.removeItem(this._sme_cooperative);
         localStorage.removeItem(this._sme_user);
+        localStorage.removeItem('memberInfo');
     }
 
     public getCooperative(): Cooperative | null {

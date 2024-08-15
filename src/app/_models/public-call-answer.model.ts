@@ -39,6 +39,7 @@ export class PublicCallFoodCategoryAnswer {
   pnra_settlement_total: number;
   quilombola_community_total: number;
   other_family_agro_total: number;
+  only_woman: boolean;
   is_organic: boolean;
   documents: CooperativeDocument[];
   members: any[];
@@ -55,6 +56,7 @@ export class PublicCallFoodCategoryAnswer {
     this.pnra_settlement_total = 0;
     this.quilombola_community_total = 0;
     this.other_family_agro_total = 0;
+    this.only_woman = false;
     this.is_organic = false;
     this.documents = [];
     this.members = [];
@@ -103,6 +105,7 @@ export class MemberInfo {
     pnra_settlement_total: number;
     quilombola_community_total: number;
     other_family_agro_total: number;
+    only_woman?: boolean;
     state_acronym: string;
     total: number;
   

@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AdminReportTypeEnum } from 'src/app/_enums/admin-report-type.enum';
+import { MemberInfo } from 'src/app/_models/public-call-answer.model';
 
 import { PublicCall } from 'src/app/_models/public-call.model';
 
 import { SettingsService } from 'src/app/_services/settings.service';
+import { toQueryString } from 'src/app/_utils/geral';
 
 @Injectable({ providedIn: 'root', })
 export class AdminPublicCallService {
@@ -38,10 +41,9 @@ export class AdminPublicCallService {
         return this.settingsService.executePost(url, body);
     }
 
-    confirmDeliveryPut(id: string, delivered_date: Date, delivered_quantity: number): Observable<any> {
+    confirmDeliveryPut(id: string): Observable<any> {
         const url = `${this.domain}/confirm-delivery/${id}`;
-        const body = { delivered_date, delivered_quantity };
-        return this.settingsService.executePut(url, body);
+        return this.settingsService.executePut(url, {});
     }
 
     delete(id: string): Observable<any> {
@@ -88,6 +90,17 @@ export class AdminPublicCallService {
         return this.settingsService.executeGet(url);
     }
 
+    getAllReport(params: any): Observable<any> {
+        const cooperativesReport = params.type === AdminReportTypeEnum.Cooperativas ? '/cooperativas' : '';
+
+        if (params.type === AdminReportTypeEnum.Totalizado)
+            params['isTotal'] = true;
+
+        const queryString = toQueryString(params);
+        const url = `${this.domain}/report${cooperativesReport}?${queryString}`;
+        return this.settingsService.executeGet(url);
+    }
+
     getCooperativeAllCurrentZippedDocuments(public_call_id: string, cooperative_id: string): Observable<any> {
         const url = `${this.domain}/${public_call_id}/attachments/${cooperative_id}/zip`;
         return this.settingsService.executeGet(url);
@@ -109,6 +122,11 @@ export class AdminPublicCallService {
         return this.settingsService.executePatch(url, body);
     }
 
+    setAsDeserta(id: string): Observable<any> {
+        const url = `${this.domain}/setAsDeserta/${id}`;
+        return this.settingsService.executeDelete(url);
+    }
+
     suspend(id: string): Observable<any> {
         const url = `${this.domain}/suspend/${id}`;
         return this.settingsService.executeDelete(url);
@@ -116,6 +134,12 @@ export class AdminPublicCallService {
 
     update(publicCall: PublicCall) {
         return this.settingsService.executePut(this.domain, publicCall);
+    }
+
+    updateBoardOfAssociates(public_call_id: string, cooperative_id: string, memberInfo: MemberInfo): Observable<any> {
+        const body = memberInfo;
+        const url = `${this.domain}/${public_call_id}/board-of-associates/${cooperative_id}`;
+        return this.settingsService.executePut(url, body);
     }
 
     validateMembers(public_call_answer_id: string, file_base_64: string) {

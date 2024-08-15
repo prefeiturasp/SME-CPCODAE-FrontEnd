@@ -13,6 +13,9 @@ export class CooperativeDocument {
     is_current?: boolean;
     is_reviewed?: boolean;
     application?: number;
+
+    reviewer_name?: string;
+    reviewed_date?: Date;
 }
 
 export class CooperativeDocumentGroupedDate {

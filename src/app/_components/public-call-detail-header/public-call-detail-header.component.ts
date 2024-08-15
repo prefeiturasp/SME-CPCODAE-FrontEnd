@@ -15,6 +15,7 @@ export class PublicCallDetailHeaderComponent {
   @Input() showButtons: boolean = false;
   @Input() showChart: boolean = false;
   @Output() onChangeStatusEvent = new EventEmitter<any>();
+  @Output() onDesertaEvent = new EventEmitter<any>();
   @Output() onEditEvent = new EventEmitter<any>();
   @Output() onRemoveEvent = new EventEmitter<any>();
   @Output() onSuspendEvent = new EventEmitter<any>();
@@ -38,6 +39,13 @@ export class PublicCallDetailHeaderComponent {
     this.onRemoveEvent.emit(this.publicCall!.id);
   }
 
+  public async setAsDesertaPublicCall() {
+    if (!(await this.notificationService.showConfirm('Esta chamada será definida como deserta', 'Deseja realmente continuar?')))
+      return;
+      
+    this.onDesertaEvent.emit(this.publicCall!.id);
+  }
+
   public async suspendPublicCall() {
     if (!(await this.notificationService.showConfirm('Esta chamada não será mais exibida a nenhum usuário não administrativo', 'Deseja realmente suspender?')))
       return;
@@ -45,8 +53,8 @@ export class PublicCallDetailHeaderComponent {
     this.onSuspendEvent.emit(this.publicCall!.id);
   }
 
-  public async voltarHabilitacaoPublicCall() {
-    if (!(await this.notificationService.showConfirm('Deseja realmente voltar esta chamada para a fase de habilitação?', '')))
+  public async voltarDocumentosAnalisadosPublicCall() {
+    if (!(await this.notificationService.showConfirm('Deseja realmente voltar esta chamada para a fase de documentos analisados?', '')))
       return;
 
     this.onChangeStatusEvent.emit({ public_call_id: this.publicCall!.id, status: PublicCallStatusEnum.emAndamento });

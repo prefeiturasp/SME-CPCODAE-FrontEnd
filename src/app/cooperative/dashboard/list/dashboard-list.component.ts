@@ -6,7 +6,7 @@ import { CooperativeDashboardService } from '../dashboard.service';
 
 import { PublicCallStatusEnum } from 'src/app/_enums/public-call-status-enum';
 import { CooperativePublicCallDelivery } from 'src/app/_models/cooperative-public-call-delivery.model';
-import { convertJsonToCSV, getDateWithoutTime } from 'src/app/_utils/geral';
+import { convertJsonToCSV, formatDateAsyyyyMMdd_HHmmss, getDateWithoutTime } from 'src/app/_utils/geral';
 
 declare const convertToSlug: any;
 declare const downloadFileCSV: any;
@@ -79,6 +79,28 @@ export class CooperativeDashboardListComponent {
             error: (error) => {
                 console.log(error);
                 this.notificationService.showWarning('Não foi possível encontrar a lista de membros desta proposta', 'Tente novamente mais tarde');
+            }
+        });
+    }
+
+    downloadProposalDeclaration(public_call_answer_id?: string) {
+        this.dashboardService.getProposalDeclaration(public_call_answer_id!).subscribe({
+            next: (data: Blob) => {
+                const filename = `relatorio_${formatDateAsyyyyMMdd_HHmmss(new Date())}.pdf`;
+                const blob = new Blob([data], { type: 'application/pdf' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                this.notificationService.showSuccess('Plano de Vendas gerado com sucesso', 'Sucesso');
+            },
+            error: (error) => {
+                console.log(error);
+                this.notificationService.showWarning('Não foi possível encontrar a proposta de venda', 'Tente novamente mais tarde');
             }
         });
     }

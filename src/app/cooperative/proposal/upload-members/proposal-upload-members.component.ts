@@ -34,6 +34,7 @@ export class ProposalUploadMembersComponent implements OnInit {
     @Input() proposal: PublicCallCategoryAnswer | null = null;
     @Input() selectedFood: PublicCallFood | null = null;
     @Input() isOrganic: boolean = false;
+    @Input() maximumYearSuppliedValue: number = 40000;
 
     @Output() onSave = new EventEmitter<PublicCallCategoryAnswerMember[]>();
     @Output() returnedCooperatedList = new Subject<any[]>();
@@ -281,7 +282,7 @@ export class ProposalUploadMembersComponent implements OnInit {
             // Valida que o cooperado não tenha estourado o seu limite anual de fornecimento ((quantidade * preço) + ja_fornecido <= limite)
             const totalPrice = quantity * price;
             const total_year_supplied_value = cooperativeMember?.total_year_supplied_value ?? 0;
-            const maximumAllowed = instanceComponent.utilsService.maximum_year_supplied_value - total_year_supplied_value;
+            const maximumAllowed = instanceComponent.maximumYearSuppliedValue - total_year_supplied_value;
 
             if (totalPrice > maximumAllowed) {
                 instanceComponent.errors.push({ linha: ctr, mensagem: `Com este valor, este cooperado irá exceder seu limite máximo de fornecimento anual. Ele pode fornecer até ${formatCurrency(maximumAllowed, instanceComponent.locale, 'R$')}` });

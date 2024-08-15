@@ -1,5 +1,6 @@
-export class CooperativeDeliveryInfo {
+export interface CooperativeDeliveryInfo {
     id: string;
+    city_id: number;
     cooperative_id: string;
     public_call_id: string;
     public_call_answer_id: string;
@@ -14,6 +15,7 @@ export class CooperativeDeliveryInfo {
     pnra_settlement_total: number;
     quilombola_community_total: number;
     other_family_agro_total: number;
+    only_woman: boolean;
     total_delivered: number;
     total_delivered_percentage: number;
     total_proposal: number;
@@ -30,44 +32,16 @@ export class CooperativeDeliveryInfo {
     is_selected: boolean;
     members_validated: boolean;
     was_chosen: boolean;
+    was_confirmed: boolean;
 
-    constructor() {
-        this.id = '';
-        this.cooperative_id = '';
-        this.public_call_id = '';
-        this.public_call_answer_id = '';
-        this.food_id = '';
-        this.name = '';
-        this.acronym = '';
-        this.cnpj = '';
-        this.location = '';
-        this.city_members_total = 0;
-        this.daps_fisicas_total = 0;
-        this.indigenous_community_total = 0;
-        this.pnra_settlement_total = 0;
-        this.quilombola_community_total = 0;
-        this.other_family_agro_total = 0;
-        this.total_delivered = 0;
-        this.total_delivered_percentage = 0;
-        this.total_proposal = 0;
-        this.total_price = 0;
-
-        this.classification = new CooperativeDeliveryInfoClassification();
-        this.delivery_progress = [];
-
-        this.color_class = '';
-        this.session_date_color_class = '';
-        this.session_date_percentage = 0;
-        this.is_selected = false;
-        this.members_validated = false;
-        this.was_chosen = false;
-    }
+    state_acronym: string;
 }
 
 export class CooperativeDeliveryInfoClassification {
     good_location: boolean;
     inclusive_cooperative: boolean;
     is_organic: boolean;
+    is_singular: boolean;
     daps_percentage: boolean;
 
     good_location_type: string;
@@ -78,6 +52,7 @@ export class CooperativeDeliveryInfoClassification {
         this.good_location = false;
         this.inclusive_cooperative = false;
         this.is_organic = false;
+        this.is_singular = false;
         this.daps_percentage = false;
 
         this.good_location_type = '';

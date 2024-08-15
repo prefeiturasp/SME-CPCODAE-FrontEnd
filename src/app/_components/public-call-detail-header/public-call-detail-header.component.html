@@ -14,11 +14,12 @@
                 <fa-icon [icon]="faIcons.pencil"></fa-icon>
                 Editar Chamada
             </button>
-            <button class="btn btn-secondary btn-sm min-120" (click)="voltarHabilitacaoPublicCall()" *ngIf="publicCall.status == PublicCallStatusEnum.aprovada.id">
+            <button class="btn btn-secondary btn-sm min-120" (click)="voltarDocumentosAnalisadosPublicCall()" *ngIf="publicCall.status == PublicCallStatusEnum.aprovada.id">
                 <fa-icon [icon]="faIcons.back"></fa-icon>
-                Voltar para Habilitação
+                Voltar para Documentos Analisados
             </button>
-            <button class="btn btn-default btn-sm min-120" *ngIf="publicCall.status < PublicCallStatusEnum.cronogramaExecutado.id" (click)="suspendPublicCall()">Suspender Chamada</button>
+            <button class="btn btn-default btn-sm min-120" *ngIf="publicCall.status == PublicCallStatusEnum.emAndamento.id" (click)="setAsDesertaPublicCall()">Definir Deserta</button>
+            <button class="btn btn-default btn-sm min-120 mt--10" *ngIf="publicCall.status < PublicCallStatusEnum.cronogramaExecutado.id" (click)="suspendPublicCall()">Suspender Chamada</button>
             <button class="btn btn-default btn-sm min-120 mt--10" *ngIf="publicCall.status === PublicCallStatusEnum.suspensa.id || publicCall.status < PublicCallStatusEnum.cronogramaExecutado.id" (click)="removePublicCall()">Cancelar Chamada</button>
         </div>
     </header>

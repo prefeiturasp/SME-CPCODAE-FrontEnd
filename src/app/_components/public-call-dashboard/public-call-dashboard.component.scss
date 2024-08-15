@@ -11,6 +11,9 @@
             &.filter { width: 50%; }
             &.new { width: 150px; }
         }
+
+        .btn.dropdown-toggle,
+        .btn.dropdown-toggle + ul { font-size: .875rem; }
     }
 
     .cards-body {

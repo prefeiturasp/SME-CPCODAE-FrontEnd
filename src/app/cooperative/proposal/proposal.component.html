@@ -266,7 +266,8 @@
 
 <ng-template #content let-modal>
     <app-cooperative-proposal-upload-members [cooperative]="cooperative" [selectedFood]="selectedFood!" [isOrganic]="publicCall!.foods[(currentStep - 1)]!.is_organic"
-        [modal]="modal" [proposal]="publicCallAnswer!" (onSave)="onSaveImport($event, true)" (returnedCooperatedList)="onCooperatedList($event)">
+        [modal]="modal" [proposal]="publicCallAnswer!" [maximumYearSuppliedValue]="maximumYearSuppliedValue"
+        (onSave)="onSaveImport($event, true)" (returnedCooperatedList)="onCooperatedList($event)">
     </app-cooperative-proposal-upload-members>
 </ng-template>
 

@@ -2,9 +2,9 @@
     <perfect-scrollbar>
         <div class="table-row d-flex align-items-center mb-10" *ngFor="let publicCall of publicCalls"
             [ngClass]="{
-                'waiting-approval': publicCall.status < PublicCallStatusEnum.aprovada.id,
-                'waiting-confirmation': (publicCall.status >= PublicCallStatusEnum.aprovada.id && publicCall.status <= PublicCallStatusEnum.homologada.id) && publicCall.was_chosen,
-                'has-messages': publicCall.status === PublicCallStatusEnum.emAndamento.id && publicCall.has_messages
+                'waiting-approval': publicCall.status <= PublicCallStatusEnum.aprovada.id,
+                'waiting-confirmation': (publicCall.status > PublicCallStatusEnum.aprovada.id && publicCall.status <= PublicCallStatusEnum.homologada.id) && publicCall.was_chosen,
+                'has-messages': publicCall.status >= PublicCallStatusEnum.emAndamento.id && publicCall.status <= PublicCallStatusEnum.aprovada.id && publicCall.has_messages
             }">
             <div class="col-0-5">
                 <label>{{ publicCall.public_session_date | date:'dd/MM' }}</label>
@@ -25,7 +25,7 @@
                         <!-- <button class="btn btn-sm accept" (click)="openModal(content)">Aceitar</button> -->
                     </div>
                 </div>
-                <div *ngIf="(publicCall.status >= PublicCallStatusEnum.aprovada.id && publicCall.status <= PublicCallStatusEnum.homologada.id)" class="d-flex align-items-center">
+                <div *ngIf="(publicCall.status === PublicCallStatusEnum.homologada.id)" class="d-flex align-items-center">
                     <div class="col"><b>Sua Proposta <br /> foi selecionada!</b></div>
                     <div class="col">
                         <small>Acompanhe os próximos passos através do diário oficial</small>
@@ -42,7 +42,7 @@
                 </ng-template>
             </div>
             <div class="col waiting" *ngIf="pageIndex === 2">
-                <div *ngIf="publicCall.status == PublicCallStatusEnum.emAndamento.id && publicCall.has_messages" class="d-flex align-items-center">
+                <div *ngIf="publicCall.status >= PublicCallStatusEnum.emAndamento.id && publicCall.status <= PublicCallStatusEnum.aprovada.id && publicCall.has_messages" class="d-flex align-items-center">
                     <div class="col" *ngIf="!publicCall.last_message_is_invisible"><b>Você tem <br /> uma mensagem!</b></div>
                     <div class="col" *ngIf="publicCall.last_message_is_invisible"><b>Você não tem <br /> cooperados cadastrados!</b></div>
                     <div class="col">
@@ -56,6 +56,7 @@
                     </div>
                     <div class="col d-flex flex-direction-column">
                         <a href="javascript:void(0)" (click)="downloadMembersList(publicCall.public_call_answer_id)">Baixar Cooperados Enviados</a>
+                        <a href="javascript:void(0)" (click)="downloadProposalDeclaration(publicCall.public_call_answer_id)">Baixar Plano de Vendas</a>
                         <a href="javascript:void(0)" (click)="resendMemberList(publicCall.id, publicCall.food_id, publicCall.public_call_answer_id)">Reenviar Planilha</a>
                         <button *ngIf="publicCall.registrationDateIsGreaterThanToday" 
                             class="btn btn-sm btn-danger" (click)="removeProposal(publicCall.public_call_answer_id!)">

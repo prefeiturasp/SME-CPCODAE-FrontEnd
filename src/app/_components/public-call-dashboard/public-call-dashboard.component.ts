@@ -5,6 +5,7 @@ import { PublicCall } from 'src/app/_models/public-call.model';
 
 import { MenuService } from 'src/app/navigation/menu/menu.service';
 import { PublicCallStatusEnum } from 'src/app/_enums/public-call-status-enum';
+import { AdminReportTypeEnum } from 'src/app/_enums/admin-report-type.enum';
 
 declare const $: any;
 declare const sort_by: any;
@@ -21,12 +22,14 @@ export class PublicCallDashboardComponent implements OnInit {
   @Input() showNewPublicCall = false;
   @Output() onAdd = new EventEmitter<any>();
   @Output() onClick = new EventEmitter<any>();
+  @Output() onGenerateReport = new EventEmitter<any>();
 
   public faIcons: any;
   public filterStartDate: Date;
   public filterEndDate: Date;
   public filterStatus: number = -1;
   public searchFilter: string = '';
+  public AdminReportTypeEnum: any = AdminReportTypeEnum;
   public PublicCallStatusEnum: any = PublicCallStatusEnum;
 
   constructor(
@@ -79,6 +82,23 @@ export class PublicCallDashboardComponent implements OnInit {
 
   clickOnCard($event: any) {
     this.onClick.emit($event);
+  }
+
+  generateReport(type: AdminReportTypeEnum) {
+    const filteredStatus = this.filterStatus === -1 ? null : this.filterStatus;
+
+    const filterStartDate = new Date(this.filterStartDate);
+    let filteredStartDate = filterStartDate ?? new Date();
+    filteredStartDate.setHours(0,0,0,0);
+
+    const filterEndDate = new Date(this.filterEndDate);
+    let filteredEndDate = (filterEndDate ?? new Date());
+    filteredEndDate.setDate(filteredEndDate.getDate() + 1);
+    filteredEndDate.setHours(0,0,0,0);
+
+    const searchFilter = this.searchFilter?.trim().toLowerCase() ?? null;
+
+    this.onGenerateReport.emit({ type, startDate: filteredStartDate, endDate: filteredEndDate, statusId: filteredStatus, filterNameNumberProcess: searchFilter });
   }
 
   goToAdd() {

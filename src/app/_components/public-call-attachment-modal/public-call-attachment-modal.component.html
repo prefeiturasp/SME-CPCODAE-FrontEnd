@@ -1,4 +1,4 @@
-<div class="modal-comments">
+<div class="modal-attachment">
     <div class="modal-header">
         <h4 class="modal-title d-flex flex-direction-column">
             <div *ngIf="hasErrosCooperated; else anexosPropostaTitle">
@@ -27,6 +27,14 @@
                 <div class="card-attach-list d-flex">
                     <ul class="card-attach-ul">
                         <li *ngFor="let document of documentsCurrent">
+                            <ng-template #popContentGL>
+                                <div class="popover-sme">
+                                    <b>Revisado Por:</b> {{document.reviewer_name}}
+                                    <hr />
+                                    <b>Data Revisão:</b> {{ document.reviewed_date | date: 'dd/MM/yyyy' }}
+                                </div>
+                            </ng-template>
+
                             <div class="card-attach-pdf mr-10">PDF</div>
                             <div class="card-attach-title truncate cursor-pointer" title="{{document.document_type_name}}" (click)="onDownload(document.id!)">
                                 {{document.document_type_name}}
@@ -39,6 +47,8 @@
                                   <i class="input-helper"></i>
                                 </label>
                             </div>
+                            <fa-icon class="card-attach-reviewer" *ngIf="document.is_reviewed" [icon]="faIcons.info"
+                                [ngbPopover]="popContentGL" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
                         </li>
                     </ul>
                 </div>

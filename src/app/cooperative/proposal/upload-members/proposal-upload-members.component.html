@@ -21,9 +21,11 @@
                     </div> -->
                     <div class="col-12">
                         <ul class="list-bullets">
-                            <li>Na coluna <b>DAP/CAF</b> e <b>CPF</b>, certifique-se de que não há espaços em branco ou outros caracteres antes ou depois dos mesmos;</li>
-                            <li>Na coluna <b>QUANTIDADE</b>informe <b>apenas o valor numérico</b> do quantitativo com o qual cada associado irá participar (sem unidade de peso ou volume – KG, L, etc);</li>
-                            <li>Na coluna <b>PREÇO</b>, insira a<b>apenas o valor numérico</b> do item (sem símbolos ou outros caracteres – R$), conforme especificado no Edital.</li>
+                            <li>Na coluna <b>DAP/CAF</b> e <b>CPF</b>, certifique-se de que não há espaços em branco ou outros caracteres antes ou depois dos valores inseridos;</li>
+                            <li>Os números de <b>CPF</b> deverão conter pontos e traço de separação;</li>
+                            <li>Na coluna <b>QUANTIDADE</b>, informe <b>apenas o valor numérico</b> do quantitativo com o qual cada associado irá participar (sem unidade de peso ou volume – KG, L, etc);</li>
+                            <li>A quantidade proposta para cada associado poderá conter números decimais, contudo, <u>a quantidade total do projeto deverá ser um <b>número inteiro</b></u>.</li>
+                            <li>Na coluna <b>PREÇO</b>, insira <b>apenas o valor numérico</b> do item (sem símbolos de R$, $ ou outros caracteres); o preço inserido deverá ser o preço estabelecido conforme o edital; para produtos orgânicos sem especificação de preço no edital, poderá ser acrescentado até 30% sobre o valor do item convencional.</li>
                             <li>O valor total da proposta de cada associado não deve ultrapassar o limite de R$ 40.000,00, bem como o valor total do projeto não deve ultrapassar o valor previsto na Chamada.</li>
                         </ul>
                     </div>
@@ -33,7 +35,7 @@
                 Salve a planilha
             </li>
             <li class="list-item four">
-                Volte para a tela do Sistema e clique em <a href="javascript:void(0)" class="btn btn-default botao" (click)="addFile()">"Subir a Planilha"</a> para <b>carregá-la no Sistema</b>. Caso haja alguma incorreção, o Sistema emitirá uma lista de itens a serem corrigidos. Efetue as correções necessárias e siga, novamente, os passos 1, 2, 3 e 4.
+                Clique em <a href="javascript:void(0)" class="btn btn-primary" (click)="addFile()">Subir a Planilha</a> para <b>carregá-la no Sistema</b>. Caso haja alguma incorreção, o Sistema emitirá uma lista de itens a serem corrigidos. Efetue as correções necessárias e siga, novamente, os passos 1, 2, 3 e 4.
                 <br *ngIf="selectedFiles && selectedFiles.length > 0" />
                 <span *ngIf="selectedFiles && selectedFiles.length > 0"> - Selecionado: <b>{{ selectedFiles[0].name }}</b></span>
             </li>

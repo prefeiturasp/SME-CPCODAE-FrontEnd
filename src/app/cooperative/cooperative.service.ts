@@ -27,6 +27,7 @@ export class CooperativeService {
             terms_use_acceptance_ip: cooperative.terms_use_acceptance_ip,
             acronym: cooperative.acronym,
             phone: cooperative.phone,
+            logo: cooperative.logo,
             cnpj_central: cooperative.cnpj_central,
             confirmEmail: cooperative.confirmEmail,
             confirmPassword: cooperative.confirmPassword,
@@ -36,6 +37,7 @@ export class CooperativeService {
             is_active: cooperative.is_active,
             dap_caf_registration_date: cooperative.dap_caf_registration_date,
             dap_caf_expiration_date: cooperative.dap_caf_expiration_date,
+            bank: cooperative.bank,
             address: {
               street: cooperative.address_street,
               number: cooperative.address_number,
@@ -49,6 +51,9 @@ export class CooperativeService {
                 name: cooperative.legal_representative_name,
                 cpf: cooperative.legal_representative_cpf,
                 phone: cooperative.legal_representative_phone,
+                marital_status: cooperative.legal_representative_marital_status,
+                position: cooperative.legal_representative_position,
+                position_expiration_date: cooperative.legal_representative_position_expiration_date,
                 address: {
                     street: cooperative.legal_representative_address_street,
                     number: cooperative.legal_representative_address_number,

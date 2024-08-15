@@ -1,0 +1,23 @@
+.modal-change-request {
+    .modal-header {
+        align-items: flex-start;
+
+        .modal-title { small { font-size: 14px; } }
+    }
+
+    perfect-scrollbar { height: 292px; max-height: calc(100vh - 251px); padding: 0 10px; }
+
+    .body {
+        > .row {
+            margin-top: 15px;
+
+            &:first-of-type { margin-top: 0px }
+
+            .title { font-weight: bold; }
+        }
+
+        .refused-documents { .table-row { border-top: none; }}
+
+        .form-check.circle { height: 36px; margin-left: 20px; }
+    }
+}

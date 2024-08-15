@@ -8,7 +8,6 @@ import { SettingsService } from './settings.service';
 @Injectable()
 export class UtilsService {
     public localStorageUtils = new LocalStorageUtils();
-    public maximum_year_supplied_value: number = 40000;
     
     constructor(private settingsService: SettingsService, private http: HttpClient) {
     }

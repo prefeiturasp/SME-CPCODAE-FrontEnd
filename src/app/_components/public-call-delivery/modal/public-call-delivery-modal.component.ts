@@ -75,7 +75,8 @@ export class PublicCallDeliveryModalComponent {
       }
 
       if (delivery.id) {
-        this.publicCallService.confirmDeliveryPut(delivery.id, nextDeliveryDate, nextDeliveryQuantity).subscribe({
+        // this.publicCallService.confirmDeliveryPut(delivery.id, nextDeliveryDate, nextDeliveryQuantity).subscribe({
+        this.publicCallService.confirmDeliveryPut(delivery.id).subscribe({
           next: (ret) => this.resultNext(ret, 'Não foi possível confirmar esta entrega', true),
           error: (error) => this.notificationService.showWarning('Não foi possível confirmar esta entrega', 'Tente novamente mais tarde')
         });

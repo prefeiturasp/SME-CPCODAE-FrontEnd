@@ -27,7 +27,7 @@ export class PublicCall {
 
     documents: PublicCallDocument[];
     foods: PublicCallFood[];
-    deliveryInfo: CooperativeDeliveryInfo;
+    deliveryInfo!: CooperativeDeliveryInfo;
 
     showParticipateButton: boolean;
 
@@ -55,7 +55,6 @@ export class PublicCall {
 
         this.documents = [];
         this.foods = [];
-        this.deliveryInfo = new CooperativeDeliveryInfo();
 
         this.showParticipateButton = false;
         this.public_session_date_greater_than_today = false;

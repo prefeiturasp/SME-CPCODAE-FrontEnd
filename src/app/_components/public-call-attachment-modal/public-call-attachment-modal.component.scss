@@ -1,6 +1,6 @@
 @import '../../../assets/styles/checkbox-radio';
 
-.modal-comments {
+.modal-attachment {
     .modal-header {
         align-items: flex-start;
 
@@ -65,7 +65,8 @@
                         }
 
                         .card-attach-title { width: 95%; &.cursor-pointer:hover { text-decoration: underline; } }
-                        .card-attach-date { margin-right: 10px; width: 70px; }
+                        .card-attach-date { margin-right: 10px; width: 90px; }
+                        .card-attach-reviewer { margin-left: 10px; }
                     }
                 }
             }
@@ -80,7 +81,7 @@
                     border-radius: 4px;
                     margin-bottom: 10px;
 
-                    button b.creation-date { width: 80px; }
+                    button b.creation-date { width: 90px; }
 
                     .card-attach-history-header {
                         background-color: var(--default-gray-cultured);

@@ -1,0 +1,8 @@
+@import '../../../assets/styles/list-registration-page';
+@import '../../../assets/styles/ng-select2';
+
+.contact {
+    filter .col { margin-right: 10px; }
+
+    ::ng-deep perfect-scrollbar { height: calc(100vh - 331px)!important; }
+}

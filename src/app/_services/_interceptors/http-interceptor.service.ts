@@ -23,12 +23,13 @@ export class HttpInterceptorService implements HttpInterceptor {
       });
     }
 
-    this.loaderService.show();
+    if (request.url.indexOf('/json') < 0)
+      this.loaderService.show();
 
     return next.handle(request).pipe(
       map(
         (event) => {
-          if (event instanceof HttpResponse) {
+          if (event instanceof HttpResponse && event.url!.indexOf('/json') < 0) {
             //event = event.clone({body: this.modifyBody(event.body)});
             this.loaderService.hide();
           }

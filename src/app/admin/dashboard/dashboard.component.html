@@ -1,5 +1,5 @@
 <div class="dashboard">
     <app-public-call-dashboard [availableStatus]="availableStatus" [publicCalls]="publicCalls" [showNewPublicCall]="true"
-        (onAdd)="goToAdd($event)" (onClick)="goToDetail($event)">
+        (onAdd)="goToAdd($event)" (onClick)="goToDetail($event)" (onGenerateReport)="generateReport($event)">
     </app-public-call-dashboard>
 </div>

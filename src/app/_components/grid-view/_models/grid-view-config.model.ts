@@ -8,6 +8,8 @@ export class GridViewConfig {
     addButtonLabel?: string;
     showButtonArea?: boolean;
     showButtonEdit?: boolean;
+    showButtonRemove?: boolean;
+    showButtonView?: boolean;
 
     constructor() {
         this.props = [];
@@ -18,5 +20,7 @@ export class GridViewConfig {
         this.addButtonLabel = 'Adicionar';
         this.showButtonArea = true;
         this.showButtonEdit = true;
+        this.showButtonRemove = true;
+        this.showButtonView = false;
     }
 }

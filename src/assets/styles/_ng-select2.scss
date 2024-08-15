@@ -1,0 +1,159 @@
+// Variáveis Bootstrap
+$input-height: calc(1.5em + 0.75rem + 2px);
+$input-padding-y: 0.375rem;
+$input-padding-x: 0.75rem;
+$input-font-size: 1rem;
+$input-color: #495057;
+$input-bg-color: #fff;
+$input-border-color: #ced4da;
+$input-border-radius: 0.25rem;
+$input-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+$select2-selection-bg-color: #007bff;
+$select2-selection-color: #fff;
+$select2-selection-remove-hover-color: #dc3545;
+$select2-dropdown-bg-color: #fff;
+$select2-dropdown-border-color: #ced4da;
+$select2-dropdown-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+$select2-results-highlight-bg-color: #007bff;
+$select2-results-highlight-color: #fff;
+
+// Variáveis Bootstrap
+$input-height: calc(1.5em + 0.75rem + 2px);
+$input-padding-y: 0.375rem;
+$input-padding-x: 0.75rem;
+$input-font-size: 1rem;
+$input-color: #495057;
+$input-bg-color: #fff;
+$input-border-color: #ced4da;
+$input-border-radius: 0.25rem;
+$input-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+$select2-selection-bg-color: #007bff;
+$select2-selection-color: #fff;
+$select2-selection-remove-hover-color: #dc3545;
+$select2-dropdown-bg-color: #fff;
+$select2-dropdown-border-color: #ced4da;
+$select2-dropdown-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+$select2-results-highlight-bg-color: #007bff;
+$select2-results-highlight-color: #fff;
+
+// Estilizando o select2 dentro de ng-select2
+ng-select2 {
+  display: inline-block;
+  position: relative;
+  font-size: $input-font-size;
+
+  ::ng-deep {
+    select {
+        display: none; // Ocultar o elemento select padrão
+      }
+    
+      .select2-container {
+        &--default { width: 100%; }
+    
+        .selection {
+          .select2-selection {
+            display: flex;
+            align-items: center;
+            height: $input-height;
+            padding: $input-padding-y $input-padding-x;
+            font-size: $input-font-size;
+            font-weight: 400;
+            line-height: 1.5;
+            color: $input-color;
+            background-color: $input-bg-color;
+            background-clip: padding-box;
+            border: 1px solid $input-border-color;
+            border-radius: $input-border-radius;
+            transition: $input-transition;
+    
+            &--single {
+              display: flex;
+              align-items: center;
+              height: $input-height;
+              padding: $input-padding-y $input-padding-x;
+    
+              .select2-selection__rendered {
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                flex-grow: 1;
+              }
+    
+              .select2-selection__arrow {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                margin-left: 0.5rem;
+    
+                b {
+                  border-color: $input-color transparent transparent transparent;
+                  border-style: solid;
+                  border-width: 0.3em 0.3em 0 0.3em;
+                  content: '';
+                  display: inline-block;
+                  vertical-align: 0.255em;
+                }
+              }
+            }
+    
+            &--multiple {
+              display: flex;
+              align-items: center;
+              min-height: $input-height;
+              padding: $input-padding-y $input-padding-x;
+              font-size: $input-font-size;
+              font-weight: 400;
+              line-height: 1.5;
+              color: $input-color;
+              background-color: $input-bg-color;
+              background-clip: padding-box;
+              border: 1px solid $input-border-color;
+              border-radius: $input-border-radius;
+              transition: $input-transition;
+    
+              .select2-selection__choice {
+                background-color: $select2-selection-bg-color;
+                border: 1px solid $select2-selection-bg-color;
+                border-radius: $input-border-radius;
+                color: $select2-selection-color;
+                margin: 0.25rem 0.25rem 0.25rem 0;
+                padding: 0.25rem 0.5rem;
+                font-size: 0.875rem;
+                line-height: 1.5;
+    
+                &__remove {
+                  margin-left: 0.5rem;
+                  color: $select2-selection-color;
+                  cursor: pointer;
+    
+                  &:hover {
+                    color: $select2-selection-remove-hover-color;
+                  }
+                }
+              }
+            }
+          }
+        }
+    
+        .select2-dropdown {
+          background-color: $select2-dropdown-bg-color;
+          border: 1px solid $select2-dropdown-border-color;
+          border-radius: $input-border-radius;
+          box-shadow: $select2-dropdown-box-shadow;
+    
+          .select2-results__option {
+            padding: $input-padding-y $input-padding-x;
+            cursor: pointer;
+    
+            &--highlighted {
+              background-color: $select2-results-highlight-bg-color;
+              color: $select2-results-highlight-color;
+            }
+          }
+        }
+      }
+  }
+}

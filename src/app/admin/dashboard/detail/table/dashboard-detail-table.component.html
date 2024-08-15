@@ -39,7 +39,7 @@
                         </div>
                         <div *ngIf="cooperative.classification.good_location">Esta cooperativa está classificada como bem localizada, melhorando sua classificação no ranking.</div>
                         <div><b>Localização:</b> {{cooperative.location}}</div>
-                        <div><b>Associados Localização:</b> {{cooperative.city_members_total}}</div>
+                        <!-- <div><b>Associados Localização:</b> {{cooperative.city_members_total}}</div> -->
                         <hr />
                         <b>Tipo Região:</b> {{cooperative.classification.good_location_type}}
                     </div>
@@ -52,18 +52,20 @@
                         </div>
                         <div *ngIf="cooperative.classification.inclusive_cooperative">Esta cooperativa está classificada como inclusiva, melhorando sua classificação no ranking.</div>
                         <div>
+                            <b>Somente Mulheres:</b> {{cooperative.only_woman ? 'Sim' : 'Não'}}
+                            <br />
                             <b>Assentados Reforma Agrária:</b> {{cooperative.pnra_settlement_total | number : '.0-0'}}%
                             <br />
                             <b>Indígenas:</b> {{cooperative.indigenous_community_total | number : '.0-0'}}%
                             <br />
                             <b>Quilombolas:</b> {{cooperative.quilombola_community_total | number : '.0-0'}}%
-                            <br />
-                            <b>Outros:</b> {{cooperative.other_family_agro_total | number : '.0-0'}}%
+                            <!-- <br />
+                            <b>Demais Associados:</b> {{cooperative.other_family_agro_total | number : '.0-0'}}% -->
                             <!-- <br />
                             <b>Total:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total}} -->
                             <hr />
                             <!-- <b>Proporção:</b> {{cooperative.classification.inclusive_cooperative_percentage | number : '.0-0'}}% -->
-                            <b>Proporção:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total | number : '.0-0'}}%
+                            <b>Total Grupos Prioritários:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total  | number : '.0-0'}}%
                         </div>
                     </div>
                 </ng-template>
@@ -71,27 +73,37 @@
                     <div class="popover-sme">
                         <div class="header green" *ngIf="cooperative.classification.is_organic">
                             <fa-icon [icon]="faIcons.organic"></fa-icon>
-                            <label>Alimento Orgânico</label>
+                            <label>Produto Orgânico</label>
                         </div>
-                        <div *ngIf="cooperative.classification.is_organic">Esta cooperativa está oferecendo alimento orgânico, melhorando sua classificação no ranking.</div>
-                        <div *ngIf="!cooperative.classification.is_organic">Esta cooperativa não está oferecendo alimento orgânico.</div>
+                        <!-- <div *ngIf="cooperative.classification.is_organic">Esta cooperativa está oferecendo produto orgânico, melhorando sua classificação no ranking.</div> -->
+                        <div *ngIf="!cooperative.classification.is_organic">Esta cooperativa não está oferecendo produto orgânico.</div>
                     </div>
                 </ng-template>
                 <ng-template #popContentDP>
-                    <!-- <div class="popover-sme">
-                        <div class="header green" *ngIf="cooperative.classification.daps_percentage">
+                    <div class="popover-sme">
+                        <div class="header green">
                             <fa-icon [icon]="faIcons.percentage"></fa-icon>
-                            <label>Porcentagem de DAPs</label>
+                            <label>Associados DAP/CAF</label>
                         </div>
-                        <div *ngIf="cooperative.classification.daps_percentage">Esta cooperativa possui uma boa porcentagem de DAPs em relação ao total de cooperados.</div>
+                        <!-- <div *ngIf="cooperative.classification.daps_percentage">Esta cooperativa possui uma boa porcentagem de DAPs em relação ao total de cooperados.</div> -->
                         <div>
-                            <b>DAPs Físicas:</b> {{cooperative.daps_fisicas_total}}
+                            <!-- <b>DAPs Físicas:</b> {{cooperative.daps_fisicas_total}}
                             <br />
                             <b>Total:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total}}
-                            <hr />
-                            <b>Proporção:</b> {{cooperative.classification.daps_percentage_proportion | number : '.0-0'}}%
+                            <hr /> -->
+                            <b>% Associados com DAP/CAF:</b> {{cooperative.other_family_agro_total  | number : '.0-0'}}%
                         </div>
-                    </div> -->
+                    </div>
+                </ng-template>
+                <ng-template #popContentSingular>
+                    <div class="popover-sme">
+                        <div class="header" [ngClass]="{ 'green': cooperative.classification.is_singular }">
+                            <fa-icon [icon]="faIcons.singular"></fa-icon>
+                            <label>Organização Formal</label>
+                        </div>
+                        <div *ngIf="cooperative.classification.is_singular">Cooperativa Singular</div>
+                        <div *ngIf="!cooperative.classification.is_singular">Cooperativa Central</div>
+                    </div>
                 </ng-template>
 
                 <fa-icon [ngClass]="{ enable: cooperative.classification.good_location, disable: !cooperative.classification.good_location}"
@@ -100,8 +112,10 @@
                     [icon]="faIcons.inclusiveCooperative" [ngbPopover]="popContentIC" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
                 <fa-icon [ngClass]="{ enable: cooperative.classification.is_organic, disable: !cooperative.classification.is_organic}"
                     [icon]="faIcons.organic" [ngbPopover]="popContentIO" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
-                <!-- <fa-icon [ngClass]="{ enable: cooperative.classification.daps_percentage, disable: !cooperative.classification.daps_percentage}"
-                    [icon]="faIcons.percentage" [ngbPopover]="popContentDP" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon> -->
+                <fa-icon [ngClass]="{ enable: cooperative.classification.daps_percentage, disable: !cooperative.classification.daps_percentage}"
+                    [icon]="faIcons.percentage" [ngbPopover]="popContentDP" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                <fa-icon [ngClass]="{ enable: cooperative.classification.is_singular, disable: !cooperative.classification.is_singular}"
+                    [icon]="faIcons.singular" [ngbPopover]="popContentSingular" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
             </div>
             <div class="col-0-25">{{cooperative.total_price | currency:'BRL'}}</div>
             <div class="col-0-25">
@@ -118,12 +132,16 @@
                     <span class="material-symbols-outlined">swap_horiz</span>
                 </a>
                 <a class="d-flex mr-5" href="javascript:void(0)" title="Anexos da Proposta"
-                    (click)="openModal(contentAttachment, false)">
+                    (click)="openModal(contentAttachment, true)">
                     <span class="material-symbols-outlined">attach_file</span>
                 </a>
-                <a class="d-flex" href="javascript:void(0)" title="Histórico de Mensagens"
+                <a class="d-flex mr-5" href="javascript:void(0)" title="Histórico de Mensagens"
                     (click)="openModal(contentComments, false)">
                     <span class="material-symbols-outlined">chat</span>
+                </a>
+                <a class="d-flex" href="javascript:void(0)" title="Editar Composição Associados"
+                    (click)="openModal(contentAssociates, false)">
+                    <span class="material-symbols-outlined">edit</span>
                 </a>
             </div>
 
@@ -144,6 +162,14 @@
                     <public-call-comments-modal [modal]="modalComments" [cooperative]="cooperativeSimplified" [public_call_id]="publicCall.id"
                         [changeRequests]="changeRequests" [food]="food">
                     </public-call-comments-modal>
+                </ng-container>
+            </ng-template>
+
+            <ng-template #contentAssociates let-modalAssociates>
+                <ng-container>
+                    <board-of-associates-modal [modal]="modalAssociates" [cooperative]="cooperative" [public_call_id]="publicCall.id"
+                        [statesList]="statesList" [food]="food" (onSave)="onSaveBoardOfAssociates($event)">
+                    </board-of-associates-modal>
                 </ng-container>
             </ng-template>
 

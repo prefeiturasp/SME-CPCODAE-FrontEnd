@@ -38,6 +38,11 @@ export class CooperativeDashboardService {
         return this.settingsService.executeGet(url);
     }
 
+    getProposalDeclaration(public_call_answer_id: string): Observable<any> {
+        const url = `${this.domain}/dashboard-cooperative/${public_call_answer_id}/report`;
+        return this.settingsService.executeGetBlob(url);
+    }
+
     removeProposal(public_call_answer_id: string): Observable<any> {
         const url = `${this.domain}/dashboard-cooperative/${public_call_answer_id}/remove-proposal`;
         return this.settingsService.executeDelete(url);

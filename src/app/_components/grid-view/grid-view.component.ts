@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { faPencil, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { GridViewConfig } from './_models/grid-view-config.model';
+import { formatDateAsddMMyyyy, formatDateAsddMMyyyyHHmm } from 'src/app/_utils/geral';
 
 declare const sort_by: any;
 
@@ -13,6 +14,7 @@ export class GridViewComponent {
   @Output() onAdd = new EventEmitter<string>();
   @Output() onEdit = new EventEmitter<string>();
   @Output() onRemove = new EventEmitter<any>();
+  @Output() onView = new EventEmitter<any>();
 
   private _config: GridViewConfig = new GridViewConfig();
 
@@ -24,7 +26,7 @@ export class GridViewComponent {
   }
 
   constructor() {
-    this.faIcons = { pencil: faPencil, times: faTimes };
+    this.faIcons = { pencil: faPencil, search: faSearch, times: faTimes };
   }
 
   changePage(newPage: number) {
@@ -40,6 +42,10 @@ export class GridViewComponent {
     switch(type) {
       case 'boolean':
         return item[itemProp.prop] ? 'Sim' : 'Não';
+      case 'date':
+        return formatDateAsddMMyyyy(new Date(item[itemProp.prop]));
+      case 'datetime':
+        return formatDateAsddMMyyyyHHmm(new Date(item[itemProp.prop]));
       default:
         return item[itemProp.prop];
     }
@@ -51,6 +57,10 @@ export class GridViewComponent {
 
   goToEdit(id: string) {
     this.onEdit.emit(id);
+  }
+
+  goToView(id: string) {
+    this.onView.emit(id);
   }
 
   remove(index: number, id: string) {

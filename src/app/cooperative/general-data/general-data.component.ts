@@ -79,10 +79,10 @@ export class CooperativeGeneralDataComponent implements OnInit {
         address_complement: [''],
         address_state_acronym: [''],
         address_city_id: [0, [Validators.required, Validators.min(1)]],
-        // bank_code: ['', [Validators.required]],
-        // bank_name: ['', [Validators.required]],
-        // bank_agency: ['', [Validators.required]],
-        // bank_account: ['', [Validators.required]],
+        bank_code: ['', [Validators.required]],
+        bank_name: ['', [Validators.required]],
+        bank_agency: ['', [Validators.required]],
+        bank_account: ['', [Validators.required]],
         legal_representative_name: ['', [Validators.required]],
         legal_representative_cpf: ['', [Validators.required, CepCpfCnpjValidator.cpf]],
         legal_representative_phone: ['', [Validators.required, PhoneNumberValidator.phone]],
@@ -126,10 +126,10 @@ export class CooperativeGeneralDataComponent implements OnInit {
               address_cep: this.cooperative.address.cep,
               address_district: this.cooperative.address.district,
               address_complement: this.cooperative.address.complement,
-              // bank_account: this.cooperative.bank?.account_number,
-              // bank_agency: this.cooperative.bank?.agency,
-              // bank_code: this.cooperative.bank?.code,
-              // bank_name: this.cooperative.bank?.name,
+              bank_account: this.cooperative.bank?.account_number,
+              bank_agency: this.cooperative.bank?.agency,
+              bank_code: this.cooperative.bank?.code,
+              bank_name: this.cooperative.bank?.name,
               legal_representative_name: this.cooperative.legal_representative?.name,
               legal_representative_cpf: this.cooperative.legal_representative?.cpf,
               legal_representative_phone: this.cooperative.legal_representative?.phone,
@@ -140,30 +140,30 @@ export class CooperativeGeneralDataComponent implements OnInit {
               legal_representative_address_complement: this.cooperative.legal_representative?.address?.complement
             });
 
-              this.locationService.getStatesJSON().subscribe({
-                next: (retS) => {
-                  this.statesList = retS;
-    
-                  if (this.cooperative.address.city_id) {
-                    this.locationService.getCityById(this.cooperative.address.city_id).subscribe({
-                      next: (retC) => {
-                        this.loadCities(retC.state_acronym, this.cooperative.address.city_id!, true);
-                      }
-                    })
-                  }
-    
-                  if (this.cooperative.legal_representative?.address?.city_id) {
-                    this.locationService.getCityById(this.cooperative.legal_representative.address.city_id).subscribe({
-                      next: (retC) => {
-                        this.loadCities(retC.state_acronym, this.cooperative.legal_representative.address.city_id!, false);
-                      }
-                    })
-                  }
-                },
-                error: (errS) => {
-                  console.log(errS);
+            this.locationService.getStatesJSON().subscribe({
+              next: (retS) => {
+                this.statesList = retS;
+  
+                if (this.cooperative.address.city_id) {
+                  this.locationService.getCityById(this.cooperative.address.city_id).subscribe({
+                    next: (retC) => {
+                      this.loadCities(retC.state_acronym, this.cooperative.address.city_id!, true);
+                    }
+                  })
                 }
-              });
+  
+                if (this.cooperative.legal_representative?.address?.city_id) {
+                  this.locationService.getCityById(this.cooperative.legal_representative.address.city_id).subscribe({
+                    next: (retC) => {
+                      this.loadCities(retC.state_acronym, this.cooperative.legal_representative.address.city_id!, false);
+                    }
+                  })
+                }
+              },
+              error: (errS) => {
+                console.log(errS);
+              }
+            });
           }
         },
         error: (err) => console.log(err)
@@ -197,10 +197,10 @@ export class CooperativeGeneralDataComponent implements OnInit {
       })
     }
   
-    // getBank($event: any) {
-    //   const code = onlyNumbers($event.target.value);
-    //   this.loadBank(code);
-    // }
+    getBank($event: any) {
+      const code = onlyNumbers($event.target.value);
+      this.loadBank(code);
+    }
   
     isChanged() : boolean {
       return this.cooperative.id !== this.unmodified.id
@@ -231,19 +231,19 @@ export class CooperativeGeneralDataComponent implements OnInit {
         || this.cooperative.legal_representative.address.number !== this.unmodified.legal_representative.address.number;
     }
   
-    // loadBank(bank_code: string) {
-    //   this.loaderService.loaderName = 'spinnerBank';
+    loadBank(bank_code: string) {
+      this.loaderService.loaderName = 'spinnerBank';
   
-    //   this.bankService.getBankFromCode(bank_code).subscribe({
-    //     next: (ret) => {
-    //       this.cooperativeForm.patchValue({
-    //         bank_code: bank_code,
-    //         bank_name: ret.fullName
-    //       });
-    //     },
-    //     error: (err) => console.log(err)
-    //   });
-    // }
+      this.bankService.getBankFromCode(bank_code).subscribe({
+        next: (ret) => {
+          this.cooperativeForm.patchValue({
+            bank_code: bank_code,
+            bank_name: ret.fullName
+          });
+        },
+        error: (err) => console.log(err)
+      });
+    }
   
     loadCities(state_acronym: string, city_id: number, isCooperative: boolean) {
       this.loaderService.loaderName = 'spinnerAddress' + (isCooperative ? '' : 'LegalRepresentative');
@@ -311,12 +311,12 @@ export class CooperativeGeneralDataComponent implements OnInit {
         street: textTransformCapitalize(cooperative.address_street.trim())
       };
   
-      // cooperative.bank = {
-      //   account_number: cooperative.bank_account,
-      //   agency: cooperative.bank_agency,
-      //   code: cooperative.bank_code,
-      //   name: textTransformCapitalize(cooperative.bank_name.trim())
-      // };
+      cooperative.bank = {
+        account_number: cooperative.bank_account,
+        agency: cooperative.bank_agency,
+        code: cooperative.bank_code,
+        name: textTransformCapitalize(cooperative.bank_name.trim())
+      };
   
       cooperative.legal_representative = {
         cpf: onlyNumbers(cooperative.legal_representative_cpf),

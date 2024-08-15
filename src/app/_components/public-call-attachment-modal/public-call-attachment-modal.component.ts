@@ -7,6 +7,9 @@ import { CooperativeDeliveryInfo } from 'src/app/_models/cooperative-delivery-in
 import { CooperativeDocument, CooperativeDocumentGroupedDate } from 'src/app/_models/cooperative-document.model';
 import { PublicCallFood } from 'src/app/_models/public-call-food.model';
 
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { LocalStorageUtils } from 'src/app/_utils/localstorage';
+
 declare const $: any;
 declare const downloadFile: any;
 declare const getDateWithoutTime: any;
@@ -28,6 +31,9 @@ export class PublicCallAttachmentModalComponent {
     public documentsCurrent: CooperativeDocument[] = [];
     public documentsHistory: CooperativeDocumentGroupedDate[] = [];
     private _documents: CooperativeDocument[] = [];
+    private localStorageUtils: LocalStorageUtils;
+
+    public faIcons: any;
 
     @Input() 
     get documents(): CooperativeDocument[] {
@@ -44,7 +50,10 @@ export class PublicCallAttachmentModalComponent {
 
     constructor(
       private adminPublicCallService: AdminPublicCallService,
-      private notificationService: NotificationService) { }
+      private notificationService: NotificationService) {
+        this.faIcons = { info: faInfoCircle };
+        this.localStorageUtils = new LocalStorageUtils();
+      }
 
     buildHistory(documents: CooperativeDocument[]) {
       const groupsByDate = documents.reduce((groups: CooperativeDocumentGroupedDate[], document) => {
@@ -140,6 +149,11 @@ export class PublicCallAttachmentModalComponent {
         next: (ret) => {
           if (ret && ret.sucesso) {
             this.notificationService.showSuccess(`Documento ${isReviewed ? '' : 'des'}marcado como revisado`, 'Sucesso!');
+
+            const user = this.localStorageUtils.getUser();
+            let document = this.documents.find(d => d.id === document_id);
+            document!.reviewed_date = isReviewed ? new Date() : undefined;
+            document!.reviewer_name = isReviewed ? user?.name : undefined;
           }
         },
         error: (error) => {

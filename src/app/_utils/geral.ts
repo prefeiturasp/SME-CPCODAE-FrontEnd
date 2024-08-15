@@ -59,6 +59,39 @@ export const filterByDateRange = (array: any[], filterStart: Date, filterEnd: Da
     });
 }
 
+export const formatDateAsyyyyMMdd_HHmmss = (date: Date): string => {
+    const ano = date.getFullYear();
+    const mes = String(date.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+    const dia = String(date.getDate()).padStart(2, '0');
+    const hora = String(date.getHours()).padStart(2, '0');
+    const minuto = String(date.getMinutes()).padStart(2, '0');
+    const segundo = String(date.getSeconds()).padStart(2, '0');
+
+    return `${ano}${mes}${dia}_${hora}${minuto}${segundo}`;
+}
+
+export const formatDateAsddMMyyyy = (date: Date, separator: string = '/'): string => {
+    separator = separator || '/';
+
+    const ano = date.getFullYear();
+    const mes = String(date.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+    const dia = String(date.getDate()).padStart(2, '0');
+
+    return `${dia}${separator}${mes}${separator}${ano}`;
+}
+
+export const formatDateAsddMMyyyyHHmm = (date: Date, separator: string = '/'): string => {
+    separator = separator || '/';
+
+    const ano = date.getFullYear();
+    const mes = String(date.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+    const dia = String(date.getDate()).padStart(2, '0');
+    const hora = String(date.getHours()).padStart(2, '0');
+    const minuto = String(date.getMinutes()).padStart(2, '0');
+
+    return `${dia}${separator}${mes}${separator}${ano} ${hora}:${minuto}`;
+}
+
 export const getAllIndexes = (arr: any[], position: number, value: string): number[] => {
     let indexes: number[] = [];
 
@@ -76,6 +109,28 @@ export const getDateWithoutTime = (date: Date): Date => {
 
 export const isValidDate = (d: Date): boolean => {
     return d instanceof Date && !isNaN(d.getTime());
+}
+
+export const toQueryString = (params: any): string => {
+    return Object.keys(params)
+      .filter(key => params[key] !== null && params[key] !== undefined && params[key] !== '') // Filtra chaves não nulas/undefined
+      .map(key => {
+        let value = params[key];
+
+        // Verifica se o valor é um objeto Date e o converte para string no formato ISO
+        if (value instanceof Date) {
+            value = value.toISOString();
+        }
+        
+        if (Array.isArray(value)) { // Verifica se o valor é um array
+            return value
+              .map(arrayValue => `${encodeURIComponent(key)}=${encodeURIComponent(arrayValue)}`)
+              .join('&');
+        } else {
+            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`; // Codifica chave e valor
+        }
+      })
+      .join('&'); // Junta tudo com '&'
 }
 
 export const uuidv4 = (): string => {

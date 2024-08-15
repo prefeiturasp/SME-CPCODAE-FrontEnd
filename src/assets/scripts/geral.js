@@ -94,6 +94,18 @@ function formatDate_ddMMyyyy(date, separator) {
     return [day, month, year].join(separator);
 }
 
+function formatDate_yyyyMMddHHmmss(date) {
+    const d = new Date(date);
+    const month = '' + (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = '' + d.getDate().toString().padStart(2, '0');
+    const year = d.getFullYear();
+    const hour = String(d.getHours()).padStart(2, '0');
+    const minute = String(d.getMinutes()).padStart(2, '0');
+    const second = String(d.getSeconds()).padStart(2, '0');
+
+    return `${year}${month}${day}${hour}${minute}${second}`;
+}
+
 function getCsvSeparator(csvFile) {
     const rows = csvFile.split("\n").filter(r => r.length > 0);
 

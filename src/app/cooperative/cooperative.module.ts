@@ -36,7 +36,6 @@ import { ProposalChangeRequestModalComponent } from './proposal/change-request-m
 import { ProposalUploadMembersComponent } from './proposal/upload-members/proposal-upload-members.component';
 import { ProposalUploadMembersErrorComponent } from './proposal/upload-members-error/proposal-upload-members-error.component';
 import { CooperativeDashboardService } from './dashboard/dashboard.service';
-import { SearchDropdown } from '../_components/search-dropdown/search-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -61,8 +60,7 @@ import { SearchDropdown } from '../_components/search-dropdown/search-dropdown.c
     ProposalComponent,
     ProposalChangeRequestModalComponent,
     ProposalUploadMembersComponent,
-    ProposalUploadMembersErrorComponent,
-    SearchDropdown
+    ProposalUploadMembersErrorComponent
   ],
   imports: [
     RouterModule,

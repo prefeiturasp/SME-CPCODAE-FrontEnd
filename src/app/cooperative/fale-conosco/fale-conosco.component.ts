@@ -3,59 +3,74 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 
 import { CooperativeFaleConoscoService } from './fale-conosco.service';
 import { NotificationService } from 'src/app/_services/notification.service';
+import { PublicCall } from 'src/app/_models/public-call.model';
 
 declare const focusOnFormError: any;
 
 @Component({ selector: 'app-fale-conosco', templateUrl: './fale-conosco.component.html', styleUrls: ['./fale-conosco.component.scss'] })
 export class CooperativeFaleConoscoComponent implements OnInit {
-    public faleConoscoForm!: UntypedFormGroup;
-    public submitted: boolean = false;
+  public publicCalls: PublicCall[] = [];
+  public faleConoscoForm!: UntypedFormGroup;
+  public submitted: boolean = false;
 
-    constructor(
-        private notificationService: NotificationService,
-        private faleConoscoService: CooperativeFaleConoscoService,
-        private formBuilder: UntypedFormBuilder
-    ) { }
+  constructor(
+      private notificationService: NotificationService,
+      private faleConoscoService: CooperativeFaleConoscoService,
+      private formBuilder: UntypedFormBuilder
+  ) { }
 
-    ngOnInit(): void {
-        this.faleConoscoForm = this.formBuilder.group({
-            title: ['', [Validators.required]],
-            message: ['', [Validators.required]]
-          });
+  ngOnInit(): void {
+    this.loadPublicCalls();
+
+    this.faleConoscoForm = this.formBuilder.group({
+        public_call_id: ['', [Validators.required]],
+        title: ['', [Validators.required]],
+        message: ['', [Validators.required]]
+      });
+  }
+
+  loadPublicCalls() {
+    this.faleConoscoService.getPublicCalls().subscribe({
+      next: (ret) => {
+        if (ret && ret.sucesso) {
+          this.publicCalls = ret.retorno;
+        }
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.faleConoscoForm.invalid) {
+      focusOnFormError(this.faleConoscoForm.controls);
+      return;
     }
 
-    onSubmit() {
-      this.submitted = true;
+    const form = this.faleConoscoForm.value;
+    this.faleConoscoService.send(form.public_call_id, form.title, form.message).subscribe({
+      next: (ret) => this.resultNext(ret, 'Mensagem enviada', 'Não foi possível enviar esta mensagem'),
+      error: (err) => console.log(err)
+    });
+  }
 
-      if (this.faleConoscoForm.invalid) {
-        focusOnFormError(this.faleConoscoForm.controls);
+  onReset() {
+    this.submitted = false;
+    this.faleConoscoForm.reset();
+  }
+
+  resultNext(ret: any, successfulMessage: string, errorMessage: string) {
+      if (ret && ret.sucesso) {
+        this.notificationService.showSuccess(successfulMessage, 'Sucesso!');
+        this.onReset();
         return;
       }
 
-      const form = this.faleConoscoForm.value;
-      this.faleConoscoService.send(form.title, form.message)
-      .subscribe({
-        next: (ret) => this.resultNext(ret, 'Mensagem enviada', 'Não foi possível enviar esta mensagem'),
-        error: (err) => console.log(err)
-      });
-    }
+      this.notificationService.showWarning(errorMessage, 'Erro');
+  }
 
-    onReset() {
-      this.submitted = false;
-      this.faleConoscoForm.reset();
-    }
-
-    resultNext(ret: any, successfulMessage: string, errorMessage: string) {
-        if (ret && ret.sucesso) {
-          this.notificationService.showSuccess(successfulMessage, 'Sucesso!');
-          this.onReset();
-          return;
-        }
-
-        this.notificationService.showWarning(errorMessage, 'Erro');
-    }
-
-    get f() {
-      return this.faleConoscoForm.controls;
-    }
+  get f() {
+    return this.faleConoscoForm.controls;
+  }
 }

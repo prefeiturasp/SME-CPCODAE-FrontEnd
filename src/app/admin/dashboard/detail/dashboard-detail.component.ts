@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 
-import { NotificationService } from 'src/app/_services/notification.service';
 import { AdminPublicCallService } from '../../public-call/public-call.service';
+import { NotificationService } from 'src/app/_services/notification.service';
+import { LoaderService } from 'src/app/_services/loader.service';
 
 import { ChangeRequest } from 'src/app/_models/change-request.model';
 import { CooperativeDeliveryInfo } from 'src/app/_models/cooperative-delivery-info.model';
@@ -39,7 +39,7 @@ export class AdminDashboardDetailComponent implements OnInit {
     private notificationService: NotificationService,
     public publicCallService: AdminPublicCallService,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
+    private loaderService: LoaderService,
     private router: Router
   ) {
     $('.search-filter').val('');
@@ -91,11 +91,11 @@ export class AdminDashboardDetailComponent implements OnInit {
       const totalQuantity = food.quantity;
       const measureUnit = food.measure_unit;
   
-      if (totalSelected > totalQuantity) {
-        this.notificationService.showWarning(`A quantidade total selecionada do produto ${food.food_name} deve ser menor ou igual a ${totalQuantity} ${measureUnit}`, 'Erro!');
-        isValid = false;
-        continue;
-      }
+      // if (totalSelected > totalQuantity) {
+      //   this.notificationService.showWarning(`A quantidade total selecionada do produto ${food.food_name} deve ser menor ou igual a ${totalQuantity} ${measureUnit}`, 'Erro!');
+      //   isValid = false;
+      //   continue;
+      // }
     }
 
     if (!isValid)
@@ -110,12 +110,12 @@ export class AdminDashboardDetailComponent implements OnInit {
     this.publicCallService.buy(this.id, selectedCooperatives, []).subscribe({
       next: (ret) => {
         if (ret && ret.sucesso) {
-          this.notificationService.showSuccess('Chamada habilitada com sucesso', 'Sucesso!');
+          this.notificationService.showSuccess('Documentos da chamada analisados com sucesso', 'Sucesso!');
           this.goBack(true);
           return;
         }
 
-        this.notificationService.showWarning('Não foi possível habilitar esta chamada', 'Erro');
+        this.notificationService.showWarning('Não foi possível definir esta chamada como documentos analisados', 'Erro');
       },
       error: (err) => console.log(err)
     });
@@ -135,25 +135,23 @@ export class AdminDashboardDetailComponent implements OnInit {
     this.onChangeStatusEvent({ public_call_id: this.publicCall!.id, status: PublicCallStatusEnum.cronogramaExecutado });
   }
 
-  // buyExecution(deliveries: any[]) {
-  //   const selectedCooperatives = this.selected.map((item) => ({
-  //     public_call_answer_id: item.public_call_answer_id,
-  //     new_quantity: item.total_proposal_edited
-  //   }));
+  public async cronogramaExecutadoPublicCallAnswer(public_call_answer_id: string) {
+    if (!(await this.notificationService.showConfirm('Deseja realmente definir o cronograma desta cooperativa como executado?', '')))
+      return;
 
-  //   this.publicCallService.buy(this.id, selectedCooperatives, deliveries).subscribe({
-  //     next: (ret) => {
-  //       if (ret && ret.sucesso) {
-  //         this.notificationService.showSuccess('Compra realizada com sucesso', 'Sucesso!');
-  //         this.goBack(true);
-  //         return;
-  //       }
-
-  //       this.notificationService.showWarning('Não foi possível realizar a compra', 'Erro');
-  //     },
-  //     error: (err) => console.log(err)
-  //   });
-  // }
+      this.publicCallService.confirmDeliveryPut(public_call_answer_id).subscribe({
+        next: (ret) => {
+            if (ret && ret.sucesso) {
+                this.notificationService.showSuccess(`Cronograma da cooperativa executado com sucesso`, 'Sucesso!');
+                this.goBack(true);
+                return;
+              }
+          
+              this.notificationService.showWarning(`Não foi possível marcar o cronograma desta cooperativa como executado`, 'Erro');
+            },
+            error: (err) => console.log(err)
+      })
+  }
 
   changeQuantity(cooperative: CooperativeDeliveryInfo) {
     const publicCall = this.publicCall!;
@@ -312,8 +310,27 @@ export class AdminDashboardDetailComponent implements OnInit {
     })
   }
 
+  onDesertaEvent(id: string) {
+    this.publicCallService.setAsDeserta(this.id).subscribe({
+      next: (ret) => {
+        if (ret && ret.sucesso) {
+          this.notificationService.showSuccess('Chamada Pública definida como deserta com sucesso', 'Sucesso!');
+          this.goBack(true);
+          return;
+        }
+
+        this.notificationService.showWarning('Não foi possível definir esta chamada como deserta', 'Erro');
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
   onEditEvent(id: string) {
     this.router.navigate([`/admin/chamadas-publicas/${this.id}`]);
+  }
+
+  onReload() {
+    this.loadAnswersList(this.id);
   }
 
   onRemoveEvent(id: string) {
@@ -508,5 +525,9 @@ export class AdminDashboardDetailComponent implements OnInit {
       return 0;
 
     return this.selected.reduce((acc, item) => acc += (item.total_proposal_edited || item.total_proposal), 0);
+  }
+
+  get allCooperativesWasConfirmed() {
+    return this.cooperatives.filter(c => c.was_chosen).every(c => c.was_confirmed);
   }
 }

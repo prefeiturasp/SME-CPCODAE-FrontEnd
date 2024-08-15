@@ -7,6 +7,7 @@ import { CooperativeDashboardService } from './dashboard.service';
 
 import { CooperativePublicCallDelivery } from 'src/app/_models/cooperative-public-call-delivery.model';
 import { CooperativeService } from '../cooperative.service';
+import { PublicCallStatusEnum } from 'src/app/_enums/public-call-status-enum';
 
 declare const groupByKey: any;
 declare const sort_by: any;
@@ -36,10 +37,15 @@ export class CooperativeDashboardComponent implements OnInit {
     }
 
     buildPublicCallsList(searchFilter: string) {
-        this.publicCallsOnGoing = this.filterPublicCalls(searchFilter, this.publicCalls.filter(pc => pc.was_chosen && [2,3].includes(pc.status)));
-        this.publicCallsClosed = this.filterPublicCalls(searchFilter, this.publicCalls.filter(pc => [4].includes(pc.status) || ([2,3,5].includes(pc.status) && !pc.was_chosen)));
+        const emAndamento: number[] = [PublicCallStatusEnum.homologada.id];
+        const cronogramaExecutado: number[] = [PublicCallStatusEnum.cronogramaExecutado.id];
+        const notChosen: number[] = [PublicCallStatusEnum.aprovada.id, PublicCallStatusEnum.homologada.id, PublicCallStatusEnum.contratada.id, PublicCallStatusEnum.cronogramaExecutado.id, PublicCallStatusEnum.suspensa.id, PublicCallStatusEnum.cancelada.id, PublicCallStatusEnum.deserta.id];
+        const aguardando: number[] = [PublicCallStatusEnum.emAndamento.id, PublicCallStatusEnum.aprovada.id];
 
-        let waitingList = this.filterPublicCalls(searchFilter, this.publicCalls.filter(pc => [1].includes(pc.status)));
+        this.publicCallsOnGoing = this.filterPublicCalls(searchFilter, this.publicCalls.filter(pc => pc.was_chosen && emAndamento.includes(pc.status)));
+        this.publicCallsClosed = this.filterPublicCalls(searchFilter, this.publicCalls.filter(pc => cronogramaExecutado.includes(pc.status) || (notChosen.includes(pc.status) && !pc.was_chosen)));
+
+        let waitingList = this.filterPublicCalls(searchFilter, this.publicCalls.filter(pc => aguardando.includes(pc.status)));
 
         waitingList.map(pc =>
             {

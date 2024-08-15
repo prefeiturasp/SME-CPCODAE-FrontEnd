@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
-import { faAppleAlt, faArrowLeft, faArrowRight, faBuilding, faFileLines, faHome, faUser, faUsers, faUtensils, faExchange } from '@fortawesome/free-solid-svg-icons';
+import { faAppleAlt, faArrowLeft, faArrowRight, faBuilding, faCog, faEnvelopeOpenText, faFileLines, faHome, faUser, faUsers, faUtensils, faExchange } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from 'src/app/authorization/login/login.service';
 import { UtilsService } from 'src/app/_services/utils.service';
 
@@ -28,7 +28,7 @@ export class MenuSidebarAdminComponent {
     this.show = !isEmpty(user) && !isEmpty(user!.roles) && user!.roles.includes(this.loginService.adminRoleName);
 
     this.loginService.userLoginChanged.subscribe((ret: User) => this.updateMenuVisibility(ret));
-    this.faIcons = { appleAlt: faAppleAlt, arrowLeft: faArrowLeft, arrowRight: faArrowRight, building: faBuilding, fileLines: faFileLines, home: faHome, user: faUser, users: faUsers, utensils: faUtensils, exchange: faExchange  };
+    this.faIcons = { appleAlt: faAppleAlt, arrowLeft: faArrowLeft, arrowRight: faArrowRight, building: faBuilding, contact: faEnvelopeOpenText, configuration: faCog, fileLines: faFileLines, home: faHome, user: faUser, users: faUsers, utensils: faUtensils, exchange: faExchange  };
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(
       (res: any) => this.activeUrl = res.url);

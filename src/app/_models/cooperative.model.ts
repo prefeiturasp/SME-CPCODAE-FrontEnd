@@ -1,15 +1,17 @@
 import { CooperativeDocument } from "./cooperative-document.model";
+import { MaritalStatusEnum } from "../_enums/marital-status.enum";
 
 export class Cooperative {
     id: string;
     acronym: string;
     address: CooperativeAddress;
-    // bank: CooperativeBank;
+    bank: CooperativeBank;
     cnpj: string;
     cnpj_central: string;
     cnpj_formatted?: string;
     dap_caf_code: string;
     email: string;
+    logo: string;
     name: string;
     phone: string;
     pj_type: number;
@@ -33,11 +35,12 @@ export class Cooperative {
         this.id = '';
         this.acronym = '';
         this.address = new CooperativeAddress();
-        //this.bank = new CooperativeBank();
+        this.bank = new CooperativeBank();
         this.cnpj = '';
         this.cnpj_central = '';
         this.dap_caf_code = '';
         this.email = '';
+        this.logo = '';
         this.name = '';
         this.phone = '';
         this.pj_type = 0;
@@ -76,30 +79,35 @@ export class CooperativeAddress {
     }
 }
 
-// export class CooperativeBank {
-//     code: string;
-//     name: string;
-//     agency: string;
-//     account_number: string;
+export class CooperativeBank {
+    code: string;
+    name: string;
+    agency: string;
+    account_number: string;
 
-//     constructor() {
-//         this.code = '';
-//         this.name = '';
-//         this.agency = '';
-//         this.account_number = '';
-//     }
-// }
+    constructor() {
+        this.code = '';
+        this.name = '';
+        this.agency = '';
+        this.account_number = '';
+    }
+}
 
 export class CooperativeLegalRepresentative {
     name: string;
     cpf: string;
     phone: string;
+    marital_status: MaritalStatusEnum;
+    position: string;
+    position_expiration_date?: Date;
     address: CooperativeAddress;
 
     constructor() {
         this.name = '';
         this.cpf = '';
         this.phone = '';
+        this.marital_status = MaritalStatusEnum.Solteiro;
+        this.position = '';
         this.address = new CooperativeAddress();
     }
 }

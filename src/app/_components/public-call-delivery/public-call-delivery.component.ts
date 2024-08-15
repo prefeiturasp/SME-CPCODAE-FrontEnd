@@ -1,16 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { faCopy, faMapMarkerAlt, faPercentage, faSeedling, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBuilding, faCopy, faCubes, faMapMarkerAlt, faPercentage, faSeedling, faUsers } from '@fortawesome/free-solid-svg-icons';
 
-import { NotificationService } from 'src/app/_services/notification.service';
 import { AdminPublicCallService } from 'src/app/admin/public-call/public-call.service';
+import { LocationService } from 'src/app/_services/location.service';
+import { NotificationService } from 'src/app/_services/notification.service';
 
 import { ChangeRequest } from 'src/app/_models/change-request.model';
 import { CooperativeDeliveryInfo } from 'src/app/_models/cooperative-delivery-info.model';
 import { CooperativeDocument } from 'src/app/_models/cooperative-document.model';
 import { PublicCall } from 'src/app/_models/public-call.model';
 import { PublicCallFood } from 'src/app/_models/public-call-food.model';
+import { State } from 'src/app/_models/location.model';
 
 import { PublicCallStatusEnum } from 'src/app/_enums/public-call-status-enum';
 import { copyToClipboard } from 'src/app/_utils/geral';
@@ -23,6 +25,7 @@ export class PublicCallDeliveryComponent implements OnInit {
     @Input() public cooperatives: CooperativeDeliveryInfo[] = [];
     @Input() public documents: CooperativeDocument[] = [];
     @Output() public onGoBack: EventEmitter<boolean> = new EventEmitter();
+    @Output() public onReload = new EventEmitter();
 
     private filteredCooperativesByFood: CooperativeDeliveryInfo[] = [];
     private _food!: PublicCallFood;
@@ -41,6 +44,7 @@ export class PublicCallDeliveryComponent implements OnInit {
     public id: string = '';
     public faIcons: any;
     public PublicCallStatusEnum: any = PublicCallStatusEnum;
+    public statesList!: State[];
 
     public chartValues: any[] = [];
     public colorScheme = [{ name: "Entregue", value: '#FF9900' }];
@@ -48,13 +52,23 @@ export class PublicCallDeliveryComponent implements OnInit {
     public totalPurchased: number = 0;
 
     constructor(
+        private locationService: LocationService,
         private notificationService: NotificationService,
         public publicCallService: AdminPublicCallService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
         private router: Router
     ) {
-        this.faIcons = { copy: faCopy, goodLocationAlt: faMapMarkerAlt, inclusiveCooperative: faUsers, organic: faSeedling, percentage: faPercentage };
+        this.faIcons = { copy: faCopy, goodLocationAlt: faMapMarkerAlt, inclusiveCooperative: faUsers, organic: faSeedling, percentage: faBuilding, singular: faCubes };
+
+        this.locationService.getStatesJSON().subscribe({
+            next: (retS) => {
+              this.statesList = retS;
+            },
+            error: (errS) => {
+              console.log(errS);
+            }
+          });
     }
 
     ngOnInit(): void {
@@ -79,6 +93,29 @@ export class PublicCallDeliveryComponent implements OnInit {
         }
 
         this.loadDeliveryInformation(this.publicCall.id);
+    }
+
+    async confirmCronogramaExecutado(cooperative: CooperativeDeliveryInfo) {
+        if (cooperative.was_confirmed)
+            return;
+
+        if (!(await this.notificationService.showConfirm('Deseja realmente definir o cronograma desta cooperativa como executado?', '')))
+            return;
+
+        const public_call_answer_id: string = cooperative.public_call_answer_id;
+        
+        this.publicCallService.confirmDeliveryPut(public_call_answer_id).subscribe({
+            next: (ret) => {
+                if (ret && ret.sucesso) {
+                    this.notificationService.showSuccess(`Cronograma da cooperativa executado com sucesso`, 'Sucesso!');
+                    cooperative.was_confirmed = true;
+                    return;
+                }
+            
+                this.notificationService.showWarning(`Não foi possível marcar o cronograma desta cooperativa como executado`, 'Erro');
+                },
+                error: (err) => console.log(err)
+        })
     }
 
     confirmDelivery($event: boolean) {
@@ -163,6 +200,11 @@ export class PublicCallDeliveryComponent implements OnInit {
           error: (err) => console.log(err)
         });
     }
+
+    onSaveBoardOfAssociates($event: boolean) {
+      if ($event)
+        this.onReload.emit();
+    }
     
     onSuspendEvent(id: string) {
         this.publicCallService.suspend(id).subscribe({
@@ -179,8 +221,10 @@ export class PublicCallDeliveryComponent implements OnInit {
         });
     }
 
-    openModal(content: any) {
-        this.modalService.open(content, { centered: true });
+    openModal(content: any, isLargeSize: boolean) {
+        const size = isLargeSize ? 'lg' : 'md';
+    
+        this.modalService.open(content, { centered: true, size });
     }
 
     updateCalculatedInfo() {

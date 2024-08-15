@@ -1,0 +1,26 @@
+<div class="modal-pdf-viewer">
+    <div class="modal-header">
+        <h4 class="modal-title">Termos de Uso</h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <pdf-viewer
+            [src]="pdfSrc"
+            [rotation]="0"
+            [original-size]="false"
+            [show-all]="true"
+            [fit-to-page]="false"
+            [zoom]="1"
+            [zoom-scale]="'page-width'"
+            [stick-to-page]="false"
+            [render-text]="true"
+            [external-link-target]="'blank'"
+            [autoresize]="true"
+            [show-borders]="false"
+            style="width: 100%; height: calc(100vh - 250px);">
+        </pdf-viewer>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

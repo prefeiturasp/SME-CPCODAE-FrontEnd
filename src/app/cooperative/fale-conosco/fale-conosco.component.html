@@ -8,6 +8,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
+                            <label class="dois-pontos title">Chamada Pública</label>
+                            <select class="form-control" formControlName="public_call_id" name="public_call_id">
+                                <option [ngValue]="''" [disabled]="true">Selecione uma chamada pública</option>
+                                <option *ngFor="let publicCall of publicCalls" [value]="publicCall.id">
+                                    {{publicCall.name}}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && f['public_call_id'].errors" class="invalid-feedback">
+                                <div *ngIf="f['public_call_id'].errors['required']">A chamada pública é obrigatória</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <label class="dois-pontos title">Assunto</label>
                             <input type="text" id="title" name="title" formControlName="title" class="form-control"
                                 [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"

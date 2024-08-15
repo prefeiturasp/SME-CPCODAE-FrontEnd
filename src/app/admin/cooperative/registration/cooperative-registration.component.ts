@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 
 import { AdminCooperativeService } from '../cooperative.service';
 import { BankService } from 'src/app/_services/bank.service';
@@ -8,6 +10,8 @@ import { LocationService } from 'src/app/_services/location.service';
 import { LoaderService } from 'src/app/_services/loader.service';
 import { MenuService } from 'src/app/navigation/menu/menu.service';
 import { NotificationService } from 'src/app/_services/notification.service';
+
+import { MaritalStatusEnum } from 'src/app/_enums/marital-status.enum';
 
 import { Cooperative } from 'src/app/_models/cooperative.model';
 import { City, State } from 'src/app/_models/location.model';
@@ -23,16 +27,22 @@ declare const textTransformCapitalize: any;
 
 @Component({ selector: 'admin-cooperative-registration', templateUrl: './cooperative-registration.component.html', styleUrls: ['./cooperative-registration.component.scss'] })
 export class AdminCooperativeRegistrationComponent implements OnInit {
+  @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
   public cooperativeForm!: UntypedFormGroup;
 
   public cooperative!: Cooperative;
   public unmodified!: Cooperative;
   public isAdd: boolean = false;
   public submitted: boolean = false;
+
+  public MaritalStatusEnum: any = MaritalStatusEnum;
   
   public citiesList: City[] = [];
   public citiesListLegalRepresentative: City[] = [];
   public statesList: State[] = [];
+
+  public imageChangedEvent: any = '';
+  public croppedImage: any = '';
 
   constructor(
     private bankService: BankService,
@@ -41,6 +51,7 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
     private loaderService: LoaderService,
     private menuService: MenuService,
     private notificationService: NotificationService,
+    private sanitizer: DomSanitizer,
     private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute,
     private router: Router) {
@@ -53,13 +64,12 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
     this.isAdd = (isEmpty(id) || id.toLowerCase() === 'novo');
 
     this.cooperativeForm = this.formBuilder.group({
+      croppedImage: ['', [Validators.required]],
       pj_type: ['', [Validators.required, Validators.min(1)]],
       production_type: ['', [Validators.required, Validators.min(1)]],
       cnpj: ['', [Validators.required, CepCpfCnpjValidator.cnpj]],
       cnpj_central: ['', [ CepCpfCnpjValidator.cnpj ]],
-      isDapGroup: new FormGroup({
-        is_dap: new FormControl(true, [Validators.required])
-      }),
+      isDapGroup: new FormGroup({ is_dap: new FormControl(true, [Validators.required]) }),
       dap_caf_code: ['', [Validators.required]],
       dap_caf_registration_date: ['', Validators.required],
       dap_caf_expiration_date: ['', Validators.required],
@@ -74,13 +84,16 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
       address_complement: [''],
       address_state_acronym: [''],
       address_city_id: [0, [Validators.required, Validators.min(1)]],
-      // bank_code: ['', [Validators.required]],
-      // bank_name: ['', [Validators.required]],
-      // bank_agency: ['', [Validators.required]],
-      // bank_account: ['', [Validators.required]],
+      bank_code: ['', [Validators.required]],
+      bank_name: ['', [Validators.required]],
+      bank_agency: ['', [Validators.required]],
+      bank_account: ['', [Validators.required]],
       legal_representative_name: ['', [Validators.required]],
       legal_representative_cpf: ['', [Validators.required, CepCpfCnpjValidator.cpf]],
       legal_representative_phone: ['', [Validators.required, PhoneNumberValidator.phone]],
+      legal_representative_marital_status: [0, [Validators.required, Validators.min(1)]],
+      legal_representative_position: ['', [Validators.required]],
+      legal_representative_position_expiration_date: [''],
       legal_representative_address_street: ['', [Validators.required]],
       legal_representative_address_number: ['', [Validators.required]],
       legal_representative_address_cep: ['', [Validators.required, CepCpfCnpjValidator.cep]],
@@ -92,7 +105,8 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
     }, { 
       validators: [
         // ConditionalRequiredValidator('pj_type', '==', '3', 'cnpj_central'),
-        DateValidator.validateRangeDates('dap_caf_registration_date', 'dap_caf_expiration_date', 1, 2, true)
+        DateValidator.validateRangeDates('dap_caf_registration_date', 'dap_caf_expiration_date', 1, 2, true),
+        DateValidator.validateDateLowerThanToday('legal_representative_position_expiration_date', false)
       ],
     });
 
@@ -115,6 +129,7 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
               dap_caf_registration_date: new Date(this.cooperative.dap_caf_registration_date) < new Date(2010, 0, 1) ? null : formatDate(this.cooperative.dap_caf_registration_date),
               dap_caf_expiration_date: new Date(this.cooperative.dap_caf_registration_date) < new Date(2010, 0, 1) ? null : formatDate(this.cooperative.dap_caf_expiration_date),
               name: this.cooperative.name,
+              croppedImage: this.cooperative.logo,
               acronym: this.cooperative.acronym,
               email: this.cooperative.email,
               phone: this.cooperative.phone,
@@ -125,13 +140,16 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
               address_cep: this.cooperative.address.cep,
               address_district: this.cooperative.address.district,
               address_complement: this.cooperative.address.complement,
-              // bank_account: this.cooperative.bank?.account_number,
-              // bank_agency: this.cooperative.bank?.agency,
-              // bank_code: this.cooperative.bank?.code,
-              // bank_name: this.cooperative.bank?.name,
+              bank_account: this.cooperative.bank?.account_number,
+              bank_agency: this.cooperative.bank?.agency,
+              bank_code: this.cooperative.bank?.code,
+              bank_name: this.cooperative.bank?.name,
               legal_representative_name: this.cooperative.legal_representative?.name,
               legal_representative_cpf: this.cooperative.legal_representative?.cpf,
               legal_representative_phone: this.cooperative.legal_representative?.phone,
+              legal_representative_marital_status: this.cooperative.legal_representative?.marital_status,
+              legal_representative_position: this.cooperative.legal_representative?.position,
+              legal_representative_position_expiration_date: !this.cooperative.legal_representative?.position_expiration_date || new Date(this.cooperative.legal_representative?.position_expiration_date) < new Date(2010, 0, 1) ? null : formatDate(this.cooperative.legal_representative?.position_expiration_date),
               legal_representative_address_street: this.cooperative.legal_representative?.address?.street,
               legal_representative_address_number: this.cooperative.legal_representative?.address?.number,
               legal_representative_address_cep: this.cooperative.legal_representative?.address?.cep,
@@ -139,6 +157,8 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
               legal_representative_address_complement: this.cooperative.legal_representative?.address?.complement
             });
 
+            this.croppedImage = `data:image/png;base64,${this.cooperative.logo}`;
+            
             this.locationService.getStatesJSON().subscribe({
               next: (retS) => {
                 this.statesList = retS;
@@ -197,14 +217,20 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
     })
   }
 
-  // getBank($event: any) {
-  //   const code = onlyNumbers($event.target.value);
-  //   this.loadBank(code);
-  // }
+  getBank($event: any) {
+    const code = onlyNumbers($event.target.value);
+    this.loadBank(code);
+  }
 
   async goBack() {
     if (!this.isChanged() || !(await this.notificationService.showConfirm('Existem alterações não salvas. Caso continue você irá perder estas informações. Deseja continuar?')))
       this.router.navigate(['/admin/cooperativa']);
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64!;
+    //this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
+    this.cooperativeForm.patchValue({ croppedImage: this.croppedImage });
   }
 
   isChanged() : boolean {
@@ -236,19 +262,19 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
       || this.cooperative.legal_representative.address.number !== this.unmodified.legal_representative.address.number;
   }
 
-  // loadBank(bank_code: string) {
-  //   this.loaderService.loaderName = 'spinnerBank';
+  loadBank(bank_code: string) {
+    this.loaderService.loaderName = 'spinnerBank';
 
-  //   this.bankService.getBankFromCode(bank_code).subscribe({
-  //     next: (ret) => {
-  //       this.cooperativeForm.patchValue({
-  //         bank_code: bank_code,
-  //         bank_name: ret.fullName
-  //       });
-  //     },
-  //     error: (err) => console.log(err)
-  //   });
-  // }
+    this.bankService.getBankFromCode(bank_code).subscribe({
+      next: (ret) => {
+        this.cooperativeForm.patchValue({
+          bank_code: bank_code,
+          bank_name: ret.fullName
+        });
+      },
+      error: (err) => console.log(err)
+    });
+  }
 
   loadCities(state_acronym: string, city_id: number, isCooperative: boolean) {
     this.loaderService.loaderName = 'spinnerAddress' + (isCooperative ? '' : 'LegalRepresentative');
@@ -287,6 +313,11 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
     this.notificationService.showWarning(errorMessage, 'Erro');
   }
 
+  onFileChange(event: any): void {
+    this.croppedImage = null;
+    this.imageChangedEvent = event;
+  }
+
   onSubmit() {
     this.loaderService.loaderName = null;
     this.submitted = true;
@@ -297,7 +328,9 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
     }
 
     const cooperative = Object.assign(this.unmodified, this.cooperativeForm.value);
- 
+
+    cooperative.logo = this.croppedImage.replace('data:image/png;base64,', '');
+
     if (cooperative.acronym.trim().length > 0)
       cooperative.acronym = cooperative.acronym.trim().toUpperCase();
 
@@ -316,17 +349,22 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
       street: textTransformCapitalize(cooperative.address_street.trim())
     };
 
-    // cooperative.bank = {
-    //   account_number: cooperative.bank_account,
-    //   agency: cooperative.bank_agency,
-    //   code: cooperative.bank_code,
-    //   name: textTransformCapitalize(cooperative.bank_name.trim())
-    // };
+    cooperative.bank = {
+      account_number: cooperative.bank_account,
+      agency: cooperative.bank_agency,
+      code: cooperative.bank_code,
+      name: textTransformCapitalize(cooperative.bank_name.trim())
+    };
+
+    const legal_representative_position_expiration_date = !cooperative.legal_representative_position_expiration_date ? null : cooperative.legal_representative_position_expiration_date;
 
     cooperative.legal_representative = {
       cpf: onlyNumbers(cooperative.legal_representative_cpf),
       name: textTransformCapitalize(cooperative.legal_representative_name.trim()),
       phone: onlyNumbers(cooperative.legal_representative_phone),
+      marital_status: cooperative.legal_representative_marital_status,
+      position: cooperative.legal_representative_position,
+      position_expiration_date: legal_representative_position_expiration_date,
 
       address: {
         cep: onlyNumbers(cooperative.legal_representative_address_cep),
@@ -337,7 +375,7 @@ export class AdminCooperativeRegistrationComponent implements OnInit {
         street: textTransformCapitalize(cooperative.legal_representative_address_street.trim())
       }
     };
-
+    
     cooperative.cnpj = onlyNumbers(this.unmodified.cnpj);
     cooperative.is_dap = cooperative.isDapGroup.is_dap;
     cooperative.dap_caf_code = this.unmodified.dap_caf_code;

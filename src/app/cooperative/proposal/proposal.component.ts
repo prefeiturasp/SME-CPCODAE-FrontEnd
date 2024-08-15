@@ -9,6 +9,7 @@ import { LocationService } from 'src/app/_services/location.service';
 import { LoginService } from 'src/app/authorization/login/login.service';
 import { MenuService } from 'src/app/navigation/menu/menu.service';
 import { CooperativeService } from '../cooperative.service';
+import { ConfigurationService } from 'src/app/_services/configuration.service';
 import { ProposalService } from './proposal.service';
 
 import { GridViewConfig } from 'src/app/_components/grid-view/_models/grid-view-config.model';
@@ -52,6 +53,7 @@ export class ProposalComponent implements OnInit {
 
   public isEditProposal: boolean = false;
   public editMode: boolean = false;
+  public maximumYearSuppliedValue: number = 40000;
   public selectedFood: PublicCallFood | null = null;
   public selectedFoodId: string = '';
 
@@ -73,6 +75,7 @@ export class ProposalComponent implements OnInit {
   constructor(
     @Inject(LOCALE_ID) private locale: string,
     private cooperativeService: CooperativeService,
+    private configurationService: ConfigurationService,
     private locationService: LocationService,
     private loginService: LoginService,
     private menuService: MenuService,
@@ -169,7 +172,7 @@ export class ProposalComponent implements OnInit {
     // Valida que o cooperado não tenha estourado o seu limite anual de fornecimento ((quantidade * preço) + ja_fornecido <= limite)
     const totalPrice = this.selectedMemberAnswer.quantity * this.selectedMemberAnswer.price;
     const total_year_supplied_value = this.selectedMember!.total_year_supplied_value ?? 0;
-    let maximumAllowed = this.utilsService.maximum_year_supplied_value - total_year_supplied_value;
+    let maximumAllowed = this.maximumYearSuppliedValue - total_year_supplied_value;
 
     if (totalPrice > maximumAllowed) {
       maximumAllowed = maximumAllowed < 0 ? 0 : maximumAllowed;
@@ -306,35 +309,45 @@ export class ProposalComponent implements OnInit {
   loadInitialData(cooperative: Cooperative) {
     this.cooperativeService.get(cooperative.id).subscribe({
       next: (ret) => {
-        if (ret && ret.sucesso) {
-          this.cooperative = ret.retorno;
-
-          if (this.isEditProposal) {
-            this.loadProposalInfo(true);
-            return;
-          }
-
-          this.cooperativeService.checkIfIsAlreadyAnswer(cooperative.id, this.id).subscribe({
-            next: (retAA) => {
-              if (retAA && retAA.sucesso && !retAA.retorno) {
-                this.loadProposalInfo(false);
-                return;
-              }
-
-              this.notificationService.showWarning('Você já está participando desta chamada', '');
-              this.router.navigate(['/cooperativa/minhas-propostas']);
-            },
-            error: (errAA) => {
-              console.log(errAA);
-            }
-          });
-        } else {
+        if (!ret || !ret.sucesso)
           this.loginService.logout();
+
+        this.cooperative = ret.retorno;
+
+        if (this.isEditProposal) {
+          this.loadProposalInfo(true);
+          return;
         }
+
+        this.cooperativeService.checkIfIsAlreadyAnswer(cooperative.id, this.id).subscribe({
+          next: (retAA) => {
+            if (retAA && retAA.sucesso && !retAA.retorno) {
+              this.loadProposalInfo(false);
+              return;
+            }
+
+            this.notificationService.showWarning('Você já está participando desta chamada', '');
+            this.router.navigate(['/cooperativa/minhas-propostas']);
+          },
+          error: (errAA) => {
+            console.log(errAA);
+          }
+        });
       },
       error: (err) => {
         console.log(err);
         this.loginService.logout();
+      }
+    });
+
+    this.configurationService.getMaximumYearSuppliedValue().subscribe({
+      next: (res: any) => {
+        if (res && res.sucesso) {
+          this.maximumYearSuppliedValue = res.retorno.maximumYearSuppliedValue;
+        }
+      },
+      error: (err: any) => {
+        console.log(err);
       }
     });
   }
@@ -554,6 +567,7 @@ export class ProposalComponent implements OnInit {
       food.other_family_agro_total = this.checkout.proposalForm!.value.other_family_agro_total;
       food.pnra_settlement_total = this.checkout.proposalForm!.value.pnra_settlement_total;
       food.quilombola_community_total = this.checkout.proposalForm!.value.quilombola_community_total;
+      food.only_woman = this.checkout.proposalForm!.value.only_woman;
     });
 
     this.sendProposalExecution();

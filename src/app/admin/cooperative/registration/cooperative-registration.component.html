@@ -5,6 +5,32 @@
     <form [formGroup]="cooperativeForm">
         <perfect-scrollbar>
             <div class="body d-flex flex-direction-column">
+                <div class="row container-logo">
+                    <div class="col">
+                        <label class="dois-pontos">Logo</label>
+                        <div class="btn btn-primary container-file d-flex justify-content-center">
+                            Importe o logotipo da Cooperativa
+                            <input type="file" class="form-control form-control-sm" (change)="onFileChange($event)" accept="image/*">
+                        </div>
+                        <div *ngIf="submitted && f['croppedImage'].errors" class="invalid-feedback">
+                            <div *ngIf="f['croppedImage'].errors['required']">A logo da cooperativa deve ser importada</div>
+                        </div>
+                    </div>
+                    <div class="col crop d-flex align-items-center justify-content-center">
+                        <image-cropper #imageCropper
+                            *ngIf="imageChangedEvent"
+                            [imageChangedEvent]="imageChangedEvent"
+                            [maintainAspectRatio]="true"
+                            [aspectRatio]="1 / 1"
+                            [resizeToWidth]="160"
+                            format="png"
+                            output="base64"
+                            (imageCropped)="imageCropped($event)">
+                        </image-cropper>
+                        <img [src]="croppedImage" />
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -170,7 +196,7 @@
                             <label class="dois-pontos">E-mail da Cooperativa</label>
                             <input type="email" id="email" name="email" formControlName="email" class="form-control text-tranform-lowercase" maxlength="200"
                                 [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
-                            <small id="email" class="form-text text-muted">e-mail para contato com a organização sobre a documentação</small>
+                            <small class="form-text text-muted nowrap">e-mail para contato com a organização sobre a documentação</small>
                             <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
                                 <div *ngIf="f['email'].errors['required']">O e-mail é obrigatório</div>
                                 <div *ngIf="f['email'].errors['email']">Formato de e-mail inválido</div>
@@ -288,7 +314,7 @@
                     </div>
                 </section>
 
-                <!-- <section class="fieldset">
+                <section class="fieldset">
                     <ngx-spinner name="spinnerBank" size="medium" color="#fff" type="ball-beat"
                         [fullScreen]="false"></ngx-spinner>
                     <h1>Dados Bancários</h1>
@@ -343,7 +369,7 @@
                             </div>
                         </div>
                     </div>
-                </section> -->
+                </section>
 
                 <section class="fieldset">
                     <h1>Dados Representante Legal</h1>
@@ -387,6 +413,51 @@
                                 <div *ngIf="submitted && f['legal_representative_phone'].errors" class="invalid-feedback">
                                     <div *ngIf="f['legal_representative_phone'].errors['required']">O telefone é obrigatório</div>
                                     <div *ngIf="f['legal_representative_phone'].errors['phone']">Formato do telefone inválido</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="dois-pontos">Estado Civil</label>
+                                <select class="form-control" formControlName="legal_representative_marital_status"
+                                    [ngClass]="{ 'is-invalid': submitted && f['legal_representative_marital_status'].errors }">
+                                    <option [ngValue]="0" [disabled]="true">Selecione o Estado Civil</option>
+                                    <option [ngValue]="MaritalStatusEnum.Casado">Casado</option>
+                                    <option [ngValue]="MaritalStatusEnum.Divorciado">Divorciado</option>
+                                    <option [ngValue]="MaritalStatusEnum.Separado">Separado</option>
+                                    <option [ngValue]="MaritalStatusEnum.Solteiro">Solteiro</option>
+                                    <option [ngValue]="MaritalStatusEnum.UniaoEstavel">União Estável</option>
+                                    <option [ngValue]="MaritalStatusEnum.Viuvo">Viúvo</option>
+                                </select>
+                                <div *ngIf="submitted && f['legal_representative_marital_status'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['legal_representative_marital_status'].errors['required'] || f['legal_representative_marital_status'].errors['min']">O estado civil é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="dois-pontos">Cargo</label>
+                                <input type="text" id="position" name="position" formControlName="legal_representative_position"
+                                    class="form-control" maxlength="100"
+                                    [ngClass]="{ 'is-invalid': submitted && f['legal_representative_position'].errors }" />
+                                <div *ngIf="submitted && f['legal_representative_position'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['legal_representative_position'].errors['required']">O cargo é obrigatório
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="dois-pontos">Data Vigência Mandato</label>
+                                <div class="input-group">
+                                    <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="form-control" formControlName="legal_representative_position_expiration_date" maxlength="10"
+                                        [ngClass]="{ 'is-invalid': submitted && f['legal_representative_position_expiration_date'].errors }">
+                                </div>
+                                <div *ngIf="submitted && f['legal_representative_position_expiration_date'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['legal_representative_position_expiration_date'].errors['dateLowerThanToday']">A data de vigência do mandato deve ser maior do que hoje</div>
                                 </div>
                             </div>
                         </div>
