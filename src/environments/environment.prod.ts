@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://216.238.106.11:8081/api',
+  apiUrl: 'https://cpcodae.sme.prefeitura.sp.gov.br/api',
 
   termosUsoFileName: 'termos_uso_20240727.pdf'
 };
