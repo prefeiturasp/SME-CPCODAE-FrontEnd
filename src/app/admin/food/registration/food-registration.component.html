@@ -1,0 +1,75 @@
+<div class="food-register registration-page-container">
+    <header>
+        <h2>Gênero Alimentício</h2>
+    </header>
+    <form [formGroup]="foodForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Nome</label>
+                            <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                                placeholder="Digite o alimento" />
+                            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                <div *ngIf="f['name'].errors['required']">O alimento é obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Categoria</label>
+                            <select class="form-control" formControlName="category_id" name="category_id" [ngClass]="{ 'is-invalid': submitted && f['category_id'].errors }">
+                                <option [ngValue]="''" disabled>Selecione uma categoria</option>
+                                <option *ngFor="let category of categories" [value]="category.id">
+                                    {{category.name}}
+                                </option>
+                            </select>
+                            <div *ngIf="submitted && f['category_id'].errors" class="invalid-feedback">
+                                <div *ngIf="f['category_id'].errors['required']">A categoria é obrigatória</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Unidade Medida</label>
+                            <select class="form-control" name="measure_unit" formControlName="measure_unit"
+                                [ngClass]="{ 'is-invalid': submitted && f['measure_unit'].errors }">
+                                <option [ngValue]="0" [disabled]="true">Selecione uma unidade de medida</option>
+                                <option [ngValue]="2">Litro (l)</option>
+                                <option [ngValue]="4">Metro (m)</option>
+                                <option [ngValue]="5">Peça (peça)</option>
+                                <option [ngValue]="1">Quilo (kg)</option>
+                                <option [ngValue]="3">Unidade (un)</option>
+                            </select>
+                            <div *ngIf="submitted && f['measure_unit'].errors" class="invalid-feedback">
+                                <div *ngIf="f['measure_unit'].errors['required'] || f['measure_unit'].errors['min']">A unidade de medida é obrigatória</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" [ngClass]="{ 'd-hidden': isAdd }">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="isActive" formControlName="isActive">
+                                        Ativo?
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

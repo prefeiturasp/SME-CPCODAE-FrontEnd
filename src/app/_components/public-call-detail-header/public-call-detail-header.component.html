@@ -1,0 +1,26 @@
+<div class="public-call-detail-header list-page-container">
+    <header class="d-flex justify-content-space-between align-items-center" *ngIf="publicCall">
+        <div class="d-flex flex-direction-column justify-content-space-between col-2">
+            <div><app-public-call-status [status]="publicCall.status"></app-public-call-status></div>
+            <h2>{{publicCall.name}}</h2>
+            <div class="d-flex align-items-center justify-content-space-around">
+                <div><b>Processo Nº:</b> {{publicCall.process}}</div>
+                <div><b>Data:</b> {{publicCall.public_session_date | date:'dd/MM/yyyy'}}</div>
+                <div><span *ngIf="food_name"><b>Alimento:</b> {{food_name}}</span></div>
+            </div>
+        </div>
+        <div class="button-area d-flex flex-direction-column justify-content-space-evenly ml-20" *ngIf="showButtons || publicCall.status >= PublicCallStatusEnum.suspensa.id">
+            <button class="btn btn-secondary btn-sm min-120" (click)="editPublicCall()" *ngIf="publicCall.status <= PublicCallStatusEnum.emAndamento.id">
+                <fa-icon [icon]="faIcons.pencil"></fa-icon>
+                Editar Chamada
+            </button>
+            <button class="btn btn-secondary btn-sm min-120" (click)="voltarDocumentosAnalisadosPublicCall()" *ngIf="publicCall.status == PublicCallStatusEnum.aprovada.id">
+                <fa-icon [icon]="faIcons.back"></fa-icon>
+                Voltar para Documentos Analisados
+            </button>
+            <button class="btn btn-default btn-sm min-120" *ngIf="publicCall.status == PublicCallStatusEnum.emAndamento.id" (click)="setAsDesertaPublicCall()">Definir Deserta</button>
+            <button class="btn btn-default btn-sm min-120 mt--10" *ngIf="publicCall.status < PublicCallStatusEnum.cronogramaExecutado.id" (click)="suspendPublicCall()">Suspender Chamada</button>
+            <button class="btn btn-default btn-sm min-120 mt--10" *ngIf="publicCall.status === PublicCallStatusEnum.suspensa.id || publicCall.status < PublicCallStatusEnum.cronogramaExecutado.id" (click)="removePublicCall()">Cancelar Chamada</button>
+        </div>
+    </header>
+</div>

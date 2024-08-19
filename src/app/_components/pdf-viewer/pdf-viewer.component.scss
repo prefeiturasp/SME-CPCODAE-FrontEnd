@@ -1,0 +1,13 @@
+.modal-pdf-viewer {
+    .modal-header {
+        align-items: flex-start;
+        
+        .modal-title { display: flex; flex-direction: column; }
+    }
+
+    .modal-body { display: flex; justify-content: center; }
+
+    ::ng-deep {
+        .ng2-pdf-viewer-container { overflow-x: hidden; }
+    }
+}

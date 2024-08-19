@@ -1,0 +1,21 @@
+@import '../../../assets/styles/list-registration-page';
+
+.general-data {
+    .row { padding-bottom: 10px; }
+
+    .fieldset .form-group { text-align: left; }
+
+    .is-radio > div {
+        align-items: center;
+        height: 38px;
+
+        > div:first-child { margin-right: 10px; }
+
+        .form-check-label {
+            align-items: center;
+            display: flex;
+
+            > input { margin-right: 5px; margin-top: 0px; }
+        }
+    }
+}

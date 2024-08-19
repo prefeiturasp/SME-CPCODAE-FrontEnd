@@ -1,0 +1,102 @@
+.circle-progress {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+
+    .wrapper {
+        animation: .4s ease-out turn_in reverse;
+        border-radius: 50%;
+        display: flex;
+        height: 80px;
+        font-size: 0;
+        width: 80px;
+
+        &.green { background: conic-gradient(var(--default-green-medium-color) var(--progress), gray 0deg); }
+        &.orange { background: conic-gradient(var(--default-orange-color) var(--progress), gray 0deg); }
+        &.red { background: conic-gradient(var(--default-red-color) var(--progress), gray 0deg); }
+        &.yellow { background: conic-gradient(var(--default-yellow-color) var(--progress), gray 0deg); }
+    
+        &::after {
+            background: white;
+            border-radius: 50%;
+            content: attr(data-progress);
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 6px;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    .hour-glass {
+        left: 30px;
+        position: absolute;
+        top: 30px;
+    }
+}
+  
+@keyframes turn_in {
+    5% {
+        background: conic-gradient(var(--default-red-color) calc(var(--progress) * .95), gray 0deg);
+    }
+    10% {
+        background: conic-gradient(var(--default-red-color) calc(var(--progress) * .9), gray 0deg);
+    }
+    15% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .85), gray 0deg);
+    }
+    20% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .8), gray 0deg);
+    }
+    25% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .75), gray 0deg);
+    }
+    30% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .7), gray 0deg);
+    }
+    35% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .65), gray 0deg);
+    }
+    40% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .6), gray 0deg);
+    }
+    45% {
+        background: conic-gradient(var(--default-orange-color) calc(var(--progress) * .55), gray 0deg);
+    }
+    50% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .5), gray 0deg);
+    }
+    55% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .45), gray 0deg);
+    }
+    60% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .4), gray 0deg);
+    }
+    65% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .35), gray 0deg);
+    }
+    70% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * 0.3), gray 0deg);
+    }
+    75% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * 0.25), gray 0deg);
+    }
+    80% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .2), gray 0deg);
+        }
+    85% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .15), gray 0deg);
+        }
+    90% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .1), gray 0deg);
+        }
+    95% {
+        background: conic-gradient(var(--default-yellow-color) calc(var(--progress) * .05), gray 0deg);
+        }
+    100% {
+        background: conic-gradient(var(--default-green-medium-color) var(--progress), gray 0deg);
+    }
+}

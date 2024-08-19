@@ -1,0 +1,49 @@
+@import 'checkbox-radio';
+
+.list-page-container,
+.registration-page-container {
+    header {
+        background-color: #eee;
+        display: flex;
+        padding: 20px;
+        max-height: 78px;
+
+        h2 { border-bottom: solid 1px #ccc; font-size: 1.5rem; height: 40px; }
+    }
+}
+
+.list-page-container {
+    padding: 0;
+
+    header                  { margin-bottom: 20px; }
+    ::ng-deep .sme-gridview { padding: 0 20px; }
+}
+
+.registration-page-container {
+    .body {
+        padding: 20px;
+
+        > div {
+            margin-bottom: 10px;
+            width: 800px;
+
+            > div {
+                text-align: left;
+    
+                label.title { margin-bottom: 10px; }
+
+            }
+        }
+    }
+
+    perfect-scrollbar { 
+        height: calc(100vh - 270px);
+
+        ::ng-deep {
+            >div {
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+}

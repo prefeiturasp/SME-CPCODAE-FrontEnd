@@ -1,0 +1,37 @@
+@import '../../../assets/styles/list-registration-page';
+
+.public-call {
+    perfect-scrollbar ::ng-deep .ps-content { min-width: 100%; }
+
+    .body { padding: 20px 80px; }
+
+    .fieldset {
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+
+            &.small-line {
+                align-items: flex-end;
+                display: flex;
+                margin-bottom: 10px;
+
+                .form-check.circle { white-space: nowrap; }
+            }
+        }
+
+        .documents {
+            .table-row {
+                border-top: none;
+
+                .form-check-label {
+                    margin-left: 0;
+                    position: relative;
+
+                    > span { margin-left: 25px; }
+                }
+            }
+        }
+    }
+
+    .action-button { width: 75%; }
+}

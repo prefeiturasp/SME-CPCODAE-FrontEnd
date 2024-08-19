@@ -1,0 +1,85 @@
+<section class="table ongoing">
+    <perfect-scrollbar>
+        <div class="table-row d-flex align-items-center mb-10" *ngFor="let publicCall of publicCalls"
+            [ngClass]="{
+                'waiting-approval': publicCall.status <= PublicCallStatusEnum.aprovada.id,
+                'waiting-confirmation': (publicCall.status > PublicCallStatusEnum.aprovada.id && publicCall.status <= PublicCallStatusEnum.homologada.id) && publicCall.was_chosen,
+                'has-messages': publicCall.status >= PublicCallStatusEnum.emAndamento.id && publicCall.status <= PublicCallStatusEnum.aprovada.id && publicCall.has_messages
+            }">
+            <div class="col-0-5">
+                <label>{{ publicCall.public_session_date | date:'dd/MM' }}</label>
+                <span>{{ publicCall.public_session_date | date:'yyyy' }}</span>
+            </div>
+            <div class="col-2 d-flex flex-direction-column align-items-start">
+                <label class="truncate">{{publicCall.name}}</label>
+                <div>
+                    <span class="mr-15"><b class="mr-5">Processo nº</b> {{ publicCall.process }}</span>
+                    <span><b class="mr-5">Alimento</b> {{publicCall.food_name}}</span>
+                </div>
+            </div>
+            <div class="col" *ngIf="pageIndex === 1">
+                <div *ngIf="(publicCall.status < PublicCallStatusEnum.aprovada.id)" class="d-flex align-items-center">
+                    <div class="col"><b>Proposta <br /> em andamento!</b></div>
+                    <div class="col">
+                        <small>Acompanhe os próximos passos através do diário oficial</small>
+                        <!-- <button class="btn btn-sm accept" (click)="openModal(content)">Aceitar</button> -->
+                    </div>
+                </div>
+                <div *ngIf="(publicCall.status === PublicCallStatusEnum.homologada.id)" class="d-flex align-items-center">
+                    <div class="col"><b>Sua Proposta <br /> foi selecionada!</b></div>
+                    <div class="col">
+                        <small>Acompanhe os próximos passos através do diário oficial</small>
+                        <!-- <button class="btn btn-sm accept" (click)="openModal(content)">Aceitar</button> -->
+                    </div>
+                </div>
+                <div *ngIf="publicCall.status >= PublicCallStatusEnum.contratada.id">
+                    <!-- <app-public-call-delivery-timeline [deliveryInfo]="publicCall.delivery_info!" [measure_unit]="publicCall.measure_unit"></app-public-call-delivery-timeline> -->
+                </div>
+
+                <ng-template #content let-modal>
+                  <app-accept-modal [modal]="modal" [publicCall]="publicCall" (confirmDeliveryEvent)="confirmDelivery($event)">
+                  </app-accept-modal>
+                </ng-template>
+            </div>
+            <div class="col waiting" *ngIf="pageIndex === 2">
+                <div *ngIf="publicCall.status >= PublicCallStatusEnum.emAndamento.id && publicCall.status <= PublicCallStatusEnum.aprovada.id && publicCall.has_messages" class="d-flex align-items-center">
+                    <div class="col" *ngIf="!publicCall.last_message_is_invisible"><b>Você tem <br /> uma mensagem!</b></div>
+                    <div class="col" *ngIf="publicCall.last_message_is_invisible"><b>Você não tem <br /> cooperados cadastrados!</b></div>
+                    <div class="col">
+                        <button class="btn btn-sm access-proposal" (click)="goToProposal(publicCall.id, publicCall.food_id)">Acessar</button>
+                    </div>
+                </div>
+                <div *ngIf="publicCall.status > PublicCallStatusEnum.emAndamento.id || !publicCall.has_messages" class="d-flex align-items-center">
+                    <div class="col d-flex flex-direction-column">
+                        <b>Proposta em Análise</b>
+                        <small>Prazo de Análise: {{ publicCall.public_session_date | date:'dd/MM/yyyy' }}</small>
+                    </div>
+                    <div class="col d-flex flex-direction-column">
+                        <a href="javascript:void(0)" (click)="downloadMembersList(publicCall.public_call_answer_id)">Baixar Cooperados Enviados</a>
+                        <a href="javascript:void(0)" (click)="downloadProposalDeclaration(publicCall.public_call_answer_id)">Baixar Plano de Vendas</a>
+                        <a href="javascript:void(0)" (click)="resendMemberList(publicCall.id, publicCall.food_id, publicCall.public_call_answer_id)">Reenviar Planilha</a>
+                        <button *ngIf="publicCall.registrationDateIsGreaterThanToday" 
+                            class="btn btn-sm btn-danger" (click)="removeProposal(publicCall.public_call_answer_id!)">
+                            Excluir Proposta
+                        </button>
+                    </div>
+                    <!-- <div class="col-0-5">
+                        <app-circle-progress [color_class]="publicCall.public_session_date_color_class!"
+                            [percentage]="publicCall.public_session_date_percentage!" [showPercentage]="false" >
+                        </app-circle-progress>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col closed" *ngIf="pageIndex === 3">
+                <div class="d-flex align-items-center">
+                    <label class="completed" *ngIf="publicCall.was_chosen && publicCall.status === PublicCallStatusEnum.contratada.id">Contratada</label>
+                    <label class="completed" *ngIf="publicCall.was_chosen && publicCall.status === PublicCallStatusEnum.cronogramaExecutado.id">Cronograma Executado</label>
+                    <label class="" *ngIf="!publicCall.was_chosen || publicCall.status > PublicCallStatusEnum.cronogramaExecutado.id">Proposta Recusada</label>
+                </div>
+            </div>
+        </div>
+        <div class="vazio text-center" *ngIf="!publicCalls || publicCalls.length <= 0">
+            <span>Nenhuma proposta foi encontrada</span>
+        </div>
+    </perfect-scrollbar>
+</section>

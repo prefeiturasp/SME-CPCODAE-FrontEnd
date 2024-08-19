@@ -1,0 +1,16 @@
+<div class="modal-change-request">
+    <div class="modal-header">
+        <h4 class="modal-title d-flex flex-direction-column">
+            Editar Quadro Associados
+            <small *ngIf="cooperative">{{cooperative.name}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <app-board-of-associates #boa [statesList]="statesList"></app-board-of-associates>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+        <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+    </div>
+</div>

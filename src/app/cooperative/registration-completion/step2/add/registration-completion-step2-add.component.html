@@ -1,0 +1,35 @@
+<div class="content-wrapper add-area p-0">
+    <input type="file" class="upload" (change)="selectFile($event)" accept="application/pdf" />
+
+    <div class="vazio" *ngIf="!cooperative.documents || cooperative.documents.length <= 0">
+        <span>Nenhum tipo de documento foi encontrado</span>
+    </div>
+    <section class="table d-flex flex-column mt-20" *ngIf="cooperative.documents && cooperative.documents.length > 0">
+        <header class="d-flex">
+            <div class="col text-left pl-10">Tipo Documento</div>
+            <div class="col text-left">Arquivo</div>
+            <div class="col-0-25 action"></div>
+        </header>
+        <perfect-scrollbar>
+            <div class="table-row d-flex" *ngFor="let item of filteredDocuments; let index = index">
+                <div class="col text-left">{{item.document_type_name}}</div>
+                <div class="col text-left"><span *ngIf="item.document_path">{{item.file_name}}</span> <small *ngIf="!item.document_path" class="text-danger">(não incluído - aceita somente PDF)</small></div>
+                <div class="col-0-25 action">
+                    <a *ngIf="!item.document_path" href="javascript:void(0)" (click)="addDoc(item.document_type_id!)" title="Escolher Arquivo" class="text-black">
+                        <fa-icon [icon]="faIcons.upload"></fa-icon>
+                    </a>
+                    <a *ngIf="!item.document_path" href="javascript:void(0)" class="text-black empty">
+                        <fa-icon [icon]="faIcons.trash"></fa-icon>
+                    </a>
+
+                    <a *ngIf="item.document_path" href="javascript:void(0)" (click)="show(item.document_type_id!)" title="Visualizar" class="text-black">
+                        <fa-icon [icon]="faIcons.show"></fa-icon>
+                    </a>
+                    <a *ngIf="item.document_path" href="javascript:void(0)" (click)="remove(index, item.document_type_id!)" title="Remover" class="text-danger">
+                        <fa-icon [icon]="faIcons.trash"></fa-icon>
+                    </a>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </section>
+</div>

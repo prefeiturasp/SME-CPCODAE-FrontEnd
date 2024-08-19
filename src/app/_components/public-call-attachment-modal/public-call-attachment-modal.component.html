@@ -1,0 +1,104 @@
+<div class="modal-attachment">
+    <div class="modal-header">
+        <h4 class="modal-title d-flex flex-direction-column">
+            <div *ngIf="hasErrosCooperated; else anexosPropostaTitle">
+                Extrato de DAPs/CAFs
+            </div>
+            <ng-template #anexosPropostaTitle>
+                <div>
+                    <span>Anexos da Proposta</span> - 
+                    <small *ngIf="cooperative"><a href="javascript:void(0)" (click)="downloadAll()">Baixar todos documentos ativos</a></small>
+                </div>
+            </ng-template>
+            <small *ngIf="cooperative">{{cooperative.name}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <perfect-scrollbar *ngIf="!hasErrosCooperated">
+            <div class="card-attach-list d-flex justify-content-space-between" *ngIf="isCardType; else divListType">
+                <div class="card-attach d-flex flex-direction-column justify-content-space-between align-items-center" 
+                    *ngFor="let document of documentsCurrent" (click)="onDownload(document.id!)">
+                    <div class="card-attach-header">PDF</div>
+                    <public-call-attachment-card-header [document]="document"></public-call-attachment-card-header>
+                </div>
+            </div>
+            <ng-template #divListType>
+                <div class="card-attach-list d-flex">
+                    <ul class="card-attach-ul">
+                        <li *ngFor="let document of documentsCurrent">
+                            <ng-template #popContentGL>
+                                <div class="popover-sme">
+                                    <b>Revisado Por:</b> {{document.reviewer_name}}
+                                    <hr />
+                                    <b>Data Revisão:</b> {{ document.reviewed_date | date: 'dd/MM/yyyy' }}
+                                </div>
+                            </ng-template>
+
+                            <div class="card-attach-pdf mr-10">PDF</div>
+                            <div class="card-attach-title truncate cursor-pointer" title="{{document.document_type_name}}" (click)="onDownload(document.id!)">
+                                {{document.document_type_name}}
+                            </div>
+                            <div class="card-attach-date">{{document.creation_date | date:'dd/MM/yyyy'}}</div>
+                            <div class="form-check circle">
+                                <label class="form-check-label">
+                                  <input type="checkbox" class="form-check-input" [(ngModel)]="document.is_reviewed" (change)="setAsReviewed($event, document.id!)">
+                                  Revisado?
+                                  <i class="input-helper"></i>
+                                </label>
+                            </div>
+                            <fa-icon class="card-attach-reviewer" *ngIf="document.is_reviewed" [icon]="faIcons.info"
+                                [ngbPopover]="popContentGL" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                        </li>
+                    </ul>
+                </div>
+            </ng-template>
+            <div class="card-attach-history accordion accordion-flush" *ngIf="documentsHistory && documentsHistory.length > 0">
+                <h3>Histórico de Anexos</h3>
+                <div class="accordion-item" *ngFor="let documentGrouped of documentsHistory; let index = index">
+                    <h2 class="accordion-header">
+                        <button id="attachmentLabel_{{index}}" class="card-attach-history-header accordion-button collapsed" data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#attachment_' + index" aria-expanded="false" container="body"
+                            [attr.aria-controls]="'attachment_' + index">
+                            <b class="creation-date">{{ documentGrouped.creation_date | date: 'dd/MM/yyyy' }}</b>
+                            <public-call-attachment-card-header [document]="documentGrouped.documents[0]" [isHistory]="true"></public-call-attachment-card-header>
+                            <b class="more" *ngIf="documentGrouped.documents.length > 1">+{{ documentGrouped.documents.length - 1 }}</b>
+                        </button>
+                    </h2>
+                    <div id="attachment_{{index}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'attachmentLabel_' + index">
+                        <div class="accordion-body">
+                            <public-call-attachment-card-header *ngFor="let document of documentGrouped.documents" [document]="document" 
+                                [clickable]="true" [isHistory]="true" (click)="onDownload(document.id!)">
+                            </public-call-attachment-card-header>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vazio text-center" *ngIf="!documents || documents.length <= 0">
+                <span>Nenhum anexo foi encontrado</span>
+            </div>
+        </perfect-scrollbar>
+        <ng-container *ngIf="hasErrosCooperated">
+            <div class="content-attachment-uploads">
+                <!-- <h5>Anexe os documentos do{{ (qtdErrosCooperated > 1 ? 's' + qtdErrosCooperated + 'cooperados não cadastrados' : ' cooperado não cadastrado') }}.</h5> -->
+                <h5 *ngIf="!documentsCurrent || documentsCurrent.length <= 0">Anexe o documento PDF com o extrato de DAPs ou CAFs.</h5>
+                <input #fileUploaderDocument type="file" accept="application/pdf" class="form-control upload" name="document" (change)="changeDocument($event)" hidden>
+                <button *ngIf="!documentsCurrent || documentsCurrent.length <= 0" (click)="fileUploaderDocument.click()" class="btn btn-default">Anexar documento <span class="material-symbols-outlined">attach_file</span></button>
+
+                <div class="card-attach-list d-flex justify-content-space-between">
+                    <div class="card-attach d-flex flex-direction-column justify-content-space-between align-items-center" 
+                        *ngFor="let document of documentsCurrent; let i = index">
+                        <div class="card-attach-header">PDF</div>
+                        <span class="material-symbols-outlined" (click)="removeDocument(i)">close</span>
+                        <public-call-attachment-card-header [document]="document"></public-call-attachment-card-header>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="hasErrosCooperated" type="button" class="btn btn-success" [disabled]="documentsCurrent.length === 0"
+        (click)="sendData()">Enviar</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

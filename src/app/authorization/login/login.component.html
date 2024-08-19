@@ -1,0 +1,100 @@
+<div class="content-wrapper login p-0">
+    <ngx-spinner size="medium" color="#fff" type="ball-beat" [fullScreen]="false"></ngx-spinner>
+    <div class="col-12 d-flex align-items-center justify-content-center bg-white">
+        <div class="nav-get-started">
+            <img src="assets/imagens/logo-preto-vertical.png" class="img-fluid">
+        </div>
+        <perfect-scrollbar>
+            <div class="auto-form-wrapper">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <h3 class="mr-auto">Olá, seja bem-vindo!</h3>
+                    <p class="mb-5 mr-auto">Para acessar o sistema, informe suas credenciais abaixo.</p>
+
+                    <div class="form-group">
+                        <label class="dois-pontos">E-mail</label>
+                        <div class="input-group" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-user"></i></span>
+                            </div>
+                            <input type="email" id="email" name="email" formControlName="email" class="form-control"
+                                placeholder="Digite seu e-mail aqui" autofocus />
+                        </div>
+                        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                            <div *ngIf="f['email'].errors['required']">O e-mail é obrigatório</div>
+                            <div *ngIf="f['email'].errors['email']">Formato de e-mail inválido</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="dois-pontos">Senha</label>
+                        <div class="input-group" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="icon-lock"></i></span>
+                            </div>
+                            <input type="password" id="senha" name="senha" formControlName="password"
+                                class="form-control" placeholder="Digite sua senha aqui" />
+                        </div>
+                        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                            <div *ngIf="f['password'].errors['required']">A senha é obrigatória</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-center">
+                        <p class="text-small forgot-password text-black">Esqueceu sua senha?
+                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#recoverPassword">Clique
+                                aqui!</a>
+                        </p>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success">Acessar</button>
+                    </div>
+
+                    <div class="form-group d-flex justify-content-center">
+                        <p class="text-small forgot-password text-black">Ainda não tem conta?
+                            <a href="javascript:void(0)" routerLink="/cooperativa/cadastro">Cadastre-se aqui!</a>
+                        </p>
+                    </div>
+
+                </form>
+            </div>
+        </perfect-scrollbar>
+    </div>
+
+    <div id="recoverPassword" class="modal fade recover-password-modal" tabindex="-1"
+        aria-labelledby="recoverPasswordLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <ngx-spinner name="spinnerRecuperarSenha" size="medium" color="#fff" type="ball-beat" [fullScreen]="false"></ngx-spinner>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recoverPasswordLabel">Recupere sua senha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form [formGroup]="recoverPasswordForm" (ngSubmit)="onRecoverSubmit()">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label id="email" class="dois-pontos">E-mail</label>
+                            <div class="input-group"
+                                [ngClass]="{ 'is-invalid': submittedRecover && fp['emailRecover'].errors }">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-user"></i></span>
+                                </div>
+                                <input type="email" id="emailRecover" name="emailRecover" formControlName="emailRecover"
+                                    class="form-control" placeholder="Digite seu e-mail aqui" />
+                            </div>
+                            <div *ngIf="submittedRecover && fp['emailRecover'].errors" class="invalid-feedback">
+                                <div *ngIf="fp['emailRecover'].errors['required']">O e-mail é obrigatório</div>
+                                <div *ngIf="fp['emailRecover'].errors['email']">Formato de e-mail inválido</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-modal"
+                            data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-success">Recuperar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

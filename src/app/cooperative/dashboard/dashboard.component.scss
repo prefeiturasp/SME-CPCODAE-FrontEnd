@@ -1,0 +1,28 @@
+@import '../../../assets/styles/list-registration-page';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.dashboard {
+    .nav-tabs { 
+        padding: 0 20px;
+        
+        .nav-item {
+            &.relative {
+                display: inline-block;
+                position: relative;
+
+                .alert-msg {
+                    background-color: var(--default-red-color);
+                    border-radius: 50%;
+                    font-size: 7px;
+                    height: 8px;
+                    position: absolute;
+                    right: 6px;
+                    top: 9px;
+                    width: 8px;
+        
+                    &.hidden { display: none; }
+                }
+            }
+        }
+    }
+}

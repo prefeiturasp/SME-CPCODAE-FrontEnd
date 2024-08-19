@@ -1,0 +1,17 @@
+.modal-food-document {
+    .modal-header {
+        align-items: flex-start;
+        
+        .modal-title {
+            display: flex;
+            flex-direction: column;
+
+            small { font-size: 1rem; }
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+    }
+}

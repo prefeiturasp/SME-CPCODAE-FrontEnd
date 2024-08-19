@@ -1,0 +1,39 @@
+<div class="overlay" (click)="toggleMenu()"></div>
+<nav class="sidebar" *ngIf="show">
+    <div class="toggle-menu" (click)="toggleMenu()">
+        <fa-icon [icon]="isOpened ? faIcons.arrowLeft : faIcons.arrowRight"></fa-icon>
+    </div>
+ 
+    <ul class="list-unstyled menu-elements">
+        <li></li>
+        <li [ngClass]="{ 'active': activeUrl === '/cooperativa/minhas-propostas' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/cooperativa/minhas-propostas')" title="Minhas Propostas">
+                <div class="relative">
+                    <fa-icon [icon]="faIcons.home"></fa-icon>
+                    <i class="alert-msg" [ngClass]="{ hidden: !hasMessages }"></i>
+                </div>
+                <span>Home</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/cooperativa/dados-gerais' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/cooperativa/dados-gerais')" title="Dados Gerais">
+                <fa-icon [icon]="faIcons.building"></fa-icon> <span>Dados Gerais</span>
+            </a>
+        </li>
+        <!-- <li [ngClass]="{ 'active': activeUrl === '/cooperativa/cooperados' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/cooperativa/cooperados')" title="Cooperados">
+                <fa-icon [icon]="faIcons.users"></fa-icon> <span>Cooperados</span>
+            </a>
+        </li> -->
+        <li [ngClass]="{ 'active': activeUrl === '/cooperativa/documentos' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/cooperativa/documentos')" title="Documentos">
+                <fa-icon [icon]="faIcons.fileLines"></fa-icon> <span>Documentos</span>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': activeUrl === '/cooperativa/fale-conosco' }">
+            <a class="scroll-link" href="javascript:void(0)" (click)="goTo('/cooperativa/fale-conosco')" title="Fale Conosco">
+                <fa-icon [icon]="faIcons.contact"></fa-icon> <span>Fale Conosco</span>
+            </a>
+        </li>
+    </ul>
+</nav>

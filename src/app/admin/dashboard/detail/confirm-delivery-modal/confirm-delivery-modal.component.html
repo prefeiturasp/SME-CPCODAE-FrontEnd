@@ -1,0 +1,56 @@
+<div class="modal-delivery-confirmation">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Cronograma de Entrega
+            <small *ngIf="publicCall"><b>Processo nº:</b> {{publicCall.process}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="publicCall" class="list">
+            <label>O volume total (100%) de sua entrega é de <b>{{publicCall.total_proposal}}{{publicCall.measure_unit}}</b></label>
+            
+            <perfect-scrollbar>
+                <ul class="list-bullets deliveries">
+                    <li>
+                        <i class="i-index"></i>
+                        <div>
+                            <label>Data</label>
+                            <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="delivery-date form-control input-sm" [(ngModel)]="deliveryDate" autofocus />
+                        </div>
+                        <div>
+                            <label>Quantidade <small>(em {{publicCall.measure_unit}})</small></label>
+                            <input type="number" class="form-control input-sm" [(ngModel)]="deliveryQuantity" />
+                        </div>
+                        <div>
+                            <button class="btn btn-primary btn-sm" (click)="add()" [disabled]="!deliveryDate || !deliveryQuantity">
+                                <fa-icon [icon]="faIcons.faAdd"></fa-icon>
+                            </button>
+                        </div>
+                    </li>
+                    <li *ngFor="let item of publicCall.delivery_progress; let ind = index">
+                        <b>{{(ind + 1)}}ª</b>
+                        <label>
+                            {{item.delivery_date | date:'dd/MM/yyyy'}}
+                            <fa-icon [icon]="faIcons.faCheckCircle" class="not-delivered"></fa-icon>
+                        </label>
+                        <label>
+                            {{item.delivery_quantity}}
+                            <fa-icon [icon]="faIcons.faCheckCircle" class="not-delivered"></fa-icon>
+                        </label>
+                        <button class="btn btn-sm" (click)="removeDeliveryProgress(ind)">
+                            <fa-icon [icon]="faIcons.faTrash" class="text-danger"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </perfect-scrollbar>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <label *ngIf="publicCall">Total Adicionado: <b>{{totalDeliveries}}{{publicCall.measure_unit}}</b></label>
+        <button type="button" class="btn btn-primary" (click)="confirm()" [disabled]="totalDeliveries !== publicCall!.total_proposal">
+            Confirmar
+        </button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

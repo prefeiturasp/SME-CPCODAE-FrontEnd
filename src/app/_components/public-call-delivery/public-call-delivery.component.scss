@@ -1,0 +1,124 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.public-call-delivery {
+    > div > div:first-child {
+        padding: 10px;
+
+        label { font-weight: bold; }
+    }
+
+    .cards-body {
+        display: flex;
+        flex-wrap: wrap;
+        height: calc(100vh - 232px);
+        overflow: auto;
+
+        > * { flex-basis: 50%; max-width: 50%; }
+    }
+
+    section.table {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+        padding: 0 15px;
+
+        perfect-scrollbar {
+            border-top: solid 1px #ccc;
+            height: calc(100vh - 428px);
+        
+            ::ng-deep .ps-content { padding: 0; }
+        }
+
+        header {
+            background-color: #FFF;
+            display: flex;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 0;
+            padding: 5px;
+
+            .col.action {
+                max-width: 150px !important;
+
+                >div.button-area { margin-top: -5px; margin-bottom: 10px; padding: 0; }
+            }
+        }
+
+        .table-row {
+            display: flex;
+            font-size: 15px;
+            line-height: 40px;
+
+            &:nth-child(even) { background-color: #eee; }
+
+            .col,
+            .col-0-25 {
+                &:first-child { padding: 0 5px;}
+
+                &.action {
+                    align-items: center;
+                    display: flex;
+                    max-width: 150px !important;
+                    justify-content: center;
+
+                    >a {
+                        color: #3D3D3D;
+
+                        &[disabled="disabled"] { color: transparent !important; cursor: default; pointer-events: none; }
+
+                        &:hover { >span { transform: scale(1.5); } }
+
+                        >span { font-size: 20px; transition: transform 0.5s linear; }
+                    }
+                }
+
+                &.classification {
+                    align-items: center;
+                    display: flex;
+                    justify-content: space-evenly;
+
+                    fa-icon {
+                        align-items: center;
+                        border-radius: 50%;
+                        color: white;
+                        display: flex;
+                        font-size: 12px;
+                        height: 20px;
+                        justify-content: center;
+                        width: 20px;
+    
+                        &.disable {
+                            background-color: #ddd;
+                        }
+    
+                        &.enable {
+                            background-color: var(--default-green-dark-color);
+                        }
+                    }
+                }
+            }
+        }
+
+        app-pagination { border-top: none !important; }
+    }
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix { margin-top: 5px; padding: 0.4em 0 0 0; }
+::ng-deep .mat-input-element { cursor: pointer; font-size: 0.9rem!important; }
+::ng-deep .mat-date-range-input-end-wrapper > input,
+::ng-deep .mat-date-range-input-separator { margin-bottom: 3px; }
+
+.popover-sme {
+    > div {
+        margin-bottom: 5px;
+
+        &.header {
+            color: theme-color("dark");
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+
+            &.green { color: var(--default-green-dark-color); }
+        }
+    }
+}

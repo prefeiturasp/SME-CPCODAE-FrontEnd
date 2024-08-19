@@ -1,0 +1,48 @@
+<div class="modal-change-request">
+    <div class="modal-header">
+        <h4 class="modal-title d-flex flex-direction-column">
+            Envie uma mensagem
+            <small>{{cooperative_name}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="changeRequestForm">
+            <perfect-scrollbar>
+                <div class="body d-flex flex-direction-column">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Título</label>
+                                <input type="text" id="title" name="title" formControlName="title" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f['title'].errors }"
+                                    placeholder="Digite o título da solicitação" />
+                                <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['title'].errors['required']">O título da mensagem é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="dois-pontos title">Mensagem</label>
+                                <textarea id="message" name="message" formControlName="message" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f['message'].errors }" rows="4"
+                                placeholder="Digite o texto da solicitação"></textarea>
+
+                                <div *ngIf="submitted && f['message'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['message'].errors['required']">O texto da mensagem é obrigatório</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+        <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Enviar</button>
+    </div>
+</div>

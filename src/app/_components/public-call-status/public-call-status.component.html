@@ -1,0 +1,17 @@
+<div class="public-call-status" [ngClass]="{ 
+        'green': status <= PublicCallStatusEnum.emAndamento.id,
+        'yellow': status > PublicCallStatusEnum.emAndamento.id && status < PublicCallStatusEnum.cronogramaExecutado.id,
+        'blue': status == PublicCallStatusEnum.cronogramaExecutado.id,
+        'red': status > PublicCallStatusEnum.cronogramaExecutado.id }">
+    <div [ngSwitch]="status">
+        <span *ngSwitchCase="PublicCallStatusEnum.aberta.id">{{PublicCallStatusEnum.aberta.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.emAndamento.id">{{PublicCallStatusEnum.emAndamento.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.aprovada.id">{{PublicCallStatusEnum.aprovada.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.homologada.id">{{PublicCallStatusEnum.homologada.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.contratada.id">{{PublicCallStatusEnum.contratada.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.cronogramaExecutado.id">{{PublicCallStatusEnum.cronogramaExecutado.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.suspensa.id">{{PublicCallStatusEnum.suspensa.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.cancelada.id">{{PublicCallStatusEnum.cancelada.text}}</span>
+        <span *ngSwitchCase="PublicCallStatusEnum.deserta.id">{{PublicCallStatusEnum.deserta.text}}</span>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+.public-call-status {
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    
+    &.blue { background-color: #0d6efd20; color: var(--default-blue-dark-color); }
+    &.green { background-color: #137B1F20; color: var(--default-green-dark-color); }
+    &.yellow { background-color: #FFE60020; color: var(--default-orange-color); }
+    &.red { background-color: #D4000020; color: var(--default-red-color);  }
+}

@@ -1,0 +1,16 @@
+<div class="modal-upload-member-error">
+    <div class="modal-header">
+        <h4 class="modal-title">Lista de Inconsistências Encontradas</h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <perfect-scrollbar>
+            <ul class="list-bullets">
+                <li *ngFor="let item of errors"><b>Linha {{item.linha}}</b>: {{item.mensagem}}</li>
+            </ul>
+        </perfect-scrollbar>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

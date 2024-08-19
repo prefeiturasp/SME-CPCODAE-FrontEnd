@@ -1,0 +1,36 @@
+.modal-upload-member {
+    .modal-header {
+        small {
+            font-size: 0.85rem;
+            margin-top: -7px;
+        }
+    }
+
+    input[type="file"] { display: none; }
+
+    ol.list {
+        > li {
+            font-size: 20px;
+            list-style-type: none;
+            counter-increment: item;
+            padding: 10px;
+    
+            &:before {
+                content: counter(item);
+                background-color: #f9dd94;
+                border-radius: 3px;
+                color: #7eb4e2;
+                font-size: 80%;
+                font-weight: bold;
+                margin-right: 5px;
+                padding: 3px 8px;
+            }
+    
+            &.two select { margin-left: 28px; }
+
+            img { width: 100%; }
+          }
+    }
+
+    ul.list-bullets { font-size: 18px; list-style-type: disc; }
+}

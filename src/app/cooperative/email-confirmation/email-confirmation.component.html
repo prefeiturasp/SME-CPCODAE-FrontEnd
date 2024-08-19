@@ -1,0 +1,19 @@
+<div class="content-wrapper email-confirmation p-0">
+    <div class="col-12 d-flex align-items-center justify-content-center bg-white">
+        <div class="nav-get-started">
+            <img src="assets/imagens/logo-preto-vertical.png" class="img-fluid">
+        </div>
+        <perfect-scrollbar>
+            <div class="auto-form-wrapper">
+                <div class="message" *ngIf="succeded">
+                    Seu e-mail foi confirmado com sucesso. Clique <a href="javascript:void(0)"
+                        routerLink="/cooperativa/">aqui</a> para
+                    acessar o sistema
+                </div>
+                <div class="message" *ngIf="invalid">
+                    {{errorMessage}}
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+</div>

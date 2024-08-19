@@ -1,0 +1,151 @@
+.navbar.horizontal-layout {
+  .nav-top {
+    height: 80px;
+    background-color: #343a40;
+
+    .navbar-brand-wrapper {
+      width: 185px;
+      height: 70px;
+
+      .navbar-brand {
+        margin-right: 0;
+        padding: 0.25rem 0;
+        line-height: 60px;
+
+        img {
+          height: 60px;
+          margin-top: 5px;
+          max-width: none;
+        }
+      }
+
+      .brand-logo-mini {
+        display: none;
+      }
+    }
+
+    .navbar-search-wrapper {
+      margin: 20px;
+      position: relative;
+      width: 50%;
+
+      i {
+        position: absolute;
+        top: 10px;
+        left: 9px;
+      }
+
+      input {
+        padding-left: 2.5em;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        margin: 0;
+      }
+    }
+
+    .navbar-menu-wrapper {
+      color: #fff;
+      padding-left: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .navbar-nav {
+        flex-direction: row;
+        align-items: center;
+
+        &.navbar-nav-right {
+          .nav-item:not(.nav-profile) {
+            .nav-link {
+              width: 36px;
+              height: 36px;
+              border: 1px solid rgba(255, 255, 255, 0.45);
+              border-radius: 100%;
+              padding: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .nav-menu-text:hover { cursor: pointer; text-decoration: underline; }
+          }
+
+          .nav-item:last-child {
+            margin-right: 0;
+          }
+
+          .nav-item {
+            .nav-profile {
+              .nav-link {
+                max-width: 10rem;
+                cursor: default;
+                pointer-events: none;
+              }
+            }
+          }
+        }
+
+        .nav-item {
+          margin-left: 0.75rem;
+          margin-right: 0.75rem;
+          line-height: 1;
+
+          &.active > a {
+            background-color: #fff;
+            opacity: 1;
+
+            > i { color: #000; }
+          }
+
+          .nav-link {
+            color: #fff;
+            font-size: 13px;
+            vertical-align: middle;
+            opacity: 0.4;
+
+            &:hover {
+              opacity: 1;
+            }
+
+            i {
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+@media (max-width: 768px) {
+  .navbar.horizontal-layout {
+    .nav-top {
+      .navbar-brand-wrapper {
+        width: 70px;
+
+        .brand-logo {
+          display: none;
+        }
+
+        .brand-logo-mini {
+          display: block;
+        }
+      }
+
+      .navbar-menu-wrapper {
+        .nav-item.nav-profile {
+            display: none;
+        }
+      }
+    }
+  }
+}

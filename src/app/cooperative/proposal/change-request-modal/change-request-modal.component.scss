@@ -1,0 +1,19 @@
+.modal-change-request {
+    .modal-header {
+        align-items: flex-start;
+
+        .modal-title { small { font-size: 14px; } }
+    }
+
+    perfect-scrollbar { height: 292px; max-height: calc(100vh - 251px); }
+
+    .body {
+        > .row {
+            margin-top: 15px;
+
+            &:first-of-type { margin-top: 0px }
+
+            .title { font-weight: bold; }
+        }
+    }
+}

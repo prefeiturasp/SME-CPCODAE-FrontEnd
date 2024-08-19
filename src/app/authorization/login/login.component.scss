@@ -1,0 +1,107 @@
+@import '../authorization.scss';
+
+.login {
+    >div {
+        padding-top: 20px;
+
+        .nav-get-started {
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: flex-end;
+            justify-content: flex-end;
+            position: absolute;
+            top: 10px;
+            right: 30px;
+
+            img {
+                max-height: 10rem;
+            }
+        }
+
+        perfect-scrollbar {
+            height: calc(100vh - 180px);
+
+            ::ng-deep {
+                >div {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+        }
+
+        .auto-form-wrapper {
+            flex: 0 380px;
+            margin-top: 40px;
+
+            form {
+                .form-group {
+                    width: 100%;
+                    margin-bottom: 25px;
+                    text-align: left;
+
+                    label {
+                        font-size: 0.875rem;
+                        line-height: 1;
+                        vertical-align: top;
+                    }
+
+                    .input-group {
+                        height: 44px;
+                    }
+                }
+            }
+        }
+    }
+
+    .recover-password-modal {
+        form {
+            padding: 0 40px;
+
+            .modal-body {
+                text-align: left;
+            }
+        }
+    }
+}
+
+// @media (max-width: 768px) {
+//     .login {
+//         .auto-form-wrapper {
+//             padding-top: 10%;
+
+//             perfect-scrollbar {
+//                 height: unset;
+
+//                 ::ng-deep {
+//                     >div {
+//                         display: block !important;
+//                         padding: 0 20px;
+//                     }
+//                 }
+//             }
+
+//             .nav-get-started {
+//                 margin-bottom: 10%;
+//                 margin-right: auto;
+//                 margin-left: auto;
+//                 position: relative !important;
+//                 top: unset !important;
+//                 right: unset !important;
+//                 -webkit-justify-content: center !important;
+//                 justify-content: center !important;
+//             }
+//         }
+//     }
+// }
+
+// @media (max-height: 580px) {
+//     perfect-scrollbar {
+//         ::ng-deep {
+//             >div {
+//                 align-items: flex-start !important;
+//             }
+//         }
+//     }
+// }

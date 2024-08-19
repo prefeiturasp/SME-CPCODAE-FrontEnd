@@ -1,0 +1,22 @@
+.member-list {
+    min-height: calc(100vh - 312px);
+    padding-top: 10px;
+
+    ::ng-deep .sme-gridview section.table perfect-scrollbar {
+        height: calc(100vh - 346px) !important;
+    }
+
+    .linha {
+        margin-bottom: 0;
+        padding: 10px 0;
+
+        &:nth-child(even)  { background-color: #eee; }
+
+        > div {
+            align-items: center;
+            padding: 0 5px;
+
+            > div:first-child { display: inline-block; text-transform: uppercase!important; }
+        }
+    }
+}

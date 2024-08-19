@@ -1,0 +1,12 @@
+<div class="documents registration-page-container">
+  <header>
+    <h2>Documentos</h2>
+  </header>
+  <div *ngIf="cooperative">
+    <perfect-scrollbar>
+      <app-cooperative-registration-completion-step2-add [cooperative]="cooperative"
+        [documentTypes]="documentTypes" (onShow)="selectDocument($event)">
+      </app-cooperative-registration-completion-step2-add>
+    </perfect-scrollbar>
+  </div>
+</div>

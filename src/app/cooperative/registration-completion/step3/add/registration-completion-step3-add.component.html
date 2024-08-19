@@ -1,0 +1,202 @@
+<div class="content-wrapper add-area p-0">
+    <div class="d-flex flex-direction-column mt-10" *ngIf="!member || !member.name || member.name.length <= 0">
+        <div class="d-flex">
+            <div class="form-group col mr-20">
+                <label class="dois-pontos">DAP/CAF do Cooperado</label>
+                <div class="input-group">
+                    <input type="text" id="dap" name="dap" class="form-control text-transform-upper"
+                        [(ngModel)]="member.dap_caf_code" prevent-space />
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary" (click)="findMember()"
+                            [disabled]="!member || !member.dap_caf_code || member.dap_caf_code.length <= 0">
+                            <i class="icon-magnifier"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div  class="mt-10">
+            Digite a DAP/CAF do cooperado e clique em pesquisar
+        </div>
+    </div>
+
+    <div class="member-data mt-20" *ngIf="member && member.name && member.name.length > 0">
+        <form [formGroup]="registrationForm" (ngSubmit)="saveMember()">
+            <div class="d-flex name-acronym">
+                <div class="form-group mr-20">
+                    <label class="dois-pontos">Nome</label>
+                    <input type="text" id="name" name="name" formControlName="name" class="form-control" />
+                </div>
+
+                <div class="form-group mr-20">
+                    <label class="dois-pontos">CPF</label>
+                    <input type="text" id="cpf" name="cpf" formControlName="cpf"  mask="000.000.000-00"
+                            class="form-control" placeholder="Digite o CPF aqui" maxlength="20"
+                            [ngClass]="{ 'is-invalid': submitted && f['cpf'].errors }" />
+                    <div *ngIf="submitted && f['cpf'].errors" class="invalid-feedback">
+                        <div *ngIf="f['cpf'].errors['required']">O CPF é obrigatório</div>
+                        <div *ngIf="f['cpf'].errors['cpfInvalido']">Formato de CPF inválido</div>
+                    </div>
+                </div>
+
+                <div class="form-group is-male" formGroupName="isMaleGroup" >
+                    <label class="dois-pontos">Sexo</label>
+                    <div class="d-flex">
+                        <div class="form-check circle">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" [value]="true" formControlName="is_male">
+                                Masculino
+                                <i class="input-helper"></i>
+                            </label>
+                        </div>
+                        <div class="form-check circle">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" [value]="false" formControlName="is_male">
+                                Feminino
+                                <i class="input-helper"></i></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex dap-caf">
+                <div class="form-group mr-20">
+                    <label class="dois-pontos">{{dapCafName}}</label>
+                    <input type="text" id="dap_caf_code" name="dap_caf_code" class="form-control text-transform-upper" formControlName="dap_caf_code" />
+                </div>
+
+                <div class="form-group mr-20">
+                    <label class="dois-pontos">Data Cadastro {{dapCafName}}</label>
+                    <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="form-control" formControlName="dap_caf_registration_date">
+                </div>
+
+                <div class="form-group">
+                    <label class="dois-pontos">Data Expiração {{dapCafName}}</label>
+                    <div class="input-group">
+                        <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="form-control" formControlName="dap_caf_expiration_date">
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex">
+                <div class="form-group mr-20">
+                    <label class="dois-pontos">Tipo Agricultor Familiar</label>
+                    <select class="form-control" name="pf_type" formControlName="pf_type" [ngClass]="{ 'is-invalid': submitted && f['pf_type'].errors }">
+                        <option [ngValue]="0" [disabled]="true">Selecione um tipo Agricultor Familiar</option>
+                        <option [ngValue]="2">Assentado(a) pelo PNRA</option>
+                        <option [ngValue]="1">Comunidade Indígena</option>
+                        <option [ngValue]="3">Comunidade Quilombola</option>
+                        <option [ngValue]="4">DAP Física</option>
+                        <option [ngValue]="5">Outro</option>
+                    </select>
+                    <div *ngIf="submitted && f['pf_type'].errors" class="invalid-feedback">
+                        <div *ngIf="f['pf_type'].errors['required'] || f['pf_type'].errors['min']">O tipo agricultor familiar é obrigatório</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="dois-pontos">Tipo Produção</label>
+                    <select class="form-control" name="production_type" formControlName="production_type" [ngClass]="{ 'is-invalid': submitted && f['production_type'].errors }">
+                        <option [ngValue]="0" [disabled]="true">Selecione um tipo de Produção</option>
+                        <option [ngValue]="1">Convencional</option>
+                        <option [ngValue]="2">Orgânico</option>
+                        <option [ngValue]="3">Ambos</option>
+                    </select>
+                    <div *ngIf="submitted && f['production_type'].errors" class="invalid-feedback">
+                        <div *ngIf="f['production_type'].errors['required'] || f['production_type'].errors['min']">O tipo de produção é obrigatório</div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="fieldset">
+                <ngx-spinner name="spinnerAddress" size="medium" color="#fff" type="ball-beat"
+                    [fullScreen]="false"></ngx-spinner>
+                <h1>Dados Endereço</h1>
+                <div class="d-flex">
+                    <div class="form-group mr-20">
+                        <label class="dois-pontos">CEP</label>
+                        <input type="text" id="address_cep" name="address_cep" formControlName="address_cep"
+                            class="form-control" (change)="getAddress($event)" maxlength="9" mask="00000-000"
+                            [ngClass]="{ 'is-invalid': submitted && f['address_cep'].errors }" />
+                        <div *ngIf="submitted && f['address_cep'].errors" class="invalid-feedback">
+                            <div *ngIf="f['address_cep'].errors['required']">O CEP é obrigatório</div>
+                            <div *ngIf="f['address_cep'].errors['cepInvalido']">Formato de CEP inválido</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mr-20">
+                        <label class="dois-pontos">Logradouro</label>
+                        <input type="text" id="address_street" name="address_street" formControlName="address_street"
+                            class="form-control text-transform-capitalize" maxlength="200" [ngClass]="{ 'is-invalid': submitted && f['address_street'].errors }" />
+                        <div *ngIf="submitted && f['address_street'].errors" class="invalid-feedback">
+                            <div *ngIf="f['address_street'].errors['required']">O logradouro é obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="dois-pontos">Número</label>
+                        <input type="text" id="address_number" name="address_number"
+                            formControlName="address_number" class="form-control" maxlength="10"
+                            [ngClass]="{ 'is-invalid': submitted && f['address_number'].errors }" />
+                        <div *ngIf="submitted && f['address_number'].errors" class="invalid-feedback">
+                            <div *ngIf="f['address_number'].errors['required']">O número do endereço é
+                                obrigatório</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group mr-20">
+                        <label class="dois-pontos">Complemento</label>
+                        <input type="text" id="address_complement" name="address_complement"
+                            formControlName="address_complement" class="form-control text-transform-capitalize" maxlength="100" />
+                    </div>
+
+                    <div class="form-group mr-20">
+                        <label class="dois-pontos">Bairro</label>
+                        <input type="text" id="address_district" name="address_district"
+                            formControlName="address_district" class="form-control text-transform-capitalize" maxlength="200"
+                            [ngClass]="{ 'is-invalid': submitted && f['address_district'].errors }" />
+                        <div *ngIf="submitted && f['address_district'].errors" class="invalid-feedback">
+                            <div *ngIf="f['address_district'].errors['required']">O bairro é obrigatório</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="dois-pontos">Cidade / Estado</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <select class="form-control" formControlName="address_state_acronym"
+                                    (change)="loadCities(f['address_state_acronym'].value, 0)"
+                                    [ngClass]="{ 'is-invalid': submitted && f['address_city_id'].errors }">
+                                    <option [ngValue]="''" [disabled]="true">UF</option>
+                                    <option *ngFor="let state of statesList" [value]="state.acronym"
+                                        [selected]="state.acronym == f['address_state_acronym'].value">
+                                        {{state.acronym}}
+                                    </option>
+                                </select>
+                            </div>
+                            <select class="form-control" formControlName="address_city_id"
+                                [ngClass]="{ 'is-invalid': submitted && f['address_city_id'].errors }">
+                                <option [ngValue]="0" [disabled]="true">{{f['address_state_acronym'].value == ''
+                                    ? 'Selecione o Estado' : 'Selecione a Cidade'}}</option>
+                                <option *ngFor="let city of citiesList" [value]="city.id">
+                                    {{city.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="submitted && f['address_city_id'].errors" class="invalid-feedback">
+                            <div *ngIf="f['address_city_id'].errors['required'] || f['address_city_id'].errors['min']">Selecione
+                                uma cidade</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="form-group text-center">
+                <button type="button" class="btn btn-default" (click)="cancel()">Cancelar</button>
+                &nbsp;
+                <button type="submit" class="btn btn-success">Adicionar</button>
+            </div>
+        </form>
+    </div>
+</div>

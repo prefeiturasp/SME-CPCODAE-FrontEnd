@@ -1,0 +1,36 @@
+<div class="configuration-register registration-page-container">
+    <header>
+        <h2>Configurações</h2>
+    </header>
+    <form [formGroup]="configurationForm">
+        <perfect-scrollbar>
+            <div formArrayName="configurations" *ngIf="configurations.length > 0">
+                <div [formGroupName]="0">
+                    <div class="body d-flex flex-direction-column">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="dois-pontos title">Limite Máximo Fornecimento Anual</label>
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">R$</span>
+                                        <input type="text" id="value0" name="value0" formControlName="value" class="form-control" currencyMask
+                                            [options]="{ allowNegative: false, prefix: '' }" maxlength="10"
+                                            [ngClass]="{ 'is-invalid': submitted && maximumYearSupplyConfiguration['value'].errors }" />
+                                      </div>
+                                    <div *ngIf="submitted && maximumYearSupplyConfiguration['value'].errors" class="invalid-feedback">
+                                        <div *ngIf="maximumYearSupplyConfiguration['value'].errors['required']">O valor é obrigatório</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

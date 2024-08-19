@@ -1,0 +1,178 @@
+<div class="public-call-delivery" *ngIf="publicCall && publicCall.foods && publicCall.foods.length > 0">
+    <!-- <app-public-call-detail-header [publicCall]="publicCall" [chartValues]="chartValues" [showChart]="true"
+        (onChangeStatusEvent)="onChangeStatusEvent($event)" (onRemoveEvent)="onRemoveEvent($event)" (onSuspendEvent)="onSuspendEvent($event)">
+    </app-public-call-detail-header> -->
+    <div>
+        <div class="d-flex justify-content-space-between align-items-center" *ngIf="cooperatives.length > 0">
+            <label>Detalhe das Entregas</label>
+            <span><b>{{cooperatives.length}}</b> cooperativas e <b>{{totalPurchased | currency:'BRL'}}</b> em compras</span>
+        </div>
+        <section class="table" *ngIf="cooperatives.length > 0">
+            <header>
+                <div class="col-0-75 text-left">Cooperativa</div>
+                <div class="col-0-5">CNPJ</div>
+                <div class="col-0-25">Classificação</div>
+                <div class="col">Valor</div>
+                <div class="col-0-5">Entregue (Proposto)</div>
+                <!-- <div class="col">Progresso</div> -->
+                <div class="col-0-25 action">Ações</div>
+            </header>
+            <perfect-scrollbar>
+                <div class="table-row" *ngFor="let cooperative of cooperatives">
+                    <div class="col-0-75 text-left" title="{{cooperative.name}}">{{cooperative.acronym}}</div>
+                    <div class="col-0-5">
+                        {{cooperative.cnpj}}
+                        <fa-icon class="cursor-pointer ml-5"  [icon]="faIcons.copy" (click)="copyToClipboardCnpj(cooperative.cnpj)"></fa-icon>
+                    </div>
+                    <div class="col-0-25 classification">
+                        <ng-template #popContentGL>
+                            <div class="popover-sme">
+                                <div class="header green" *ngIf="cooperative.classification.good_location">
+                                    <fa-icon [icon]="faIcons.goodLocationAlt"></fa-icon>
+                                    <label>Boa Localização</label>
+                                </div>
+                                <div *ngIf="cooperative.classification.good_location">Esta cooperativa está classificada como bem localizada, melhorando sua classificação no ranking.</div>
+                                <div><b>Localização:</b> {{cooperative.location}}</div>
+                                <hr />
+                                <b>Tipo Região:</b> {{cooperative.classification.good_location_type}}
+                            </div>
+                        </ng-template>
+                        <ng-template #popContentIC>
+                            <div class="popover-sme">
+                                <div class="header green" *ngIf="cooperative.classification.inclusive_cooperative">
+                                    <fa-icon [icon]="faIcons.inclusiveCooperative"></fa-icon>
+                                    <label>Cooperativa Inclusiva</label>
+                                </div>
+                                <div *ngIf="cooperative.classification.inclusive_cooperative">Esta cooperativa está classificada como inclusiva, melhorando sua classificação no ranking.</div>
+                                <div>
+                                    <b>Somente Mulheres:</b> {{cooperative.only_woman ? 'Sim' : 'Não'}}
+                                    <br />
+                                    <b>Assentados Reforma Agrária:</b> {{cooperative.pnra_settlement_total | number : '.0-0'}}%
+                                    <br />
+                                    <b>Indígenas:</b> {{cooperative.indigenous_community_total | number : '.0-0'}}%
+                                    <br />
+                                    <b>Quilombolas:</b> {{cooperative.quilombola_community_total | number : '.0-0'}}%
+                                    <!-- <br />
+                                    <b>Demais Associados:</b> {{cooperative.other_family_agro_total | number : '.0-0'}}% -->
+                                    <!-- <br />
+                                    <b>Total:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total}} -->
+                                    <hr />
+                                    <!-- <b>Proporção:</b> {{cooperative.classification.inclusive_cooperative_percentage | number : '.0-0'}}% -->
+                                    <b>Total Grupos Prioritários:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total | number : '.0-0'}}%
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #popContentIO>
+                            <div class="popover-sme">
+                                <div class="header green" *ngIf="cooperative.classification.is_organic">
+                                    <fa-icon [icon]="faIcons.organic"></fa-icon>
+                                    <label>Produto Orgânico</label>
+                                </div>
+                                <div *ngIf="cooperative.classification.is_organic">Esta cooperativa está oferecendo produto orgânico, melhorando sua classificação no ranking.</div>
+                                <div *ngIf="!cooperative.classification.is_organic">Esta cooperativa não está oferecendo produto orgânico.</div>
+                            </div>
+                        </ng-template>
+                        <ng-template #popContentDP>
+                            <div class="popover-sme">
+                                <div class="header green">
+                                    <fa-icon [icon]="faIcons.percentage"></fa-icon>
+                                    <label>Associados DAP/CAF</label>
+                                </div>
+                                <!-- <div *ngIf="cooperative.classification.daps_percentage">Esta cooperativa possui uma boa porcentagem de DAPs em relação ao total de cooperados.</div> -->
+                                <div>
+                                    <!-- <b>DAPs Físicas:</b> {{cooperative.daps_fisicas_total}}
+                                    <br />
+                                    <b>Total:</b> {{cooperative.pnra_settlement_total + cooperative.indigenous_community_total + cooperative.quilombola_community_total + cooperative.other_family_agro_total}}
+                                    <hr /> -->
+                                    <b>% Associados com DAP/CAF:</b> {{cooperative.other_family_agro_total  | number : '.0-0'}}%
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #popContentSingular>
+                            <div class="popover-sme">
+                                <div class="header" [ngClass]="{ 'green': cooperative.classification.is_singular }">
+                                    <fa-icon [icon]="faIcons.singular"></fa-icon>
+                                    <label>Organização Formal</label>
+                                </div>
+                                <div *ngIf="cooperative.classification.is_singular">Cooperativa Singular</div>
+                                <div *ngIf="!cooperative.classification.is_singular">Cooperativa Central</div>
+                            </div>
+                        </ng-template>
+
+                        <fa-icon [ngClass]="{ enable: cooperative.classification.good_location, disable: !cooperative.classification.good_location}" 
+                            [icon]="faIcons.goodLocationAlt" [ngbPopover]="popContentGL" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                        <fa-icon [ngClass]="{ enable: cooperative.classification.inclusive_cooperative, disable: !cooperative.classification.inclusive_cooperative}"
+                            [icon]="faIcons.inclusiveCooperative" [ngbPopover]="popContentIC" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                        <fa-icon [ngClass]="{ enable: cooperative.classification.is_organic, disable: !cooperative.classification.is_organic}"
+                            [icon]="faIcons.organic" [ngbPopover]="popContentIO" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                        <fa-icon [ngClass]="{ enable: cooperative.classification.daps_percentage, disable: !cooperative.classification.daps_percentage}"
+                            [icon]="faIcons.percentage" [ngbPopover]="popContentDP" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                        <fa-icon [ngClass]="{ enable: cooperative.classification.is_singular, disable: !cooperative.classification.is_singular}"
+                            [icon]="faIcons.singular" [ngbPopover]="popContentSingular" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+                    </div>
+                    <div class="col">{{cooperative.total_price | currency:'BRL'}}</div>
+                    <div class="col-0-5">{{(publicCall.status === PublicCallStatusEnum.cronogramaExecutado.id ? cooperative.total_proposal : cooperative.total_delivered) | number}} (<small>{{cooperative.total_proposal | number}}</small>) {{food.measure_unit}}</div>
+                    <!-- <div class="col">
+                        <app-public-call-delivery-timeline [deliveryInfo]="cooperative" [measure_unit]="food.measure_unit"></app-public-call-delivery-timeline>
+                    </div> -->
+                    <div class="col-0-25 action">
+                        <a *ngIf="isLogistic" class="d-flex" href="javascript:void(0)" title="Confirmar Entrega"
+                            (click)="openModal(content, false)"
+                            [attr.disabled]="cooperative.total_delivered_percentage >= 100 ? 'disabled': null">
+                            <span class="material-symbols-outlined">local_shipping</span>
+                        </a>
+                        <a *ngIf="!isLogistic" class="d-flex mr-5" href="javascript:void(0)" title="Anexos da Proposta"
+                            (click)="openModal(contentAttachment, true)">
+                            <span class="material-symbols-outlined">attach_file</span>
+                        </a>
+                        <a *ngIf="!isLogistic" class="d-flex mr-5" href="javascript:void(0)" title="Histórico de Mensagens"
+                            (click)="openModal(contentComments, false)">
+                            <span class="material-symbols-outlined">chat</span>
+                        </a>
+                        <a *ngIf="!isLogistic" class="d-flex mr-5" href="javascript:void(0)" title="Editar Composição Associados"
+                            (click)="openModal(contentAssociates, false)">
+                            <span class="material-symbols-outlined">edit</span>
+                        </a>
+                        <a *ngIf="!isLogistic && publicCall.status == PublicCallStatusEnum.contratada.id" class="d-flex" [ngClass]="{ 'text-success cursor-default' : cooperative.was_confirmed }" href="javascript:void(0)" 
+                            [title]=" cooperative.was_confirmed ? 'Cronograma Já Executado' : 'Marcar Cronograma Executado'" (click)="confirmCronogramaExecutado(cooperative)">
+                            <span class="material-symbols-outlined">recommend</span>
+                        </a>
+                    </div>
+
+                    <ng-template #content let-modal>
+                        <app-public-call-delivery-modal [modal]="modal" [cooperative]="cooperative" [publicCall]="publicCall"
+                            (confirmDeliveryEvent)="confirmDelivery($event)" (removeDeliveryEvent)="removeDelivery($event)">
+                        </app-public-call-delivery-modal>
+                    </ng-template>
+
+                    <ng-template #contentAttachment let-modalAttachment>
+                        <public-call-attachment-modal [modal]="modalAttachment" [cooperative]="cooperative" [food]="food" [public_call_id]="publicCall.id"
+                            [documents]="documents" [isCardType]="false">
+                        </public-call-attachment-modal>
+                    </ng-template>
+
+                    <ng-template #contentComments let-modalComments>
+                        <ng-container *ngIf="{ id: cooperative.cooperative_id, name: cooperative.name } as cooperativeSimplified">
+                            <public-call-comments-modal [modal]="modalComments" [cooperative]="cooperativeSimplified" [public_call_id]="publicCall.id"
+                                [changeRequests]="changeRequests" [food]="food">
+                            </public-call-comments-modal>
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template #contentAssociates let-modalAssociates>
+                        <ng-container>
+                            <board-of-associates-modal [modal]="modalAssociates" [cooperative]="cooperative" [public_call_id]="publicCall.id"
+                                [statesList]="statesList" [food]="food" (onSave)="onSaveBoardOfAssociates($event)">
+                            </board-of-associates-modal>
+                        </ng-container>
+                    </ng-template>
+                </div>
+            </perfect-scrollbar>
+        </section>
+    </div>
+</div>
+<div *ngIf="!publicCall || !publicCall.foods || publicCall.foods.length <= 0">
+    <div class="button-area">
+        <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+    </div>
+</div>

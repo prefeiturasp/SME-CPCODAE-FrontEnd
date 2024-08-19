@@ -1,0 +1,43 @@
+<div class="contact-view registration-page-container">
+    <header>
+        <h2>Mensagem "Fale Conosco"</h2>
+    </header>
+    <div class="d-flex justify-content-center">
+        <div class="body d-flex flex-direction-column" *ngIf="contact">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="dois-pontos title">Chamada Pública</label>
+                        <input type="text" id="public_call_name" name="public_call_name" [(ngModel)]="contact.public_call_name" class="form-control" [disabled]="true" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="dois-pontos title">Cooperativa</label>
+                        <input type="text" id="cooperative_name" name="cooperative_name" [(ngModel)]="contact.cooperative_name" class="form-control" [disabled]="true" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="dois-pontos title">Assunto</label>
+                        <input type="text" id="title" name="title" [(ngModel)]="contact.title" class="form-control" [disabled]="true" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="dois-pontos title">Mensagem</label>
+                        <textarea id="message" name="message" class="form-control" [(ngModel)]="contact.message" class="form-control" rows="5" [disabled]="true"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="button-area">
+        <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+    </div>
+</div>

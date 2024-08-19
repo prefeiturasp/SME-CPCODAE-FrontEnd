@@ -1,0 +1,31 @@
+<div class="resumo">
+    <div *ngIf="selectedFoods && selectedFoods.length > 0; else selectedFoodsEmpty">
+        <perfect-scrollbar>
+            <div class="d-flex">
+                <div class="offset-1 col-md-4">
+                    <section class="fieldset" *ngFor="let food of selectedFoods">
+                        <h1>
+                            <label>{{food.food_name}}</label> (<span>{{food.quantidade_proposta | number}} {{food.measure_unit}}</span> / <small>{{food.quantity | number}} {{food.measure_unit}}</small>)
+                        </h1>
+                      <fieldset>
+                          <ul>
+                            <li>Cooperados Importados: {{food!.members.length}}</li>
+                            <li>Total Proposto: {{food.total_proposto | currency: 'BRL': 'R$'}}</li>
+                            <li>Qtdade Proposta: {{food.quantidade_proposta | number}} {{food.measure_unit}}</li>
+                          </ul>
+                      </fieldset>
+                    </section>
+                </div>
+    
+                <div class="offset-2 col-md-4">
+                    <app-board-of-associates #boa [proposalForm]="proposalForm" [statesList]="statesList"></app-board-of-associates>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+    <ng-template #selectedFoodsEmpty>
+        <div class="vazio">
+            <span>Nenhum produto foi preenchido</span>
+        </div>
+    </ng-template>
+</div>

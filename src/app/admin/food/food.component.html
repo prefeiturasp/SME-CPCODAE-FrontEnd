@@ -1,0 +1,6 @@
+<div class="food list-page-container">
+    <header>
+        <h2>Gênero Alimentício</h2>
+    </header>
+    <app-grid-view [config]="config" (onAdd)="goToAdd()" (onEdit)="goToEdit($event)" (onRemove)="remove($event)"></app-grid-view>
+</div>

@@ -1,0 +1,18 @@
+<div class="card-attach-history-header-pdf" *ngIf="document" [ngClass]="{ 'cursor-pointer mb-10 mr-15': clickable }">
+    <ng-template #popContentGL>
+        <div class="popover-sme">
+            <b>Revisado Por:</b> {{document.reviewer_name}}
+            <hr />
+            <b>Data Revisão:</b> {{ document.reviewed_date | date: 'dd/MM/yyyy' }}
+        </div>
+    </ng-template>
+    <div class="card-attach-pdf-container d-flex align-items-center pl-10" [ngClass]="{ 'bigger': isHistory && !clickable }">
+        <fa-icon class="card-attach-reviewer" *ngIf="document.is_reviewed && isHistory && clickable" [icon]="faIcons.info"
+            [ngbPopover]="popContentGL" triggers="mouseenter:mouseleave" placement="top" container="body"></fa-icon>
+        <div class="card-attach-pdf mr-10">PDF</div>
+        <div class="card-attach-file d-flex flex-direction-column">
+            <b class="file-name truncate" title="{{document.document_type_name}}">{{ document.document_type_name }}</b>
+            <span *ngIf="document.file_size">Adobe Acrobat - {{ document.file_size }}</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="category list-page-container">
+    <header>
+        <h2>Solicitações de Alteração</h2>
+    </header>
+    <section class="table" *ngIf="changeRequests.length > 0; else emptyChanges">
+        <header>
+            <div class="col text-left">Chamada Pública</div>
+            <div class="col-0-25">Tem Pendências</div>
+            <div class="col-0-25 action">Ações</div>
+        </header>
+        <perfect-scrollbar>
+            <div class="table-row" *ngFor="let changes of changeRequests; let ind = index">
+                <div class="col text-left ml-5">{{changes.public_call_name}}</div>
+                <div class="col-0-25">
+                    <div class="box-data">
+                        {{changes.has_problems ? 'Sim' : 'Não'}}
+                        <fa-icon class="enable" *ngIf="changes.has_problems" [icon]="faIcons.tasks"
+                            [ngbPopover]="popContentDP" triggers="mouseenter:mouseleave" placement="top" container="body" popoverClass="popover-list-problems">
+                        </fa-icon>
+                    </div>
+                </div>
+                <div class="col-0-25 action">
+                    <a class="d-flex mr-5" routerLink="/admin/chamadas-publicas/{{changes.public_call_id}}/propostas"
+                        title="Visualizar Chamada Pública">
+                        <span class="material-symbols-outlined">search</span>
+                    </a>
+                </div>
+                
+                <ng-template #popContentDP>
+                    <div class="popover-sme">
+                        <div class="header red">
+                            <fa-icon [icon]="faIcons.tasks"></fa-icon>
+                            <label>Lista de Pendências</label>
+                        </div>
+                        <div>
+                            <ul class="list-pending">
+                                <li *ngFor="let p of changes.problems_list">{{p}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </perfect-scrollbar>
+    </section>
+    <ng-template #emptyChanges>
+        <span class="vazio">Nenhuma solicitação encontrada</span>
+    </ng-template>
+</div>

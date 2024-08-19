@@ -1,0 +1,6 @@
+<div class="user list-page-container">
+    <header>
+        <h2>Usuário</h2>
+    </header>
+    <app-grid-view [config]="config" (onAdd)="goToAdd()" (onEdit)="goToEdit($event)" (onRemove)="remove($event)"></app-grid-view>
+</div>

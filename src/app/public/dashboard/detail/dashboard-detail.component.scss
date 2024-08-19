@@ -1,0 +1,45 @@
+.detail {
+    .header {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin: 30px 10px;
+
+        h1 { font-size: 1.4rem; font-weight: bold; max-width: 100%; }
+        h3 { font-size: 1.1rem; }
+    }
+
+    .body {
+        perfect-scrollbar {
+            height: calc(100vh - 270px);
+
+            .bidding-notice,
+            .bidding-object  {
+                align-items: start;
+                background-color: #eee;
+                border-radius: 4px;
+                display: flex;
+                flex-direction: column;
+                margin: 0px 30px;
+                margin-bottom: 30px;
+                padding: 20px;
+
+                h2 { font-size: 1rem; font-weight: bold; width: 100%; }
+                hr { color: #aaa; margin: 5px; margin-bottom: 20px; width: 100%; }
+            }
+
+            .bidding-notice,
+            .bidding-object {
+                > div {
+                    background-color: #fff;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    margin-top: -10px;
+                    padding: 20px;
+                    text-align: justify;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

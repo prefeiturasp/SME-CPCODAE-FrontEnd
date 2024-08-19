@@ -1,0 +1,54 @@
+<div class="modal-delivery-confirmation">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Confirmação de Entrega
+            <small *ngIf="cooperative">{{cooperative.name}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="cooperative && publicCall" class="list">
+            <label>A cooperativa terá que entregar um total de <b>{{cooperative.total_proposal}}{{publicCall.foods[0].measure_unit}}</b></label>
+            <label class="already-delivered">Já Entregue: <b>{{alreadyDelivered}}{{publicCall.foods[0].measure_unit}}</b></label>
+            
+            <perfect-scrollbar>
+                <ul class="list-bullets deliveries">
+                    <li *ngFor="let item of deliveredList; let ind = index; let last = last">
+                        <b>{{(ind + 1)}}ª</b>
+                        <label>
+                            {{(item.was_delivered ? item.delivered_date : item.delivery_date) | date:'dd/MM/yyyy'}}
+                            <fa-icon [icon]="faIcons.faCheckCircle"></fa-icon>
+                        </label>
+                        <label>
+                            {{item.delivered_quantity}}
+                            <fa-icon [icon]="faIcons.faCheckCircle"></fa-icon>
+                        </label>
+                        <button class="btn btn-sm delivered" *ngIf="!last">
+                            <fa-icon [icon]="faIcons.faCheck"></fa-icon>
+                        </button>
+                        <button class="btn btn-sm remove" (click)="removeDelivery(item)" *ngIf="last">
+                            <fa-icon [icon]="faIcons.faTrash"></fa-icon>
+                        </button>
+                    </li>
+                    <li class="next-delivery-info">Próxima Entrega:</li>
+                    <li class="next-delivery-data">
+                        <b>{{(deliveredList.length) + 1}}ª</b>
+                        <input type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" class="form-control input-sm" maxlength="10" [(ngModel)]="nextDeliveryDate"
+                            [placeholder]="nextDelivery.delivery_date | date:'dd/MM/yyyy'" />
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" currencyMask [(ngModel)]="nextDeliveryQuantity"
+                                [placeholder]="nextDelivery.delivery_quantity" [options]="{ allowNegative: false, prefix: '' }" maxlength="9" />
+                            <span class="input-group-text">{{publicCall.foods[0].measure_unit}}</span>
+                        </div>
+                        <button class="btn btn-sm" (click)="confirmDelivery(nextDelivery)">
+                            <fa-icon [icon]="faIcons.faCheck"></fa-icon>
+                        </button>
+                    </li>
+                </ul>
+            </perfect-scrollbar>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

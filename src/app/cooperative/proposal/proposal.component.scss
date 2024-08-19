@@ -1,0 +1,132 @@
+@import '../../../assets/styles/list-registration-page';
+@import '../../../assets/styles/wizard';
+
+.proposal {
+    .proposal-container {
+        input[type="file"] { display: none; }
+
+        .proposal-body {
+            margin: 0 30px;
+
+            h3 {
+                width: 100%;
+
+                > div {
+                    span { font-size: 1rem; font-weight: normal; }
+                    .input-group    { margin-right: 5px;}
+                    .edit-food      { font-size: 1rem; margin-left: 5px; margin-top: 10px; }
+                }
+
+                > div.product-title             { justify-content: left; width: 100%; .form-check { right: -35px; top: 5px; } }
+                > div.importacao-cooperados     { font-size: 1rem; left: 50px; line-height: 44px; position: absolute; }
+                > div.totais {
+                    gap: 10px;
+                    position: absolute;
+                    right: 30px;
+                    
+                    span.title { margin-right: 5px; white-space: nowrap; } }
+                    small { font-size: 14px; }
+            }
+
+            .resumo {
+                .table-row:not(:first-child) { border-top: 1px solid #ddd; padding-top: 10px; }
+                .title { font-size: 20px; }
+            }
+
+            perfect-scrollbar {
+                height: calc(calc(100vh - 487px));
+                transition-property: all;
+	            transition-duration: .5s;
+
+                &.panel-opened {
+                    height: calc(100vh - 415px);
+                }
+
+                &.centerized {
+                    left: 50%;
+                    transform: translateX(-38%);
+                }
+
+                section > header { font-weight: bold; line-height: 30px; }
+                small { font-size: 0.75rem; }
+                .cooperado {
+                    align-items: flex-start;
+                    display: flex;
+                    flex-direction: column;
+
+                    .ng-autocomplete {
+                        width: 100%;
+                    }
+                }
+
+                .box-resume{
+                    text-align: left;
+
+                    p {
+                        font-size: 15px; font-weight: 600; margin-bottom: 10px;
+                        span, a { font-weight: 500; }
+                        a { font-size: 13px; }
+                    }
+
+                    .action > a { font-size: 14px; }
+                    .action > a.empty > fa-icon { color: transparent; }
+                }
+
+                .form-group { text-align: left; }
+
+                .fieldset > div {
+                    padding-left: 20px;
+
+                    & > div { margin-bottom: 10px; }
+                }
+            }
+
+            div.btn-group > button  { margin-right: 10px; }
+
+            .proposal-button { bottom: 55px; left: 58%; position: fixed; transform: translateX(-50%); }
+
+            .botao-vermelho { border-radius: 16px; min-width: 300px; }
+        }
+
+        .form-check { margin: 5px!important; }
+
+        .center-proposal-button { left: 50%!important; }
+
+        .wizard-sidebar {
+            height: calc(100vh - 380px);
+            padding: 0px;
+
+            ul li {
+                background-color: #6C757E;
+                color: #fff;
+                font-size: 16px;
+                margin: 10px;
+                padding: 5px!important;
+            }
+        }
+    }
+
+    ::ng-deep {
+        .header {
+            margin: 10px;
+        }
+
+        .general-info {
+            margin-bottom: 10px;
+            padding: 0;
+            padding-top: 5px;
+        }
+    }
+
+    ::ng-deep .sme-gridview section.table .table-row {
+        font-size: 0.8rem;
+    }
+
+    .left-align {
+      text-align: left;
+    }
+
+    .label-margin {
+      margin-left: 50px;
+    }
+}

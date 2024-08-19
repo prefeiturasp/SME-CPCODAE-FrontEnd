@@ -1,0 +1,103 @@
+<div class="user-register registration-page-container">
+    <header>
+        <h2>Usuário</h2>
+    </header>
+    <form [formGroup]="userForm">
+        <perfect-scrollbar>
+            <div class="body d-flex flex-direction-column">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="dois-pontos title">Nome</label>
+                            <input type="text" id="name" name="name" formControlName="name" class="form-control text-transform-capitalize"
+                                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                                placeholder="Digite o nome" />
+                            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                <div *ngIf="f['name'].errors['required']">O nome é obrigatório</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row" formGroupName="roleGroup" [ngClass]="{ 'is-invalid': submitted && f['roleGroup'].status === 'INVALID' }">
+                            <label class="dois-pontos title">Perfil</label>
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" value="1" formControlName="role">
+                                        Admin
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" value="2" formControlName="role">
+                                        Logística
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div *ngIf="!isAdd && !isAdmin" class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" value="3" formControlName="role">
+                                        Cooperativa
+                                        <i class="input-helper"></i></label>
+                                </div>
+                                <div *ngIf="isAdd" class="invalid-feedback only-admin">
+                                    <div>Só é permitido cadastrar usuários administrativos</div>
+                                </div>
+                            </div>
+                            <div *ngIf="submitted && f['roleGroup'].status === 'INVALID'" class="invalid-feedback">
+                                <div>Ao menos um perfil deve ser selecionado</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="dois-pontos title">E-mail</label>
+                            <input type="text" id="email" name="email" formControlName="email" class="form-control text-transform-lowercase"
+                                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" placeholder="Digite o e-mail" />
+                            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                <div *ngIf="f['email'].errors['required']">O e-mail é obrigatório</div>
+                                <div *ngIf="f['email'].errors['email']">O e-mail está inválido</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group" *ngIf="cooperative">
+                            <label class="dois-pontos title">Vinculado a Cooperativa</label>
+                            <a *ngIf="cooperative.name.length > 0" class="shortcut" href="javascript:void(0)" routerLink="/admin/cooperativa/{{cooperative.id}}">Ir até lá</a>
+                            <input type="text" id="cooperative" name="cooperative" class="form-control" disabled value="{{cooperative.name}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row" [ngClass]="{ 'd-hidden': isAdd }">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="form-check circle">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="isActive" formControlName="isActive">
+                                        Ativo?
+                                        <i class="input-helper"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+
+        <div class="button-area">
+            <button class="btn btn-default btn-sm min-120" (click)="goBack()">Voltar</button>
+            <button class="btn btn-primary btn-sm min-120" (click)="onSubmit()">Salvar</button>
+        </div>
+    </form>
+</div>

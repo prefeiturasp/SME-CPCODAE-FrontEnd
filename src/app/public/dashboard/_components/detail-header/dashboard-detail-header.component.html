@@ -1,0 +1,17 @@
+<div class="header" *ngIf="publicCall">
+    <h3>
+        <div class="show-history">
+            <a href="javascript:void(0)" *ngIf="showHistory" (click)="emitShowHistory()">Visualizar Histórico de Mensagens</a>
+            <a href="javascript:void(0)" *ngIf="validationReport.members_validated"
+                (click)="downloadValidationReport()">
+                Relatório Validação Cooperados
+            </a>
+        </div>
+        <span *ngIf="showTop">{{publicCall.type}} - <b>{{status}}</b></span>
+        <div class="voltar">
+            <a href="javascript:void(0)" [routerLink]="backPage">Voltar</a>
+        </div>
+    </h3>
+    <h1 class="truncate">{{publicCall.name}}</h1>
+    <span class="text-danger mt--10" *ngIf="showDisclaimer"><b>Atenção:</b> Para selecionados na chamada pública, é necessário possuir conta corrente no <b>Banco do Brasil</b></span>
+</div>

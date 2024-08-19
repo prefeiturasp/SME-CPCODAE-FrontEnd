@@ -1,0 +1,63 @@
+.ongoing {
+    perfect-scrollbar { height: calc(100vh - 322px); }
+
+    .table-row {
+        border: solid 1px #eee;
+        border-radius: 4px;
+        margin: 0 40px;
+        padding: 10px 0;
+
+        // &.waiting-approval {
+        //     background: rgb(255,255,255);
+        //     background: linear-gradient(90deg, rgba(255,255,255,1) 10%, rgba(255,244,178,1) 50%, rgba(255,255,255,1) 90%);
+
+        //     small { font-size: 0.75em; }
+        // }
+
+        &.waiting-confirmation { 
+            background: rgb(255,255,255);
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(189,255,178,1) 66%, rgba(255,255,255,1) 100%);
+
+            small { font-size: 0.75em; }
+        }
+
+        &.has-messages { 
+            background: rgb(255,255,255);
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,196,178,1) 66%, rgba(255,255,255,1) 100%);
+        }
+
+        > div:first-child {
+            display: flex;
+            flex-direction: column;
+
+            label { font-weight: bold; }
+        }
+
+        > div:nth-child(2) {
+            label { font-weight: bold; text-align: left; width: 95%; }
+
+            > div {
+                font-size: 0.8rem;
+            }
+        }
+
+        > div:last-child {
+            .accept { background-color: var(--default-green-dark-color); color: var(--default-white); min-width: 150px; }
+            .access-proposal { background-color: var(--bs-gray-dark); color: var(--default-white); min-width: 150px; }
+
+            &.closed { font-weight: bold; .completed { color: var(--default-green-medium-color); } }
+        }
+
+        .waiting {
+            > div > div {
+                font-size: 14px;
+
+                &:last-child {
+                    font-size: 12px;
+    
+                    a:hover { text-decoration: underline; }
+                }
+            }
+        }
+    }
+}

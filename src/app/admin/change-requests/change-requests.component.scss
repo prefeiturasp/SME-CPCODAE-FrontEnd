@@ -1,0 +1,93 @@
+@import '../../../assets/styles/list-registration-page';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+section.table {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    padding: 0 60px;
+
+    perfect-scrollbar {
+        border-top: solid 1px #ccc;
+        height: calc(100vh - 276px);
+    
+        ::ng-deep .ps-content { padding: 0; }
+    }
+
+    header {
+        background-color: #FFF;
+        display: flex;
+        font-weight: bold;
+        margin-bottom: 0;
+        padding: 5px 0;
+    }
+
+    .table-row {
+        display: flex;
+        line-height: 40px;
+
+        &:nth-child(even) { background-color: #eee; }
+
+        .col-0-25,
+        .col {
+            &:last-child { padding: 0 5px;}
+                .box-data{
+                    align-items: center;
+                    display: flex;
+                    fa-icon { margin-left: 10px; }
+                }
+
+                fa-icon {
+                    align-items: center;
+                    border-radius: 50%;
+                    color: white;
+                    display: flex;
+                    font-size: 12px;
+                    height: 20px;
+                    justify-content: center;
+                    width: 20px;
+
+                    &.enable { background-color: var(--default-red-color); }
+                }
+        }
+
+        .col-0-25 {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            
+            &.action {
+                >a {
+                    color: #3D3D3D;
+                    margin-left: 10px;
+                    &[disabled="disabled"] { color: transparent !important; cursor: default; pointer-events: none; }
+
+                    &:hover { >span { transform: scale(1.5); } }
+
+                    >span { font-size: 20px; transition: transform 0.5s linear; }
+                }
+            }
+        }
+    }
+
+    app-pagination { border-top: none !important; }
+}
+
+.popover-sme {
+    width: 500px;
+    > div {
+        margin-bottom: 5px;
+
+        &.header {
+            color: theme-color("dark");
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+
+            &.red { color: var(--default-red-color); }
+        }
+    }
+    .list-pending{
+        list-style: inside;
+    }
+}

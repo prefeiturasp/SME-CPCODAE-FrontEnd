@@ -1,0 +1,34 @@
+<div class="dashboard list-page-container">
+    <header class="d-flex justify-content-space-between align-items-center">
+        <h2>Minhas Propostas</h2>
+        <button class="btn btn-default botao-vermelho" routerLink="/">Ver Chamadas Abertas</button>
+    </header>
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs" role="tablist">
+        <li [ngbNavItem]="1" class="nav-item">
+          <a ngbNavLink>Em Andamento</a>
+          <ng-template ngbNavContent>
+            <app-cooperative-dashboard-list [publicCalls]="publicCallsOnGoing" [pageIndex]="1"
+              (onAccept)="confirmDelivery($event)" (onOpenModal)="openModal($event)">
+            </app-cooperative-dashboard-list>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="nav-item relative">
+          <a ngbNavLink>
+            Aguardando
+            <i class="alert-msg" [ngClass]="{ hidden: !hasMessages }"></i>
+          </a>
+          <ng-template ngbNavContent>
+            <app-cooperative-dashboard-list [publicCalls]="publicCallsWaiting" [pageIndex]="2"
+              (onRemoveProposal)="onRemoveProposal($event)">
+            </app-cooperative-dashboard-list>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3" class="nav-item">
+          <a ngbNavLink>Cronograma Executado</a>
+          <ng-template ngbNavContent>
+            <app-cooperative-dashboard-list [publicCalls]="publicCallsClosed" [pageIndex]="3"></app-cooperative-dashboard-list>
+          </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+</div>

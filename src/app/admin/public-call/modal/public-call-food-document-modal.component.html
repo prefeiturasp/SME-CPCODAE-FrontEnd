@@ -1,0 +1,43 @@
+<div class="modal-food-document">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Documentos Obrigatórios
+            <small>{{foodName}}</small>
+        </h4>
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <section class="table documents" *ngIf="documentsList && documentsList.length > 0">
+            <header>
+                <div class="table-row">
+                    <div class="col d-flex">
+                        <div class="form-check circle">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input document-all" (click)="toggleSelectedDocuments()">
+                                <i class="input-helper"></i>
+                                <span>Selecionar Todos</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <perfect-scrollbar>
+                <div class="table-row" *ngFor="let document of selectedDocuments">
+                    <div class="col d-flex">
+                        <div class="form-check circle">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input document" [attr.document-id]="document.document_type_id" [checked]="document.is_associated">
+                                <i class="input-helper"></i>
+                                <span>{{document.document_type_name}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-sm min-120" (click)="save()">Salvar</button>
+        <button type="button" class="btn btn-light min-120" (click)="modal.close('Close click')">Fechar</button>
+    </div>
+</div>

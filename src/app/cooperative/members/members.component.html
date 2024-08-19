@@ -1,0 +1,26 @@
+<div class="members registration-page-container">
+    <header>
+        <h2>Cooperados</h2>
+    </header>
+    <div *ngIf="cooperative">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs" role="tablist">
+            <li [ngbNavItem]="1" class="nav-item">
+                <a ngbNavLink>Adicionar</a>
+                <ng-template ngbNavContent>
+                    <perfect-scrollbar>
+                        <app-cooperative-registration-completion-step3-add [cooperative]="cooperative!">
+                        </app-cooperative-registration-completion-step3-add>
+                    </perfect-scrollbar>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2" class="nav-item">
+                <a ngbNavLink>Cooperados Cadastrados</a>
+                <ng-template ngbNavContent>
+                    <app-cooperative-registration-completion-step3-list [cooperative]="cooperative!">
+                    </app-cooperative-registration-completion-step3-list>
+                </ng-template>
+            </li>
+        </ul>
+        <div [ngbNavOutlet]="nav"></div>
+    </div>
+</div>

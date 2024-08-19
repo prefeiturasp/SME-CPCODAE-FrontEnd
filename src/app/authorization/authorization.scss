@@ -1,0 +1,39 @@
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    
+    .form-control {
+        border: 1px solid #c3cde4;
+        border-left: none;
+        border-radius: 0 6px 6px 0;
+    }
+
+    .input-group-append,
+    .input-group-prepend {
+        background: #fff;
+        color: #c9c8c8;
+        width: auto;
+        border: none;
+        margin-right: -1px;
+        display: flex;
+
+        .input-group-text {
+            border-radius: 6px 0 0 6px;
+            border-color: #c3cde4;
+            border-right: none;
+            color: #dfdfdf;
+            background: transparent;
+        }
+    }
+
+    &.is-invalid {
+        .form-control,
+        .input-group-text {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    }
+}

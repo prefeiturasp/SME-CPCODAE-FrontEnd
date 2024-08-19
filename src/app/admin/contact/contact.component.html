@@ -1,0 +1,38 @@
+<div class="contact list-page-container">
+    <header>
+        <h2>Lista de Mensagens "Fale Conosco"</h2>
+    </header>
+    <div class="d-flex justify-content-space-between filter">
+        <div class="d-flex justify-content-space-between align-items-center col">
+            <div class="col-0-25">
+                <fa-icon [icon]="faIcons.filter"></fa-icon>
+                <span>Filtros:</span>
+            </div>
+            <div class="col">
+                <ng-select2 [data]="publicCalls" [(ngModel)]="public_call_id" [placeholder]="'Todas Chamadas Públicas'"
+                    [allowClear]="true" [options]="options" [width]="'400'"></ng-select2>
+            </div>
+            <div class="col">
+                <ng-select2 [data]="cooperatives" [(ngModel)]="cooperative_id" [placeholder]="'Todas Cooperativas'"
+                    [allowClear]="true" [options]="options" [width]="'300'"></ng-select2>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-date-range-input class="cursor-pointer" [rangePicker]="picker" (click)="picker.open()">
+                        <input matStartDate matInput placeholder="De" disabled [(ngModel)]="start_date" />
+                        <input matEndDate matInput placeholder="Até" disabled [(ngModel)]="end_date" />
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix (click)="clearDates()">
+                        <mat-icon matDatepickerToggleIcon><fa-icon [icon]="faIcons.times"></fa-icon></mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+            <div class="col-0-5">
+                <button class="btn btn-primary btn-sm" (click)="loadMessages()">Pesquisar</button>
+            </div>
+        </div>
+    </div>
+    <app-grid-view [config]="config" (onView)="goToView($event)"></app-grid-view>
+</div>

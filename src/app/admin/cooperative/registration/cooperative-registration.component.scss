@@ -1,0 +1,40 @@
+@import '../../../../assets/styles/list-registration-page';
+
+.cooperative-register  {
+    .container-logo {
+        gap: 24px;
+        height: 163px;
+
+        .container-file {
+            overflow: hidden;
+            position: relative;
+    
+            input { opacity: 0; position: absolute; right: 0; top: 0; }
+        }
+
+        .crop {
+            border: solid 1px #ccc;
+            border-radius: 4px;
+            gap: 5px;
+            max-height: 160px;
+        }
+    }
+
+    .row { padding-bottom: 10px; }
+
+    .fieldset .form-group { text-align: left; }
+
+    .is-radio > div {
+        align-items: center;
+        height: 38px;
+
+        > div:first-child { margin-right: 10px; }
+
+        .form-check-label {
+            align-items: center;
+            display: flex;
+
+            > input { margin-right: 5px; margin-top: 0px; }
+        }
+    }    
+}

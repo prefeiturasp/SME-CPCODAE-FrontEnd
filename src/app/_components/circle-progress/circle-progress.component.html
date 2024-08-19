@@ -1,0 +1,4 @@
+<div class="circle-progress">
+    <div class="wrapper" [attr.data-progress]="showPercentage ? (percentage | number) + '%' : ''" [style.--progress]="progressDegree" [ngClass]="color_class"></div>
+    <span *ngIf="!showPercentage" class="material-symbols-outlined hour-glass">hourglass_empty</span>
+</div>

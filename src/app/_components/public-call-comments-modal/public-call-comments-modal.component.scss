@@ -1,0 +1,37 @@
+.modal-comments {
+    .modal-header {
+        align-items: flex-start;
+
+        .modal-title { small { font-size: 14px; } }
+    }
+
+    perfect-scrollbar { height: 292px; max-height: calc(100vh - 251px); padding: 0 20px; }
+
+    .modal-body {
+        padding: 10px 0;
+
+        .accordion {
+            .accordion-item {
+                border: none;
+                border-radius: 4px;
+                margin-bottom: 10px;
+                
+                .accordion-button {
+                    background-color: var(--default-gray-cultured);
+                    
+                    &:not(.collapsed) { color: unset; }
+
+                    b { font-size: 0.8rem; line-height: 24px; margin-bottom: -3px; }
+                    span.truncate { max-width: 62%; }
+                    
+                    span.material-symbols-outlined {
+                        margin-bottom: -5px;
+                        margin-right: 5px;
+
+                        &.answer { -moz-transform: scale(-1, 1); -webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); -ms-transform: scale(-1, 1); transform: scale(-1, 1); }
+                    }
+                }
+            }
+        }
+    }
+}

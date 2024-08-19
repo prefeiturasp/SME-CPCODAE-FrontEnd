@@ -1,0 +1,71 @@
+.modal-delivery-confirmation {
+    .modal-header {
+        align-items: flex-start;
+        
+        .modal-title {
+            display: flex;
+            flex-direction: column;
+
+            small { font-size: 1rem; }
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+
+        .list { width: 60%; > label { white-space: nowrap; } }
+
+        perfect-scrollbar { max-height: calc(100vh - 280px); }
+
+        .deliveries {
+            margin-top: 10px;
+
+            li {
+                align-items: center;
+                border: solid 1px #ccc;
+                border-radius: 4px;
+                display: flex;
+                justify-content: space-between;
+                margin: 10px;
+                padding: 6px;
+
+                &:first-child {
+                    > div {
+                        margin-right: 5px;
+
+                        &:last-child { align-items: flex-end; display: flex; height: 56px; margin-right: 0; text-align: center; }
+                    }
+                }
+
+                >*:first-child { width: 15px; }
+                >*:nth-child(2),
+                >*:nth-child(3) { width: 130px; }
+                >*:last-child { width: 42px; }
+
+                > b { font-size: 1.3rem; width: 15px; }
+                > label {
+                    background-color: #eee;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 6px;
+
+                    &:first-of-type { min-width: 110px; }
+                    &:last-of-type { min-width: 70px; }
+
+                    fa-icon {
+                        color: var(--default-green-dark-color);
+                        margin: 0;
+
+                        &.not-delivered { color: #ccc; }
+                    }
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        label { margin-right: 20px; }
+    }
+}

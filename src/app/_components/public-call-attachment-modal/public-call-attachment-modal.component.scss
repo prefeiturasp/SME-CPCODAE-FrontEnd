@@ -1,0 +1,137 @@
+@import '../../../assets/styles/checkbox-radio';
+
+.modal-attachment {
+    .modal-header {
+        align-items: flex-start;
+
+        .modal-title { small { font-size: 14px; } }
+    }
+
+    .modal-body {
+        perfect-scrollbar, .content-attachment-uploads {
+            height: 292px;
+            max-height: calc(100vh - 251px);
+            padding: 0 10px;
+
+            .card-attach-list {
+                flex-wrap: wrap;
+                overflow: auto;
+
+                .card-attach {
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    margin: 10px 0;
+                    width: 45%;
+        
+                    .card-attach-header {
+                        align-items: center;
+                        background-color: #B3B3B3;
+                        border: none;
+                        border-radius: 4px;
+                        color: var(--default-white);
+                        display: flex;
+                        font-weight: bold;
+                        height: 50px;
+                        justify-content: center;
+                        margin: 20px 40px;
+                        width: 50px;
+                    }
+                }
+
+                .card-attach-ul {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+
+                    > li {
+                        align-items: center;
+                        display: flex;
+                        justify-content: space-between;
+
+                        .card-attach-pdf {
+                            align-items: center;
+                            background-color: #D82929;
+                            border: none;
+                            border-radius: 4px;
+                            color: var(--default-white);
+                            display: flex;
+                            font-size: 0.6rem;
+                            font-weight: bold;
+                            height: 25px;
+                            justify-content: center;
+                            margin: 5px 0;
+                            width: 35px;
+                        }
+
+                        .card-attach-title { width: 95%; &.cursor-pointer:hover { text-decoration: underline; } }
+                        .card-attach-date { margin-right: 10px; width: 90px; }
+                        .card-attach-reviewer { margin-left: 10px; }
+                    }
+                }
+            }
+
+            .card-attach-history {
+                margin-top: 20px;
+
+                h3 { font-size: 1.1rem; }
+
+                .accordion-item {
+                    border: none;
+                    border-radius: 4px;
+                    margin-bottom: 10px;
+
+                    button b.creation-date { width: 90px; }
+
+                    .card-attach-history-header {
+                        background-color: var(--default-gray-cultured);
+                        
+                        .card-attach-history-header-pdf { width: 230px; }
+
+                        b.more { margin-left: 12px; }
+                    }
+
+                    .accordion-body {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        padding: 20px 10px;
+
+                        public-call-attachment-card-header { width: 45%; }
+                    }
+
+                    .accordion-button:not(.collapsed) { color: unset; }
+                }
+            }
+        }
+
+        .content-attachment-uploads{
+            height: auto;
+            h5{
+                font-size: 19px;
+            }
+            .card-attach{
+                position: relative;
+                span{
+                    position: absolute;
+                    right: 3px;
+                    top: 5px;
+                    color: #999999;
+                    hover{
+                        color: #555555;
+                    }
+                }
+            }
+            .btn.btn-default{
+                display: flex;
+                align-items: center;
+                background: #efefef;
+                width: 100%;
+                justify-content: center;
+                margin-top: 20px;
+                margin-bottom: 10px;
+                text-decoration: none;
+            }
+        }
+    }
+}

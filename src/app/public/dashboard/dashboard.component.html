@@ -1,0 +1,29 @@
+<div class="dashboard">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs" role="tablist">
+    <li [ngbNavItem]="1" class="nav-item">
+      <a ngbNavLink>Abertas</a>
+      <ng-template ngbNavContent>
+        <h2 class="titulo-pagina"><span>Chamadas <b>Abertas</b></span></h2>
+        <hr />
+        <app-dashboard-list [publicCalls]="publicCallsOpen"></app-dashboard-list>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2" class="nav-item">
+      <a ngbNavLink>Em Andamento</a>
+      <ng-template ngbNavContent>
+        <h2 class="titulo-pagina"><span>Chamadas <b>Em andamento</b></span></h2>
+        <hr />
+        <app-dashboard-list [publicCalls]="publicCallsOnGoing"></app-dashboard-list>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3" class="nav-item">
+      <a ngbNavLink>Todas as chamadas</a>
+      <ng-template ngbNavContent>
+        <h2 class="titulo-pagina"><span><b>Todas as chamadas</b></span></h2>
+        <hr />
+        <app-dashboard-list [publicCalls]="publicCallsClosed"></app-dashboard-list>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav"></div>
+</div>

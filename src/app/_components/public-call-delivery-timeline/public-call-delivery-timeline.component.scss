@@ -1,0 +1,27 @@
+.timeline {
+    background-color: #C7C7C7;
+    border-radius: 10px;
+    height: 10px;
+    position: relative;
+    width: 80%;
+
+    .delivered {
+        background-color: transparent;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        height: 10px;
+
+        &.green { background-color: var(--default-green-medium-color); border-radius: 10px; }
+        &.orange { background-color: var(--default-orange-color); }
+        &.red { background-color: var(--default-red-color); }
+        &.yellow { background-color: var(--default-yellow-color); }
+    }
+
+    .point {
+        background-color: #FFF;
+        border-radius: 50%;
+        height: 7px;
+        position: absolute;
+        width: 7px;
+    }
+}
